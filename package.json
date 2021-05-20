@@ -23,7 +23,7 @@
     "url": "https://github.com/raseward14/loan_shark/issues"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "dotenv": "^9.0.2",
     "express": "^4.16.3",
