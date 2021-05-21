@@ -15,12 +15,12 @@ if (process.env.NODE_ENV === "production") {
 app.use(routes);
 
 // Connect to the Mongo DB
-// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactreadinglist", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useFindAndModify: false,
-//   useCreateIndex: true
-// });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/loanShark", {
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true,
+  // useFindAndModify: false,
+  // useCreateIndex: true
+});
 
 // Start the API server
 app.listen(PORT, function() {

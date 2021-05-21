@@ -5,6 +5,8 @@ import './style.css';
 function Jumbo() {
     return (
         <header className="App-header">
+          <div>
+          </div>
         <div>
           <Jumbotron>
             <h1 className="display-3">LOAN SHARK</h1>
