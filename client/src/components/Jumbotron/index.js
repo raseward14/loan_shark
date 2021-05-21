@@ -1,5 +1,6 @@
 import { Jumbotron } from 'reactstrap';
 import { Button } from 'reactstrap';
+import './style.css';
 
 function Jumbo() {
     return (

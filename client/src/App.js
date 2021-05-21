@@ -1,4 +1,5 @@
 import React from "react";
+import './App.css';
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
 import LoanDetail from "./pages/LoanDetail";
