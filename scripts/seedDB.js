@@ -67,6 +67,13 @@ const loanSharkSeed = [
         balanceRemaining: 15000,
         balancePaid: 5000,
       },
+      {
+        name: "boat",
+        date: "May 5, 2021",
+        totalAmount: 2000,
+        balanceRemaining: 15000,
+        balancePaid: 500,
+      },
     ],
   },
 
