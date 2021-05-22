@@ -2,6 +2,8 @@
 
 Manage your student loans [here](https://loaning-sharks.herokuapp.com/)...
 
+Manage your student loans <a href="https://loaning-sharks.herokuapp.com/" target="_blank">here</a>...
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
