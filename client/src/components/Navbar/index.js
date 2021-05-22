@@ -10,7 +10,7 @@ function Navbar (props) {
       <div>
         <Nav tabs>
           <NavItem>
-            <NavLink href="#" active>Link</NavLink>
+            <NavLink href="" active>Link</NavLink>
           </NavItem>
           <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle nav caret>
