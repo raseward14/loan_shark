@@ -60,6 +60,13 @@ const loanSharkSeed = [
         balanceRemaining: 10000,
         balancePaid: 5000,
       },
+      {
+        name: "Subaru BRZ",
+        date: "May 10, 2021",
+        totalAmount: 20000,
+        balanceRemaining: 15000,
+        balancePaid: 5000,
+      },
     ],
   },
 
