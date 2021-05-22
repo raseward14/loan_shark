@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const loansController = require("../../controllers/loansController");
+// const loansController = require("../../controllers/loansController");
 
 // Matches with "/api/loans"
-router.route("/")
-  .get(loansController.findAll)
+// router.route("/")
+//   .get(loansController.findAll)
 //   .post(loansController.create);
 
 // Matches with "/api/loans/:id"
