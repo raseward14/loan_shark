@@ -9,9 +9,8 @@ function Navbar (props) {
     return (
       <div>
         <Nav tabs>
-          <NavItem> 
-            {/* CMM- Loans dropdown is a "Wishlist item" and would only be avilable for use/seen from an individual's Profile */}
-            <NavLink href="/:id/profile/loans" active>Loans</NavLink>
+          <NavItem>
+            <NavLink href="" active>Link</NavLink>
           </NavItem>
           <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle nav caret>

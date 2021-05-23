@@ -1,32 +1,33 @@
-const mongoose = require("mongoose");
-const db = require("../models");
+const seedLoans = require('./loan-seed');
+const seedPayments = require('./payment-seed');
+const seedUsers = require('./user-seed');
+const db = require('../models');
 
-
+const mongoose = require('mongoose');
 
 mongoose.connect(
-  process.env.MONGODB_URI ||
-  "mongodb://localhost/loanShark"
-);
+    process.env.MONGODB_URI ||
+    "mongodb://localhost/loanShark", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true
+      }
+)
 
+const seedAll = async () => {
+    await db.User.remove({}).then(() => db.User.collection.insertMany(seedUsers)).then(data => {
+        console.log(data.result.n + " records inserted!");
+        process.exit(0);
+    });
 
+    await db.Loan.remove({}).then(() => db.Loan.collection.insertMany(seedLoans)).then(data => {
+        console.log(data.result.n + " records inserted!");
+    });
 
-const loanSharkSeed = [
-  {
-    titleOfLoan: "DU Bootcamp",
-    amountOfLoan: "11,500"
-    // date: new Date(Date.now())
-  },
+    await db.Payment.remove({}).then(() => db.Payment.collection.insertMany(seedPayments)).then(data => {
+        console.log(data.result.n + " records inserted!");
+    });
+};
 
-];
-
-db.Loan
-  .remove({})
-  .then(() => db.Loan.collection.insertMany(loanSharkSeed))
-  .then(data => {
-    console.log(data.result.n + " records inserted!");
-    process.exit(0);
-  })
-  .catch(err => {
-    console.error(err);
-    process.exit(1);
-  });
+seedAll();
