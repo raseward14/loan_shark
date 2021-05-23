@@ -1,40 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-// const bcrypt = require('bcrypt');
+const User = require('./user');
 
-// class User extends Model {
-//   checkPassword(loginPw) {
-//     const result = bcrypt.compareSync(loginPw, this.password);
-//     console.log(result);
-//     return result;
-//   }
-// }
 
-const loanSharkSchema = new Schema({
-  id: {
-    type: Number,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  user_name: {
-    type: String,
-    allowNull: false,
-    defaultValue: false,
-  },
-  password: {
-    type: String,
-    allowNull: false,
-    validate: {
-      len: [8],
-    },
-  },
-  email: {
-    type: String,
-    allowNull: false,
-    unique: true,
-  },
-  loans: [
+const loanSchema = new Schema(
     {
       name: {
         type: String,
@@ -44,20 +13,20 @@ const loanSharkSchema = new Schema({
         type: Date,
         default: Date.now,
       },
-      totalAmount: {
+      amount: {
         type: Number,
         required: "Choose a loan amount",
       },
-      balanceRemaining: {
+      user_id: {
         type: Number,
-      },
-      balancePaid: {
-        type: Number,
-      },
-    },
-  ],
-});
+        references: {
+          model: User,
+          key: 'id'
+        }
+      }
+    }
+);
 
-const Loan = mongoose.model("Loan", loanSharkSchema);
+const Loan = mongoose.model("Loan", loanSchema);
 
 module.exports = Loan;
