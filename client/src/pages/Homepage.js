@@ -5,10 +5,10 @@ import Navbar from "../components/Navbar/index";
 
 // import API from "../utils/API";
 // import { List, ListItem } from "../components/List";
-import { 
+import 
     // Input, 
     // TextArea, 
-    FormBtn } from "../components/Form";
+    FormBtn from "../components/Form";
 
 function init() {
   // hooks
