@@ -3,8 +3,7 @@ const Schema = mongoose.Schema;
 const User = require('./user');
 
 
-const loanSchema = new Schema(
-    {
+const loanSchema = new Schema({
       name: {
         type: String,
         required: "Choose an name",
@@ -18,14 +17,10 @@ const loanSchema = new Schema(
         required: "Choose a loan amount",
       },
       user_id: {
-        type: Number,
-        references: {
-          model: User,
-          key: 'id'
-        }
+        type: Schema.Types.ObjectId,
+        ref: User
       }
-    }
-);
+});
 
 const Loan = mongoose.model("Loan", loanSchema);
 
