@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Loan = require('./loan');
-const User = require('./user');
 
 const paymentSchema = new Schema({
     balance: {
@@ -11,19 +10,9 @@ const paymentSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-    user_id: {
-        type: Number,
-        references: {
-            model: User,
-            key: 'id'
-        }
-    },
     loan_id: {
-        type: Number,
-        references: {
-            model: Loan,
-            key: 'id'
-        }
+        type: Schema.Types.ObjectId,
+        ref: Loan
     }
 });
 
