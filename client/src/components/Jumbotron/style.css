@@ -1,4 +1,9 @@
 .App-header {
+  background-image: url(../../img/test.png);
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -6,5 +11,21 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: black;
+}
+.logo{
+  background-image: url(../../img/loansharklogo.png);
+  width: 400px;
+  height: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.tagline{
+  margin: 30px;
+  color: white;
+}
+.btn{
+  margin: 50px;
+  background-color: #39bad7 !important;
+  border-color: #eeeeee !important;
 }

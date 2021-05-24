@@ -1,5 +1,15 @@
-// navbar with
+// import React, { useState, useEffect } from "react";
+import ProfileCard from "../components/ProfileCard/index";
 
-    // logout button
 
-    // span that welcomes you!
+function init() {
+
+  return (
+    <div>
+      <ProfileCard />
+    </div>
+  );
+}
+
+export default init;
+

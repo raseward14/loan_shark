@@ -1,29 +1,55 @@
-import React from 'react';
+import React from "react";
+import "./style.css";
 import {
-  Button
-} from 'reactstrap'
+  Container,
+  Row,
+  Col,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Input,
+} from "reactstrap";
 
-// exports Input, TextArea, and FormBtn components
+const Example = (props) => {
+  return (
+    <div>
+      <Container>
+        <Row className="row">
+          <Col xs={6}>
+            <InputGroup>
+              <InputGroupAddon addonType="prepend">
+                <InputGroupText>@</InputGroupText>
+              </InputGroupAddon>
+              <Input placeholder="username" />
+            </InputGroup>
+            <br />
+            <InputGroup>
+              <InputGroupAddon addonType="prepend">
+                <InputGroupText>@</InputGroupText>
+              </InputGroupAddon>
+              <Input placeholder="username" />
+            </InputGroup>
+          </Col>
+          {/* THIS IS THE BREAK ONLY BECASUE OF PRETTIER */}
+          <Col xs={6}>
+            <InputGroup>
+              <InputGroupAddon addonType="prepend">
+                <InputGroupText>@</InputGroupText>
+              </InputGroupAddon>
+              <Input placeholder="username" />
+            </InputGroup>
+            <br />
+            <InputGroup>
+              <InputGroupAddon addonType="prepend">
+                <InputGroupText>@</InputGroupText>
+              </InputGroupAddon>
+              <Input placeholder="username" />
+            </InputGroup>
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+};
 
-export function Input(props) {
-    return (
-      <div className="form-group">
-        <input className="form-control" {...props} />
-      </div>
-    );
-  }
-  
-  export function TextArea(props) {
-    return (
-      <div className="form-group">
-        <textarea className="form-control" rows="20" {...props} />
-      </div>
-    );
-  }
-  
-  export function FormBtn(props) {
-    return (
-      <Button color="primary" size="lg" block>
-      </Button>
-    );
-  }
+export default Example;

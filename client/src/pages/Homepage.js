@@ -1,14 +1,9 @@
 // import React, { useState, useEffect } from "react";
 import Jumbo from "../components/Jumbotron/index";
 import Introduction from "../components/Introduction/index";
-import Navbar from "../components/Navbar/index";
 
 // import API from "../utils/API";
 // import { List, ListItem } from "../components/List";
-import { 
-    // Input, 
-    // TextArea, 
-    FormBtn } from "../components/Form";
 
 function init() {
   // hooks
@@ -38,13 +33,10 @@ function init() {
 
   return (
     <div>
-      <Navbar />
       <Jumbo>
-          <FormBtn>Login</FormBtn>
         <h1>Your Loans Live Here.</h1>
       </Jumbo>
       <Introduction />
-      <FormBtn>Signup</FormBtn>
     </div>
   );
 }
