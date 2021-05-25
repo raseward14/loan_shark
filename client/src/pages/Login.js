@@ -1,16 +1,8 @@
-
 import Form from "../components/Form/index";
+import Login from "../components/Login/index";
 
 function init() {
-
-
-  return (
-    <div>
-      <Form>
-        <h1>Your Loans Live Here.</h1>
-      </Form>
-    </div>
-  );
+  return <Login />;
 }
 
 export default init;
@@ -40,7 +32,6 @@ export default init;
 //   .querySelector('.login-form')
 //   .addEventListener('submit', loginFormHandler);
 
-
 // // Sign Up Form
 // const signupFormHandler = async (event) => {
 //   event.preventDefault();
@@ -62,6 +53,3 @@ export default init;
 // document
 //   .querySelector('.signup-form')
 //   .addEventListener('submit', signupFormHandler);
-
-
-

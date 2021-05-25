@@ -1,6 +1,7 @@
 // import React, { useState, useEffect } from "react";
 import Jumbo from "../components/Jumbotron/index";
 import Introduction from "../components/Introduction/index";
+import WhatIsLoanShark from "../components/WhatIsLoanShark/index";
 
 // import API from "../utils/API";
 // import { List, ListItem } from "../components/List";
@@ -37,6 +38,7 @@ function init() {
         <h1>Your Loans Live Here.</h1>
       </Jumbo>
       <Introduction />
+      <WhatIsLoanShark />
     </div>
   );
 }

@@ -7,56 +7,9 @@ const Example = (props) => {
     <div>
       <Container>
         <Row className="row">
-          <Col xs={6}>
+          <Col className=".col-sm-12 .col-md-6 .offset-md-3">
             <form>
-              <h3>Log in</h3>
-
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="Enter email"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="Enter password"
-                />
-              </div>
-
-              <div className="form-group">
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="customCheck1"
-                  />
-                  <label
-                    className="custom-control-label"
-                    htmlFor="customCheck1"
-                  >
-                    Remember me
-                  </label>
-                </div>
-              </div>
-
-              <button type="submit" className="btn btn-dark btn-lg btn-block">
-                Sign in
-              </button>
-              <p className="forgot-password text-right">
-                Forgot <a href="#">password?</a>
-              </p>
-            </form>
-          </Col>
-          {/* THIS IS THE BREAK ONLY BECASUE OF PRETTIER */}
-          <Col xs={6}>
-            <form>
-              <h3>Register</h3>
+              <h3>Want to Join Loan Shark?</h3>
 
               <div className="form-group">
                 <label>First name</label>
@@ -98,7 +51,7 @@ const Example = (props) => {
                 Register
               </button>
               <p className="forgot-password text-right">
-                Already registered <a href="#">log in?</a>
+                Already registered <a href="/login">log in?</a>
               </p>
             </form>
           </Col>
