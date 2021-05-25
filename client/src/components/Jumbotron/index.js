@@ -1,31 +1,22 @@
 import { Jumbotron } from 'reactstrap';
 import { Button } from 'reactstrap';
 import './style.css';
+import logo from '../../img/loansharklogo.png'
 
 function Jumbo() {
     return (
         <header className="App-header">
-          <div>
-          </div>
         <div>
           <Jumbotron>
-            <h1 className="display-3">LOAN SHARK</h1>
-            <p className="lead">Track your student loans!</p>
-            <hr className="my-2" />
-            <p>Enter your loan info.</p>
+            <div>
+              <img className="logo" src={logo}/>
+            </div>
+            <p className="tagline">Take a bite out of Student Debt!</p>
             <p className="lead">
-              <Button color="primary">Learn More</Button>
+              <Button>Learn More</Button>
             </p>
           </Jumbotron>
         </div>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header> 
     )
 }

@@ -1,37 +1,23 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
+import './style.css'
 import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
 
 function Navbar (props) {
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    // const [dropdownOpen, setDropdownOpen] = useState(false);
   
-    const toggle = () => setDropdownOpen(!dropdownOpen);
+    // const toggle = () => setDropdownOpen(!dropdownOpen);
   
     return (
       <div>
-        <Nav tabs>
+        <Nav className="nav-bar-main">
           <NavItem>
-            <NavLink href="" active>Link</NavLink>
-          </NavItem>
-          <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
-            <DropdownToggle nav caret>
-              Dropdown
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Header</DropdownItem>
-              <DropdownItem disabled>Action</DropdownItem>
-              <DropdownItem>Another Action</DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>Another Action</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-          <NavItem>
-            <NavLink href="#">Link</NavLink>
+            <NavLink href="/" active>Home</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#">Another Link</NavLink>
+            <NavLink href="/profile">Profile</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink disabled href="#">Disabled Link</NavLink>
+            <NavLink href="/login">Login</NavLink>
           </NavItem>
         </Nav>
       </div>
@@ -39,6 +25,19 @@ function Navbar (props) {
   }
   
   export default Navbar;
+
+          //   <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
+          //   <DropdownToggle nav caret>
+          //     Dropdown
+          //   </DropdownToggle>
+          //   <DropdownMenu>
+          //     <DropdownItem header>Header</DropdownItem>
+          //     <DropdownItem disabled>Action</DropdownItem>
+          //     <DropdownItem>Another Action</DropdownItem>
+          //     <DropdownItem divider />
+          //     <DropdownItem>Another Action</DropdownItem>
+          //   </DropdownMenu>
+          // </Dropdown>
 
 // logout button
 

@@ -1,33 +1,28 @@
-import {
-  Card,
-  CardImg,
-  CardBody,
-  CardTitle,
-  CardText,
-  CardSubtitle,
-} from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
+import "./style.css";
 
 function Introduction() {
   return (
-    <div>
-      <Card>
-        <CardImg
-          top
-          width="100%"
-          src="/assets/318x180.svg"
-          alt="Card image cap"
-        />
-        <CardBody>
-          <CardTitle tag="h5">Whats LOAN SHARK</CardTitle>
-          <CardSubtitle tag="h6" className="mb-2 text-muted">
-            Card subtitle
-          </CardSubtitle>
-          <CardText>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </CardText>
-        </CardBody>
-      </Card>
+    <div className="main-text">
+      <Container>
+        <Row>
+          <Col xs={2}></Col>
+          <Col xs={8}>
+            <h1> What is load shark?</h1>
+          </Col>
+          <Col xs={2}></Col>
+        </Row>
+        <Row>
+          <Col xs={2}></Col>
+          <Col xs={8}>
+            Loan Shark is a loan tracker. Plan and simple. It allows you to
+            keeps tabs on all of the loan information that you need. With loan
+            shark you can have the abuility to make sure that you can take a
+            bite out of student loans.
+          </Col>
+          <Col xs={2}></Col>
+        </Row>
+      </Container>
     </div>
   );
 }
