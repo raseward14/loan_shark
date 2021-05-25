@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { Payment } = require('../../models')
 const loansController = require("../../controllers/loansController");
 
 // Matches with "/api/loans"

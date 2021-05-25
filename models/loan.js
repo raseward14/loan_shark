@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const User = require('./user');
+// const User = require('./user');
 
 
 const loanSchema = new Schema({
+      _id: {
+        type: Number,
+        primaryKey: false,
+      },
       name: {
         type: String,
         required: "Choose an name",
@@ -17,8 +21,8 @@ const loanSchema = new Schema({
         required: "Choose a loan amount",
       },
       user_id: {
-        type: Schema.Types.ObjectId,
-        ref: User
+        ref: "User",
+        type: Schema.Types.ObjectId
       }
 });
 
