@@ -1,4 +1,3 @@
-import Form from "../components/Form/index";
 import Login from "../components/Login/index";
 
 function init() {
