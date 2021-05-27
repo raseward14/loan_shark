@@ -1,61 +1,60 @@
-const paymentSeed = 
-[
+const { ObjectId } = require("bson");
+
+const paymentSeed = [
   {
-    _id: 111,
+    _id: ObjectId("60adb73bc60ad5599803dc05"),
     balance: 500,
     date: "May 5, 2021",
-    loan_id: 11,
+    loan_id: "60adb73bc60ad5599803dbff",
   },
   {
-    _id: 222,
+    _id: ObjectId("60adb73bc60ad5599803dc06"),
     balance: 500,
     date: "May 6, 2021",
-    loan_id: 11,
+    loan_id: "60adb73bc60ad5599803dbff",
   },
   {
-    _id: 333,
+    _id: ObjectId("60adb73bc60ad5599803dc07"),
     balance: 500,
     date: "May 7, 2021",
-    loan_id: 11,
+    loan_id: "60adb73bc60ad5599803dbff",
   },
   {
-    _id: 444,
+    _id: ObjectId("60adb73bc60ad5599803dc08"),
     balance: 500,
     date: "May 8, 2021",
-    loan_id: 22,
+    loan_id: "60adb73bc60ad5599803dc00",
   },
   {
-    _id: 555,
+    _id: ObjectId("60adb73bc60ad5599803dc09"),
     balance: 500,
     date: "May 9, 2021",
-    loan_id: 33,
+    loan_id: "60adb73bc60ad5599803dc01",
   },
   {
-    _id: 666,
+    _id: ObjectId("60adb73bc60ad5599803dc0a"),
     balance: 500,
     date: "May 10, 2021",
-    loan_id: 33,
+    loan_id: "60adb73bc60ad5599803dc01",
   },
   {
-    _id: 777,
+    _id: ObjectId("60adb73bc60ad5599803dc0b"),
     balance: 500,
     date: "May 10, 2021",
-    loan_id: 44,
+    loan_id: "60adb73bc60ad5599803dc02",
   },
   {
-    _id: 888,
+    _id: ObjectId("60adb73bc60ad5599803dc0c"),
     balance: 500,
     date: "May 10, 2021",
-    loan_id: 55,
+    loan_id: "60adb73bc60ad5599803dc03",
   },
   {
-    _id: 999,
+    _id: ObjectId("60adb73bc60ad5599803dc0d"),
     balance: 500,
     date: "May 10, 2021",
-    loan_id: 55,
+    loan_id: "60adb73bc60ad5599803dc03",
   },
 ];
 
 module.exports = paymentSeed;
-
-
