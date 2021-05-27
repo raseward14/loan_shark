@@ -5,6 +5,13 @@ import WhatIsLoanShark from "../components/WhatIsLoanShark/index";
 
 // import API from "../utils/API";
 // import { List, ListItem } from "../components/List";
+<<<<<<< HEAD
+import 
+    // Input, 
+    // TextArea, 
+    FormBtn from "../components/Form";
+=======
+>>>>>>> 88a993baa48549b037cd97be0e7626fe75e88b70
 
 function init() {
   // hooks
