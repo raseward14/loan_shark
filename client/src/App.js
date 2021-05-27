@@ -7,7 +7,6 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Four from "./pages/Four";
-// import LoanDetail from "./pages/LoanDetail";
 
 // Imports Components
 import Navbar from "./components/Navbar";
@@ -41,9 +40,6 @@ function App() {
             <Four />
           </Route>
 
-          {/* <Route exact path="/loans/:id">
-            <LoanDetail />
-          </Route> */}
         </Switch>
 
         <Footer />
