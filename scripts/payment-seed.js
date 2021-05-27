@@ -1,59 +1,61 @@
-const mongoose = require("mongoose");
-const db = require("../models");
-
-// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/loanShark"), {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useFindAndModify: false,
-//   useCreateIndex: true
-// };
-
-const paymentSeed = [
+const paymentSeed = 
+[
   {
+    _id: 111,
     balance: 500,
     date: "May 5, 2021",
-    user_id: 0,
-    loan_id: 0,
+    loan_id: 11,
   },
   {
+    _id: 222,
     balance: 500,
     date: "May 6, 2021",
-    user_id: 0,
-    loan_id: 0,
+    loan_id: 11,
   },
   {
+    _id: 333,
     balance: 500,
     date: "May 7, 2021",
-    user_id: 0,
-    loan_id: 0,
+    loan_id: 11,
   },
   {
+    _id: 444,
     balance: 500,
     date: "May 8, 2021",
-    user_id: 1,
-    loan_id: 0,
+    loan_id: 22,
   },
   {
+    _id: 555,
     balance: 500,
     date: "May 9, 2021",
-    user_id: 2,
-    loan_id: 0,
+    loan_id: 33,
   },
   {
+    _id: 666,
     balance: 500,
     date: "May 10, 2021",
-    user_id: 2,
-    loan_id: 1,
+    loan_id: 33,
+  },
+  {
+    _id: 777,
+    balance: 500,
+    date: "May 10, 2021",
+    loan_id: 44,
+  },
+  {
+    _id: 888,
+    balance: 500,
+    date: "May 10, 2021",
+    loan_id: 55,
+  },
+  {
+    _id: 999,
+    balance: 500,
+    date: "May 10, 2021",
+    loan_id: 55,
   },
 ];
 
-db.Payment.remove({})
-  .then(() => db.Payment.collection.insertMany(paymentSeed))
-  .then((data) => {
-    console.log(data.result.n + " records inserted!");
-    process.exit(0);
-  })
-  .catch((err) => {
-    console.log(err);
-    process.exit(0);
-  });
+module.exports = paymentSeed;
+
+

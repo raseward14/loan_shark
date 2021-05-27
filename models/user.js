@@ -11,11 +11,9 @@ const Schema = mongoose.Schema;
 // }
 
 const userSchema = new Schema({
-  id: {
+  _id: {
     type: Number,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
+    primaryKey: false,
   },
   user_name: {
     type: String,

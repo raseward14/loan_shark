@@ -1,14 +1,17 @@
 // import React, { useState, useEffect } from "react";
 import Jumbo from "../components/Jumbotron/index";
 import Introduction from "../components/Introduction/index";
-import Navbar from "../components/Navbar/index";
+import WhatIsLoanShark from "../components/WhatIsLoanShark/index";
 
 // import API from "../utils/API";
 // import { List, ListItem } from "../components/List";
+<<<<<<< HEAD
 import 
     // Input, 
     // TextArea, 
     FormBtn from "../components/Form";
+=======
+>>>>>>> 88a993baa48549b037cd97be0e7626fe75e88b70
 
 function init() {
   // hooks
@@ -38,13 +41,11 @@ function init() {
 
   return (
     <div>
-      <Navbar />
       <Jumbo>
-          <FormBtn>Login</FormBtn>
         <h1>Your Loans Live Here.</h1>
       </Jumbo>
       <Introduction />
-      <FormBtn>Signup</FormBtn>
+      <WhatIsLoanShark />
     </div>
   );
 }

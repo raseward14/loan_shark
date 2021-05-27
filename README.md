@@ -4,6 +4,13 @@ Manage your student loans <a href="https://loaning-sharks.herokuapp.com/" target
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), and styled using [ReactStrap](https://reactstrap.github.io/).
 
+RESOURCES
+guru99 Mongodb Primary Key https://www.guru99.com/mongodb-objectid.html
+ObjectRocket How to Join Collections using Mongoose https://kb.objectrocket.com/mongo-db/how-to-join-collections-using-mongoose-228
+Mongoose.js deprecation error docs https://mongoosejs.com/docs/deprecations.html
+MongoDB Document Structure https://docs.mongodb.com/manual/core/document/#the-id-field
+tutorialspoint MongoDB https://www.tutorialspoint.com/mongodb/mongodb_objectid.htm
+
 ## Available Scripts
 
 In the project directory, you can run:
