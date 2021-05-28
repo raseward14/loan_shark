@@ -3,7 +3,7 @@ import ProfileCard from "../components/ProfileCard/index";
 import { List, ListItem } from "../components/List";
 import DeleteBtn from "../components/DeleteBtn";
 import V_PieChart from "../components/V_PieChart/index";
-import * as APIFunctions from "../utils/API";
+import * as APIFunctions from "../utils/LoanAPI";
 // import { deleteLoan, getLoans } from "../utils/API";
 // import V_ProgressWheel from "../components/V_ProgressWheel/index";
 import V_BarGraph from "../components/V_BarGraph/index";
