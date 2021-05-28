@@ -1,12 +1,7 @@
 import React, { useState } from "react";
-import './App.css';
-import Login from "./components/Login";
-import Homepage from "./pages/Homepage";
-import Profile from "./pages/Profile";
-import LoanDetail from "./pages/LoanDetail";
-import { SharkContext } from "./Context";
-import React from "react";
 import "./App.css";
+
+// import { SharkContext } from "./Context";
 
 // Imports Pages
 import Homepage from "./pages/Homepage";
@@ -28,7 +23,7 @@ function App() {
   // }
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   return (
-    <SharkContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+    // <SharkContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
     <Router>
       <div className="App">
         <Navbar />
@@ -37,18 +32,14 @@ function App() {
           <Route exact path="/">
             <Homepage />
           </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/loans">
 
           <Route exact path="/profile">
             <Profile />
           </Route>
 
-          <Route exact path="/login">
+          {/* <Route exact path="/login">
             <Login />
-          </Route>
+          </Route> */}
 
           <Route exact path="/register">
             <Register />
@@ -56,19 +47,18 @@ function App() {
 
           <Route path="*">
             <Four />
-          </Route>
 
-          {/* <Route exact path="/loans/:id">
+            {/* <Route exact path="/loans/:id">
             <LoanDetail />
           </Route> */}
           </Route>
         </Switch>
 
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </Router>
-    </SharkContext.Provider>
+    // </SharkContext.Provider>
   );
-};
+}
 
 export default App;
