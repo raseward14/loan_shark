@@ -30,7 +30,7 @@ class V_BarGraph extends React.Component {
     };
 
     return (
-      <div className="pie-size">
+      <div className="graph-size">
         <VictoryChart
           height={400}
           width={400}

@@ -1,46 +1,61 @@
-// import React, { useState } from "react";
-import "./style.css";
-import { Container, Row, Col } from "reactstrap";
+// import React from 'react';
+// import { Form } from "reactstrap";
 
-const Example = (props) => {
-  return (
-    <div>
-      <Container>
-        <Row className="row">
-          <Col className="col-6 .col-sm-4" xs={12}>
-            <form>
-              <h3>Log in</h3>
+// // Trying to import from local file
+// import FormBtn from "../Form";
 
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="Enter email"
-                />
-              </div>
+// // Installed find in package.json
+// import { Auth } from "aws-amplify";
 
-              <div className="form-group">
-                <label>Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="Enter password"
-                />
-              </div>
+// // import css
 
-              <button type="submit" className="btn btn-dark btn-lg btn-block">
-                Sign in
-              </button>
-              <p className="forgot-password text-center">
-                Not a member <a href="/register">Sign Up Here</a>
-              </p>
-            </form>
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
-};
+// import { useSharkContext } from "../../Context";
 
-export default Example;
+// function Login() {
+//     const { userHasAuthenticated } = useSharkContext();
+//     const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+
+//   function validateForm() {
+//     return email.length > 0 && password.length > 0;
+//   }
+
+//   function handleSubmit(event) {
+//     event.preventDefault();
+//     try {
+//         await Auth.signIn(email, password);
+//         userHasAuthenticated(true);
+//       } catch (e) {
+//         alert(e.message);
+//       }
+//     }
+
+//   return (
+//     <div className="Login">
+//       <Form onSubmit={handleSubmit}>
+//         <Form.Group size="lg" controlId="email">
+//           <Form.Label>Email</Form.Label>
+//           <Form.Control
+//             autoFocus
+//             type="email"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//           />
+//         </Form.Group>
+//         <Form.Group size="lg" controlId="password">
+//           <Form.Label>Password</Form.Label>
+//           <Form.Control
+//             type="password"
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//           />
+//         </Form.Group>
+//         <FormBtn block size="lg" type="submit" disabled={!validateForm()}>
+//           Login
+//         </FormBtn>
+//       </Form>
+//     </div>
+//   );
+// };
+
+// export default Login;
