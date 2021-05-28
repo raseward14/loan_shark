@@ -4,7 +4,7 @@ import "./App.css";
 // Imports Pages
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
-import Login from "./pages/Login";
+import LoginPage from "./pages/Login";
 import Register from "./pages/Register";
 import Four from "./pages/Four";
 
@@ -24,12 +24,12 @@ function App() {
             <Homepage />
           </Route>
 
-          <Route exact path="/profile">
+          <Route exact path="/Profile">
             <Profile />
           </Route>
 
           <Route exact path="/login">
-            <Login />
+            <LoginPage />
           </Route>
 
           <Route exact path="/register">
