@@ -5,11 +5,13 @@ import WhatIsLoanShark from "../components/WhatIsLoanShark/index";
 
 // import API from "../utils/API";
 // import { List, ListItem } from "../components/List";
+
+// THIS WAS PART OF WHAT I COMMENTED OUT -----------
 // import
 //     // Input,
 //     // TextArea,
 //     FormBtn from "../components/Form";
-
+// ----------------------------------------------------
 function init() {
   // hooks
   // const [loans, setLoans] = useState([])
@@ -48,11 +50,3 @@ function init() {
 }
 
 export default init;
-
-// jumbotron
-
-// introduction
-
-// signin button
-
-// signup button
