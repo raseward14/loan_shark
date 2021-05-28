@@ -10,6 +10,7 @@ ObjectRocket How to Join Collections using Mongoose https://kb.objectrocket.com/
 Mongoose.js deprecation error docs https://mongoosejs.com/docs/deprecations.html
 MongoDB Document Structure https://docs.mongodb.com/manual/core/document/#the-id-field
 tutorialspoint MongoDB https://www.tutorialspoint.com/mongodb/mongodb_objectid.htm
+flaviocopes Connect React to Server https://flaviocopes.com/how-to-serve-react-from-same-origin/
 
 ## Available Scripts
 
