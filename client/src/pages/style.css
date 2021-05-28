@@ -1,3 +1,43 @@
+/* ----------------------------------- PROFILE CSS ---- */
+h1 {
+  padding-top: 50px;
+}
+h3 {
+  padding-bottom: 30px;
+}
+h5 {
+  padding: 25px 0px;
+}
+.hr {
+  border: 5px solid #34847e;
+  border-radius: 10px;
+}
 .profile-flex-box {
   display: flex;
 }
+.chart {
+  width: 200px;
+  height: auto;
+}
+.content {
+  height: 100vh;
+  background-color: #f9fafd;
+}
+.sidebar {
+  background-color: #363840;
+  height: 100vh;
+  color: #98999e;
+}
+.graph-size {
+  image-orientation: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.logo-size {
+  width: 150px;
+  height: auto;
+  padding-top: 30px;
+}
+
+/* ----------------------------------- END OF PROFILE CSS ---- */
