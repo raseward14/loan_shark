@@ -6,7 +6,7 @@ const getLoans = () => {
 };
 // get one loan
 const getLoanById = (id) => {
-  return axios.get("/api/loans" + id);
+  return axios.get("/api/loans/" + id);
 };
 // save a new loan
 // loan is name, amount
