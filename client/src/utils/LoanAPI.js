@@ -14,10 +14,12 @@ const getLoanById = (id) => {
 const saveLoan = (loanData) => {
   return axios.post("/api/loans", loanData);
 };
+
 // edit a loan
 // updateLoan: function(id) {
 //     return axios.put("/api/loans/" + id)
 // },
+
 // delete loan
 const deleteLoan = (id) => {
   return axios.delete("/api/loans/" + id);
