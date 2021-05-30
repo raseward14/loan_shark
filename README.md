@@ -11,6 +11,8 @@ Mongoose.js deprecation error docs https://mongoosejs.com/docs/deprecations.html
 MongoDB Document Structure https://docs.mongodb.com/manual/core/document/#the-id-field
 tutorialspoint MongoDB https://www.tutorialspoint.com/mongodb/mongodb_objectid.htm
 flaviocopes Connect React to Server https://flaviocopes.com/how-to-serve-react-from-same-origin/
+CSS Tricks https://css-tricks.com/everything-you-need-to-know-about-date-in-javascript/
+JS String Tutorial https://www.javascripttutorial.net/javascript-string-split/#:~:text=JavaScript%20String%20split%20%28%29%201%20Introduction%20to%20the,JavaScript%20split%20%28%29%20examples.%20...%205%20Summary.%20
 
 ## Available Scripts
 
