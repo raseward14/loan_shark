@@ -16,28 +16,63 @@ import "./style.css";
 
 function Profile() {
   const [loans, setLoans] = useState([]);
-  const [loan, setLoan] = useState("");
+  const [loan, setLoan] = useState();
   const [formObject, setFormObject] = useState({});
 
-  // Load all loans and store them with setLoans
+  // Load all loans, and default loan and store them with setLoans
   useEffect(() => {
     loadLoans();
-    if (!loan) {
-      setLoan(loans[0])
-    };
-  }, [loan, loans]);
+    loadLoan();
+  });
+
+  function formatDate(dateString) {
+    const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+    const date = dateString.substring(0, 10);
+    const yearMonthDay = date.split("-");
+    const year = yearMonthDay[0];
+    const monthIndex = (parseFloat(yearMonthDay[1]) - 1);
+    const month = months[monthIndex];
+    const day = yearMonthDay[2];
+    return `${month} ${day}, ${year}`
+  }
 
   // loan all users loans
   function loadLoans() {
     APIFunctions.getLoans()
-      .then((res) => setLoans(res.data))
+      .then((res) => {
+            let resultsArray = res.data;
+            // console.log(resultsArray);
+            resultsArray.map(result => result.date = formatDate(result.date));
+            // console.log(resultsArray);
+            setLoans(resultsArray);
+      })
       .catch((err) => console.log(err));
   }
+
+  function loadLoan() {
+    if (!loan) {
+      setLoan(loans[0]);
+    } 
+  };
 
   // delete loan
   function deleteLoan(id) {
     APIFunctions.deleteLoan(id)
-      .then((res) => loadLoans())
+      .then(() => loadLoans())
       .catch((err) => console.log(err));
   }
 
@@ -45,9 +80,12 @@ function Profile() {
   function handleClick(id) {
     console.log(id);
     APIFunctions.getLoanById(id)
-    
-      .then((res) => setLoan(res.data), console.log(loan.date))
-      // .then(formatDate(loan.date))
+      .then((res) => {
+        // variable, assign, set
+        var result = formatDate(res.data.date);
+        res.data.date = result;
+        setLoan(res.data)
+      })
       .catch((err) => console.log(err));
   }
 
@@ -70,37 +108,6 @@ function Profile() {
         .then((res) => loadLoans())
         .catch((err) => console.log(err));
     }
-  }
-
-  function formatDate(date) {
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-    const yr = date.getFullYear();
-    const mthIndex = date.getMonth();
-    const mthName = months[mthIndex];
-    const day = date.getDate();
-    const wkDayIndex = date.getDay();
-    const wkDayName = days[wkDayIndex];
-
-    const formatted = `${wkDayName}, ${day} ${mthName} ${yr}`;
-    setLoan({ ...loan, date: formatted })
-    console.log(formatted);
-    // return formatted;
   }
 
   return (
