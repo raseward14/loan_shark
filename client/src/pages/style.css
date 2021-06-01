@@ -12,6 +12,11 @@ h5 {
   border: 5px solid #34847e;
   border-radius: 10px;
 }
+
+a:hover {
+  color: #a9bcc3 !important;
+  transition: all 0.3s;
+}
 .profile-flex-box {
   display: flex;
 }
