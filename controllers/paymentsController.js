@@ -13,7 +13,7 @@ module.exports = {
 
       find: function(req, res) {
         db.Payment
-          .find({loan_id: req.body})
+          .find({ loan_id: req.body.query })
           .sort({ date: -1 })
           .then(dbModel => res.json(dbModel))
           .catch(err => res.status(422).json(err));

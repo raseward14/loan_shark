@@ -14,11 +14,19 @@ function Payments(props) {
   const query = { id } // {id: "lasdjfa;slkfj"}
   const loanId = Object.values(query).toString(); // "lkajsdf;oijf"
 
-  // console.log(query);
+  // console.log(loanId);
 
   useEffect(() => {
-    loadPayments(loanId);
-    loadPayment();
+    let unmounted = false;
+
+    if (!unmounted) {
+      loadPayments(loanId);
+      loadPayment();
+    };
+      
+    return () => {
+      unmounted = true;
+    };
   });
   // console.log(query);
   // https://restdb.io/docs/querying-with-the-api
@@ -55,36 +63,34 @@ function Payments(props) {
   // }
 
   // loan all users loans
-  function loadPayments() {
-    paymentAPIFunctions
-      .getPayments()
-      .then((res) => {
-        let resultsArray = res.data;
-        // console.log(resultsArray);
-        resultsArray.map((result) => (result.date = formatDate(result.date)));
-        // resultsArray.filter(filterPayments);
+  // function loadPayments() {
+  //   paymentAPIFunctions
+  //     .getPayments()
+  //     .then((res) => {
+  //       let resultsArray = res.data;
+  //       // console.log(resultsArray);
+  //       resultsArray.map((result) => (result.date = formatDate(result.date)));
+  //       // resultsArray.filter(filterPayments);
 
-        // console.log(resultsArray);
-        setPayments(resultsArray);
-      })
-      .catch((err) => console.log(err));
-  };
+  //       // console.log(resultsArray);
+  //       setPayments(resultsArray);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
 
 // get specific payments
-  // function loadPayments(query) {
-  //     paymentAPIFunctions
-  //       .getThesePayments(query)
-  //       .then((res) => {
-  //         let resultsArray = res.data;
-  //         // console.log(resultsArray);
-  //         resultsArray.map((result) => (result.date = formatDate(result.date)));
-  
-  //         // console.log(resultsArray);
-  //         setPayments(resultsArray);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   };
+  function loadPayments(query) {
+    // console.log(query)
+      paymentAPIFunctions
+        .getThesePayments(query)
+        .then((res) => {
+          let resultsArray = res.data;
+          resultsArray.map((result) => (result.date = formatDate(result.date)));
+          setPayments(resultsArray);
+        })
+        .catch((err) => console.log(err));
+    };
 
 
 

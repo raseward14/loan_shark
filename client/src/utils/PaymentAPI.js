@@ -7,7 +7,7 @@ const getPayments = () => {
 
 // get specified payments
 const getThesePayments = (query) => {
-  return axios.get("/api/payments?q=" + query);
+  return axios.get(`/api/payments?q={loan_id: "${query}"}`);
 };
 
 // get a payment
