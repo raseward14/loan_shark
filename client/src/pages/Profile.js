@@ -113,7 +113,7 @@ function Profile() {
         .saveLoan({
           name: formObject.name,
           amount: formObject.amount,
-          // user_id: ""
+          user_id: "60adb73bc60ad5599803dbfd"
         })
         .then((res) => loadLoans())
         .catch((err) => console.log(err));

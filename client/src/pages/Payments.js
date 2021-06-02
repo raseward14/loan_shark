@@ -4,11 +4,13 @@ import { List, ListItem } from "../components/List";
 import DeleteBtn from "../components/DeleteBtn";
 import { Link, useParams } from "react-router-dom";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
+import { Input, FormBtn } from "../components/Form";
+
 
 function Payments(props) {
   const [payments, setPayments] = useState([]);
   const [payment, setPayment] = useState({});
-  // const [formObject, setFormObject] = useState({});
+  const [formObject, setFormObject] = useState({});
 
   const { id } = useParams();
   const query = { id }; // {id: "lasdjfa;slkfj"}
@@ -99,7 +101,29 @@ function Payments(props) {
         setPayment(res.data);
       })
       .catch((err) => console.log(err));
-  }
+  };
+
+  // updates component state when the user types in input field
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+    setFormObject({ ...formObject, [name]: value });
+  };
+
+  // when form is submitted, use APIFunctions saveLoan method to save loan data, then reload loans from db
+  function handleFormSubmit(event) {
+    // event.prevent.default();
+    console.log(formObject.balance);
+    console.log(loanId);
+    if (formObject.balance) {
+      paymentAPIFunctions
+        .savePayment({
+          balance: formObject.balance,
+          loan_id: loanId,
+        })
+        .then((res) => loadPayments())
+        .catch((err) => console.log(err));
+    }
+  };
 
   return (
     <div>
@@ -121,6 +145,20 @@ function Payments(props) {
       ) : (
         <h3>No Results to Display</h3>
       )}
+
+<form>
+        <Input
+          onChange={handleInputChange}
+          name="balance"
+          placeholder="Payment Amount (required)"
+        />
+        <FormBtn
+          // disabled={!(formObject.balance)}
+          onClick={handleFormSubmit}
+        >
+          Submit Payment
+        </FormBtn>
+      </form>
 
       <Link to="/profile">← Back to Profile</Link>
     </div>
