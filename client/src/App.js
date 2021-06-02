@@ -8,7 +8,6 @@ import "./App.css";
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
 import LoginPage from "./pages/Login";
-import LoanDetail from "./pages/LoanDetail";
 import Register from "./pages/Register";
 import Four from "./pages/Four";
 
@@ -37,9 +36,6 @@ function App() {
           </Route>
           <Route exact path="/profile">
             <Profile />
-          </Route>
-          <Route exact path="/loans/:id">
-            <LoanDetail />
           </Route>
           {/* <Route exact path="/login">
             <Login />
