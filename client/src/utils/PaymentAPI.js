@@ -4,6 +4,12 @@ import axios from "axios";
 const getPayments = () => {
   return axios.get("/api/payments");
 };
+
+// get specified payments
+const getThesePayments = (query) => {
+  return axios.get(`/api/payments?q={loan_id: "${query}"}`);
+};
+
 // get a payment
 const getPaymentById = (id) => {
   return axios.get("/api/payments/" + id);
@@ -16,7 +22,7 @@ const savePayment = (paymentData) => {
   };
 // delete a payment
 const deletePayment = (id) => {
-    return axios.delete("/api/loans/" + id);
+    return axios.delete("/api/payments/" + id);
   };
 // update a payment
 // updatePayment: function(id) {
@@ -27,5 +33,6 @@ export {
   getPaymentById,
   getPayments,
   savePayment,
-  deletePayment
+  deletePayment,
+  getThesePayments
 };

@@ -1,12 +1,13 @@
 import React from "react";
 import "./style.css";
 
-function LoanDetail({ name, date, amount }) {
+function LoanDetail({ children, name, date, amount }) {
   return (
     <div>
-      <h3>{name}</h3>
-      <h2>{date}</h2>
-      <h2>Balance: ${amount}</h2>
+      <h2>{name}</h2>
+      <h3>Balance: ${amount}</h3>
+      <h4>{date}</h4>
+      <p>{children}</p>
     </div>
   );
 }

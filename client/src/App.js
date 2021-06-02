@@ -10,6 +10,8 @@ import Profile from "./pages/Profile";
 import LoginPage from "./pages/Login";
 import Register from "./pages/Register";
 import Four from "./pages/Four";
+import Payments from "./pages/Payments";
+
 
 // Imports Components
 import Navbar from "./components/Navbar";
@@ -37,6 +39,11 @@ function App() {
           <Route exact path="/profile">
             <Profile />
           </Route>
+
+          <Route exact path="/payments/:id">
+            <Payments />
+          </Route>
+
           {/* <Route exact path="/login">
             <Login />
           </Route> */}
@@ -47,9 +54,6 @@ function App() {
           <Route path="*">
             <Four />
 
-            {/* <Route exact path="/loans/:id">
-            <LoanDetail />
-          </Route> */}
           </Route>
         </Switch>
       </div>
