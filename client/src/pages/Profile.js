@@ -65,9 +65,7 @@ function Profile() {
       .getLoans()
       .then((res) => {
         let resultsArray = res.data;
-        // console.log(resultsArray);
         resultsArray.map((result) => (result.date = formatDate(result.date)));
-        // console.log(resultsArray);
         setLoans(resultsArray);
       })
       .catch((err) => console.log(err));
@@ -138,7 +136,7 @@ function Profile() {
       <ProfileCard />
       {loan ? (
         <LoanDetail name={loan.name} date={loan.date} amount={loan.amount}>
-          <Link to={"/payments/" + loan._id}>
+          <Link to={"/payments/" + loan._id} >
             <strong>{loan.name} payments</strong>
           </Link>
         </LoanDetail>

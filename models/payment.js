@@ -4,14 +4,17 @@ const Schema = mongoose.Schema;
 const paymentSchema = new Schema({
   balance: {
     type: Number,
+    required: true
   },
   date: {
     type: Date,
     default: Date.now,
+    required: true
   },
   loan_id: {
     ref: "Loan",
     type: Schema.Types.ObjectId,
+    required: true
   },
 });
 

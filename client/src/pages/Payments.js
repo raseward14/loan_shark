@@ -11,25 +11,22 @@ function Payments(props) {
   // const [formObject, setFormObject] = useState({});
 
   const { id } = useParams();
-  const query = { id } // {id: "lasdjfa;slkfj"}
+  const query = { id }; // {id: "lasdjfa;slkfj"}
   const loanId = Object.values(query).toString(); // "lkajsdf;oijf"
-
-  // console.log(loanId);
 
   useEffect(() => {
     let unmounted = false;
 
     if (!unmounted) {
-      loadPayments(loanId);
+      loadPayments();
       loadPayment();
-    };
-      
+    }
+
     return () => {
       unmounted = true;
     };
   });
-  // console.log(query);
-  // https://restdb.io/docs/querying-with-the-api
+ 
   // format date
   function formatDate(dateString) {
     const months = [
@@ -54,54 +51,33 @@ function Payments(props) {
     const month = months[monthIndex];
     const day = yearMonthDay[2];
     return `${month} ${day}, ${year}`;
-  };
-
-  // function filterPayments(payment) {
-  //   const loanId = Object.values(query).toString();
-  //   console.log(payment.loan_id)
-  //   return (payment.loan_id === loanId);
-  // }
+  }
 
   // loan all users loans
-  // function loadPayments() {
-  //   paymentAPIFunctions
-  //     .getPayments()
-  //     .then((res) => {
-  //       let resultsArray = res.data;
-  //       // console.log(resultsArray);
-  //       resultsArray.map((result) => (result.date = formatDate(result.date)));
-  //       // resultsArray.filter(filterPayments);
-
-  //       // console.log(resultsArray);
-  //       setPayments(resultsArray);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
-
-// get specific payments
-  function loadPayments(query) {
-    // console.log(query)
-      paymentAPIFunctions
-        .getThesePayments(query)
-        .then((res) => {
-          let resultsArray = res.data;
-          resultsArray.map((result) => (result.date = formatDate(result.date)));
-          setPayments(resultsArray);
-        })
-        .catch((err) => console.log(err));
-    };
-
-
-
-
-
+  function loadPayments() {
+    paymentAPIFunctions
+      .getPayments()
+      .then((res) => {
+        let specificPayments = [];
+        let resultsArray = res.data;
+        resultsArray.map((result) => (result.date = formatDate(result.date)));
+        resultsArray.forEach((result) => {
+          if (result.loan_id === loanId) {
+            specificPayments.push(result);
+          } else {
+            return;
+          }
+        });
+        setPayments(specificPayments);
+      })
+      .catch((err) => console.log(err));
+  }
 
   function loadPayment() {
     if (!payment) {
       setPayment(payments[0]);
     }
-  };
+  }
 
   // delete payment
   function deletePayment(id) {
@@ -109,7 +85,7 @@ function Payments(props) {
       .deletePayment(id)
       .then(() => loadPayments())
       .catch((err) => console.log(err));
-  };
+  }
 
   // expand clicked loan
   function handleClick(id) {
@@ -123,7 +99,7 @@ function Payments(props) {
         setPayment(res.data);
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   return (
     <div>
