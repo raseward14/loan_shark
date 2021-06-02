@@ -6,7 +6,6 @@ import { Link, useParams } from "react-router-dom";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
 import { Input, FormBtn } from "../components/Form";
 
-
 function Payments(props) {
   const [payments, setPayments] = useState([]);
   const [payment, setPayment] = useState({});
@@ -28,7 +27,7 @@ function Payments(props) {
       unmounted = true;
     };
   });
- 
+
   // format date
   function formatDate(dateString) {
     const months = [
@@ -53,7 +52,7 @@ function Payments(props) {
     const month = months[monthIndex];
     const day = yearMonthDay[2];
     return `${month} ${day}, ${year}`;
-  }
+  };
 
   // loan all users loans
   function loadPayments() {
@@ -71,15 +70,18 @@ function Payments(props) {
           }
         });
         setPayments(specificPayments);
+        if(!payment) {
+          setPayment(payments[0]);
+        }
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   function loadPayment() {
     if (!payment) {
       setPayment(payments[0]);
     }
-  }
+  };
 
   // delete payment
   function deletePayment(id) {
@@ -87,7 +89,7 @@ function Payments(props) {
       .deletePayment(id)
       .then(() => loadPayments())
       .catch((err) => console.log(err));
-  }
+  };
 
   // expand clicked loan
   function handleClick(id) {
@@ -99,6 +101,7 @@ function Payments(props) {
         var result = formatDate(res.data.date);
         res.data.date = result;
         setPayment(res.data);
+        // setFormObject();
       })
       .catch((err) => console.log(err));
   };
@@ -111,7 +114,7 @@ function Payments(props) {
 
   // when form is submitted, use APIFunctions saveLoan method to save loan data, then reload loans from db
   function handleFormSubmit(event) {
-    // event.prevent.default();
+    event.preventDefault();
     console.log(formObject.balance);
     console.log(loanId);
     if (formObject.balance) {
@@ -127,38 +130,43 @@ function Payments(props) {
 
   return (
     <div>
-      <List>
-        {payments.map((payment) => (
-          <ListItem key={payment._id}>
-            <strong onClick={() => handleClick(payment._id)}>
-              {payment.balance} on {payment.date}
-            </strong>
-            <DeleteBtn onClick={() => deletePayment(payment._id)} />
-          </ListItem>
-        ))}
-      </List>
+      <div>
+        <List>
+          {payments.map((payment) => (
+            <ListItem key={payment._id}>
+              <strong onClick={() => handleClick(payment._id)}>
+                {payment.balance} on {payment.date}
+              </strong>
+              <DeleteBtn onClick={() => deletePayment(payment._id)} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
 
-      {payment ? (
-        <PaymentDetail balance={payment.balance} date={payment.date}>
-          {payment.balance}
-        </PaymentDetail>
-      ) : (
-        <h3>No Results to Display</h3>
-      )}
-
-<form>
-        <Input
-          onChange={handleInputChange}
-          name="balance"
-          placeholder="Payment Amount (required)"
-        />
-        <FormBtn
-          // disabled={!(formObject.balance)}
-          onClick={handleFormSubmit}
-        >
-          Submit Payment
-        </FormBtn>
-      </form>
+      <div>
+        {payment ? (
+          <PaymentDetail balance={payment.balance} date={payment.date}>
+            {payment.balance}
+          </PaymentDetail>
+        ) : (
+          <h3>No Results to Display</h3>
+        )}
+      </div>
+      <div>
+        <form>
+          <Input
+            onChange={handleInputChange}
+            name="balance"
+            placeholder="Payment Amount (required)"
+          />
+          <FormBtn
+            disabled={!(formObject.balance)}
+            onClick={handleFormSubmit}
+          >
+            Submit Payment
+          </FormBtn>
+        </form>
+      </div>
 
       <Link to="/profile">← Back to Profile</Link>
     </div>

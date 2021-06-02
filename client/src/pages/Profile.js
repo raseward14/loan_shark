@@ -67,6 +67,9 @@ function Profile() {
         let resultsArray = res.data;
         resultsArray.map((result) => (result.date = formatDate(result.date)));
         setLoans(resultsArray);
+        if(!loan) {
+          setLoan(loans[0]);
+        } 
       })
       .catch((err) => console.log(err));
   }
@@ -95,6 +98,7 @@ function Profile() {
         var result = formatDate(res.data.date);
         res.data.date = result;
         setLoan(res.data);
+        // setFormObject();
       })
       .catch((err) => console.log(err));
   }
@@ -107,7 +111,7 @@ function Profile() {
 
   // when form is submitted, use APIFunctions saveLoan method to save loan data, then reload loans from db
   function handleFormSubmit(event) {
-    // event.prevent.default();
+    event.preventDefault();
     if (formObject.name && formObject.amount) {
       loanAPIFunctions
         .saveLoan({
