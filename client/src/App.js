@@ -7,10 +7,10 @@ import "./App.css";
 // Imports Pages
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
-import Login from "./pages/Login";
+import LoginPage from "./pages/Login";
+import LoanDetail from "./pages/LoanDetail";
 import Register from "./pages/Register";
 import Four from "./pages/Four";
-// import LoanDetail from "./pages/LoanDetail";
 
 // Imports Components
 import Navbar from "./components/Navbar";
@@ -38,11 +38,13 @@ function App() {
           <Route exact path="/profile">
             <Profile />
           </Route>
-          // ---------------------------------------------------- COMMENTED OUT
+          <Route exact path="/loans/:id">
+            <LoanDetail />
+          </Route>
           {/* <Route exact path="/login">
             <Login />
           </Route> */}
-          // ---------------------------------------------------- COMMENTED OUT
+          
           <Route exact path="/register">
             <Register />
           </Route>

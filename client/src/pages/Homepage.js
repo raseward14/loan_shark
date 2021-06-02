@@ -11,8 +11,8 @@ import WhatIsLoanShark from "../components/WhatIsLoanShark/index";
 //     // Input,
 //     // TextArea,
 //     FormBtn from "../components/Form";
-// ----------------------------------------------------
-function init() {
+
+function Homepage() {
   // hooks
   // const [loans, setLoans] = useState([])
   // const [formObj, setFormObj] = useState([])
@@ -49,4 +49,12 @@ function init() {
   );
 }
 
-export default init;
+export default Homepage;
+
+// jumbotron
+
+// introduction
+
+// signin button
+
+// signup button
