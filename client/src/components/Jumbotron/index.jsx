@@ -16,10 +16,15 @@ function Jumbo() {
             />
           </div>
           <p className="tagline">Take a bite out of Student Debt!</p>
-          <p className="lead">
-            <Button>Learn More</Button>
-          </p>
+          {/* <a className="button" href="/register">
+            Sign Up Now
+          </a> */}
         </Jumbotron>
+      </div>
+      <div className="padding-top-of-button">
+        <a className="button" href="/register">
+          Sign Up Now
+        </a>
       </div>
     </header>
   );
