@@ -18,6 +18,7 @@ import "./style.css";
 function Profile() {
   const [loans, setLoans] = useState([]);
   const [loan, setLoan] = useState();
+  const [total, setTotal] = useState();
   const [formObject, setFormObject] = useState({});
 
   // Load all loans, and default loan and store them with setLoans
@@ -64,9 +65,16 @@ function Profile() {
     loanAPIFunctions
       .getLoans()
       .then((res) => {
+        let loanTotal = 0;
         let resultsArray = res.data;
         resultsArray.map((result) => (result.date = formatDate(result.date)));
+        resultsArray.forEach((result) => {
+          loanTotal += result.amount;
+        })
+        // lists all loans for the user
         setLoans(resultsArray);
+        // setTotal adds the result.amount of each loan for a total debt figure
+        setTotal(loanTotal);
         if(!loan) {
           setLoan(loans[0]);
         } 
@@ -147,7 +155,7 @@ function Profile() {
       ) : (
         <h3>No Results to Display</h3>
       )}
-
+      <p>All Loans Total: {total}</p>
       <form>
         <Input
           onChange={handleInputChange}

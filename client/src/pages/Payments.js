@@ -9,6 +9,7 @@ import { Input, FormBtn } from "../components/Form";
 function Payments(props) {
   const [payments, setPayments] = useState([]);
   const [payment, setPayment] = useState({});
+  const [total, setTotal] = useState();
   const [formObject, setFormObject] = useState({});
 
   const { id } = useParams();
@@ -59,18 +60,27 @@ function Payments(props) {
     paymentAPIFunctions
       .getPayments()
       .then((res) => {
+        let paymentTotal = 0;
         let specificPayments = [];
         let resultsArray = res.data;
+        // format date of every payment
         resultsArray.map((result) => (result.date = formatDate(result.date)));
+        // for each payment, push matching loan_id to specific payments, and total their balances
         resultsArray.forEach((result) => {
           if (result.loan_id === loanId) {
+            // push the matching payments to the array
             specificPayments.push(result);
+            paymentTotal += result.balance;
           } else {
             return;
           }
         });
+        // setpayments lists only the matching loan_id payments
         setPayments(specificPayments);
-        if(!payment) {
+        // setTotal adds the result.balance for each maching loan_id payment
+        setTotal(paymentTotal);
+        // console.log(payment);
+        if(!payment || payment === {}) {
           setPayment(payments[0]);
         }
       })
@@ -147,11 +157,13 @@ function Payments(props) {
         {payment ? (
           <PaymentDetail balance={payment.balance} date={payment.date}>
             {payment.balance}
+            
           </PaymentDetail>
         ) : (
           <h3>No Results to Display</h3>
         )}
       </div>
+      <p>All Payments Total: {total}</p>
       <div>
         <form>
           <Input
