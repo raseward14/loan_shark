@@ -8,7 +8,7 @@ function Introduction() {
         <Row>
           <Col xs={2}></Col>
           <Col xs={8}>
-            <h1> What is load shark?</h1>
+            <h1> What is Loan Shark?</h1>
           </Col>
           <Col xs={2}></Col>
         </Row>
@@ -23,6 +23,7 @@ function Introduction() {
           <Col xs={2}></Col>
         </Row>
       </Container>
+      <Container></Container>
     </div>
   );
 }

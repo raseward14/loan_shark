@@ -43,7 +43,7 @@ function Homepage() {
       <Jumbo>
         <h1>Your Loans Live Here.</h1>
       </Jumbo>
-      <Introduction />
+      {/* <Introduction /> */}
       <WhatIsLoanShark />
     </div>
   );
