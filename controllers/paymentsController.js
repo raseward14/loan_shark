@@ -9,24 +9,6 @@ module.exports = {
           .then(dbModel => res.json(dbModel))
           .catch(err => res.status(422).json(err));
       },
-
-      // loan_id: req.params.loan_id
-
-      // find: function(req, res) {
-      //   db.Payment
-      //     .find({loan_id: req.body}, (error, data => {
-      //       if (error) {
-      //         console.log(error);
-      //       }else{
-      //         console.log(data);
-      //       }
-      //     }))
-      //     .sort({ date: -1 })
-      //     .then(dbModel => res.json(dbModel))
-      //     .catch(err => res.status(422).json(err));
-      // },
-
-      
       findById: function(req, res) {
         db.Payment
         .findById(req.params.id)
