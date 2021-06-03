@@ -4,6 +4,7 @@ const paymentsController = require("../../controllers/paymentsController");
 // Matches with "/api/payments"
 router.route("/")
   .get(paymentsController.findAll)
+  .get(paymentsController.find)
   .post(paymentsController.create);
 
 // Matches with "/api/payments/:id"

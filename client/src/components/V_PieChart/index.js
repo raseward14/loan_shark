@@ -8,9 +8,9 @@ import { VictoryPie } from "victory";
 
 function init() {
   return (
-    <div className="pie-size">
+    <div className="graph-size">
       <VictoryPie
-        colorScale={["blue", "orange", "gold", "cyan", "navy"]}
+        colorScale={["pink", "orange", "gold", "cyan", "navy"]}
         data={[
           { x: "Cats", y: 35 },
           { x: "Dogs", y: 40 },

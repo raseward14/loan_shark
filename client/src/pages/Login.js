@@ -1,10 +1,10 @@
 import Login from "../components/Login/index";
 
-function init() {
+function LoginPage() {
   return <Login />;
 }
 
-export default init;
+export default LoginPage;
 
 // // Login Form
 // const loginFormHandler = async (event) => {

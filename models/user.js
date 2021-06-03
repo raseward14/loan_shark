@@ -11,10 +11,6 @@ const Schema = mongoose.Schema;
 // }
 
 const userSchema = new Schema({
-  _id: {
-    type: Number,
-    primaryKey: false,
-  },
   user_name: {
     type: String,
     allowNull: false,

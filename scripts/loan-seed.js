@@ -1,47 +1,48 @@
-const loanSeed = 
-[
-      {
-        _id: 11,
-        name: "DU Bootcamp",
-        date: "May 22, 2021",
-        amount: 11500,
-        user_id: 1
-      },
-      {
-        _id: 22,
-        name: "DU Bootcamp",
-        date: "May 22, 2021",
-        amount: 10000,
-        user_id: 2
-      },
-      {
-        _id: 33,
-        name: "DU Bootcamp",
-        date: "May 22, 2021",
-        amount: 10000,
-        user_id: 3
-      },
-      {
-        _id: 44,
-        name: "Nissan 350Z",
-        date: "May 20, 2021",
-        amount: 15000,
-        user_id: 1
-      },
-      {
-        _id: 55,
-        name: "Subaru BRZ",
-        date: "May 10, 2021",
-        amount: 20000,
-        user_id: 2
-      },
-      {
-        _id: 66,
-        name: "boat",
-        date: "May 5, 2021",
-        amount: 2000,
-        user_id: 3
-      },
+const { ObjectId } = require("bson");
+
+const loanSeed = [
+  {
+    _id: ObjectId("60adb73bc60ad5599803dbff"),
+    name: "DU Bootcamp",
+    date: "May 22, 2021",
+    amount: 11500,
+    user_id: "60adb73bc60ad5599803dbfc",
+  },
+  {
+    _id: ObjectId("60adb73bc60ad5599803dc00"),
+    name: "DU Bootcamp",
+    date: "May 22, 2021",
+    amount: 10000,
+    user_id: "60adb73bc60ad5599803dbfd",
+  },
+  {
+    _id: ObjectId("60adb73bc60ad5599803dc01"),
+    name: "DU Bootcamp",
+    date: "May 22, 2021",
+    amount: 10000,
+    user_id: "60adb73bc60ad5599803dbfe",
+  },
+  {
+    _id: ObjectId("60adb73bc60ad5599803dc02"),
+    name: "Nissan 350Z",
+    date: "May 20, 2021",
+    amount: 15000,
+    user_id: "60adb73bc60ad5599803dbfc",
+  },
+  {
+    _id: ObjectId("60adb73bc60ad5599803dc03"),
+    name: "Subaru BRZ",
+    date: "May 10, 2021",
+    amount: 20000,
+    user_id: "60adb73bc60ad5599803dbfd",
+  },
+  {
+    _id: ObjectId("60adb73bc60ad5599803dc04"),
+    name: "boat",
+    date: "May 5, 2021",
+    amount: 2000,
+    user_id: "60adb73bc60ad5599803dbfe",
+  },
 ];
 
 module.exports = loanSeed;
