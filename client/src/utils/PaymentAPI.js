@@ -5,11 +5,6 @@ const getPayments = () => {
   return axios.get("/api/payments");
 };
 
-// get specified payments
-const getThesePayments = (query) => {
-  return axios.get(`/api/payments?q={loan_id: "${query}"}`);
-};
-
 // get a payment
 const getPaymentById = (id) => {
   return axios.get("/api/payments/" + id);
@@ -34,5 +29,4 @@ export {
   getPayments,
   savePayment,
   deletePayment,
-  getThesePayments
 };

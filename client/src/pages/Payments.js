@@ -4,32 +4,31 @@ import { List, ListItem } from "../components/List";
 import DeleteBtn from "../components/DeleteBtn";
 import { Link, useParams } from "react-router-dom";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
+import { Input, FormBtn } from "../components/Form";
 
 function Payments(props) {
   const [payments, setPayments] = useState([]);
   const [payment, setPayment] = useState({});
-  // const [formObject, setFormObject] = useState({});
+  const [total, setTotal] = useState();
+  const [formObject, setFormObject] = useState({});
 
   const { id } = useParams();
-  const query = { id } // {id: "lasdjfa;slkfj"}
+  const query = { id }; // {id: "lasdjfa;slkfj"}
   const loanId = Object.values(query).toString(); // "lkajsdf;oijf"
-
-  // console.log(loanId);
 
   useEffect(() => {
     let unmounted = false;
 
     if (!unmounted) {
-      loadPayments(loanId);
+      loadPayments();
       loadPayment();
-    };
-      
+    }
+
     return () => {
       unmounted = true;
     };
   });
-  // console.log(query);
-  // https://restdb.io/docs/querying-with-the-api
+
   // format date
   function formatDate(dateString) {
     const months = [
@@ -56,46 +55,37 @@ function Payments(props) {
     return `${month} ${day}, ${year}`;
   };
 
-  // function filterPayments(payment) {
-  //   const loanId = Object.values(query).toString();
-  //   console.log(payment.loan_id)
-  //   return (payment.loan_id === loanId);
-  // }
-
   // loan all users loans
-  // function loadPayments() {
-  //   paymentAPIFunctions
-  //     .getPayments()
-  //     .then((res) => {
-  //       let resultsArray = res.data;
-  //       // console.log(resultsArray);
-  //       resultsArray.map((result) => (result.date = formatDate(result.date)));
-  //       // resultsArray.filter(filterPayments);
-
-  //       // console.log(resultsArray);
-  //       setPayments(resultsArray);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
-
-// get specific payments
-  function loadPayments(query) {
-    // console.log(query)
-      paymentAPIFunctions
-        .getThesePayments(query)
-        .then((res) => {
-          let resultsArray = res.data;
-          resultsArray.map((result) => (result.date = formatDate(result.date)));
-          setPayments(resultsArray);
-        })
-        .catch((err) => console.log(err));
-    };
-
-
-
-
-
+  function loadPayments() {
+    paymentAPIFunctions
+      .getPayments()
+      .then((res) => {
+        let paymentTotal = 0;
+        let specificPayments = [];
+        let resultsArray = res.data;
+        // format date of every payment
+        resultsArray.map((result) => (result.date = formatDate(result.date)));
+        // for each payment, push matching loan_id to specific payments, and total their balances
+        resultsArray.forEach((result) => {
+          if (result.loan_id === loanId) {
+            // push the matching payments to the array
+            specificPayments.push(result);
+            paymentTotal += result.balance;
+          } else {
+            return;
+          }
+        });
+        // setpayments lists only the matching loan_id payments
+        setPayments(specificPayments);
+        // setTotal adds the result.balance for each maching loan_id payment
+        setTotal(paymentTotal);
+        // console.log(payment);
+        if(!payment || payment === {}) {
+          setPayment(payments[0]);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   function loadPayment() {
     if (!payment) {
@@ -121,30 +111,74 @@ function Payments(props) {
         var result = formatDate(res.data.date);
         res.data.date = result;
         setPayment(res.data);
+        // setFormObject();
       })
       .catch((err) => console.log(err));
   };
 
+  // updates component state when the user types in input field
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+    setFormObject({ ...formObject, [name]: value });
+  };
+
+  // when form is submitted, use APIFunctions saveLoan method to save loan data, then reload loans from db
+  function handleFormSubmit(event) {
+    event.preventDefault();
+    console.log(formObject.balance);
+    console.log(loanId);
+    if (formObject.balance) {
+      paymentAPIFunctions
+        .savePayment({
+          balance: formObject.balance,
+          loan_id: loanId,
+        })
+        .then((res) => loadPayments())
+        .catch((err) => console.log(err));
+    }
+  };
+
   return (
     <div>
-      <List>
-        {payments.map((payment) => (
-          <ListItem key={payment._id}>
-            <strong onClick={() => handleClick(payment._id)}>
-              {payment.balance} on {payment.date}
-            </strong>
-            <DeleteBtn onClick={() => deletePayment(payment._id)} />
-          </ListItem>
-        ))}
-      </List>
+      <div>
+        <List>
+          {payments.map((payment) => (
+            <ListItem key={payment._id}>
+              <strong onClick={() => handleClick(payment._id)}>
+                {payment.balance} on {payment.date}
+              </strong>
+              <DeleteBtn onClick={() => deletePayment(payment._id)} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
 
-      {payment ? (
-        <PaymentDetail balance={payment.balance} date={payment.date}>
-          {payment.balance}
-        </PaymentDetail>
-      ) : (
-        <h3>No Results to Display</h3>
-      )}
+      <div>
+        {payment ? (
+          <PaymentDetail balance={payment.balance} date={payment.date}>
+            {payment.balance}
+            
+          </PaymentDetail>
+        ) : (
+          <h3>No Results to Display</h3>
+        )}
+      </div>
+      <p>All Payments Total: {total}</p>
+      <div>
+        <form>
+          <Input
+            onChange={handleInputChange}
+            name="balance"
+            placeholder="Payment Amount (required)"
+          />
+          <FormBtn
+            disabled={!(formObject.balance)}
+            onClick={handleFormSubmit}
+          >
+            Submit Payment
+          </FormBtn>
+        </form>
+      </div>
 
       <Link to="/profile">← Back to Profile</Link>
     </div>

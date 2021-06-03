@@ -2,47 +2,40 @@ const db = require("../models");
 
 // Defining methods for the LoansController
 module.exports = {
-    findAll: function(req, res) {
-        db.Payment
-          .find(req.query)
-          .sort({ date: -1 })
-          .then(dbModel => res.json(dbModel))
-          .catch(err => res.status(422).json(err));
-      },
+  findAll: function (req, res) {
+    db.Payment.find(req.query)
+      .sort({ date: -1 })
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+  findById: function (req, res) {
+    db.Payment.findById(req.params.id)
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
 
+  // db.Payment.create(req.body)
 
-      find: function(req, res) {
-        db.Payment
-          .find({ loan_id: req.body.query })
-          .sort({ date: -1 })
-          .then(dbModel => res.json(dbModel))
-          .catch(err => res.status(422).json(err));
-      },
+  // db.Payment.create({
+  //   balance: req.body.balance,
+  //   date: Date.now(),
+  //   loan_id: req.body.loan_id
+  // })
 
-      
-      findById: function(req, res) {
-        db.Payment
-        .findById(req.params.id)
-        .then(dbModel => res.json(dbModel))
-        .catch(err => res.status(422).json(err));
-      },
-      create: function(req, res) {
-        db.Payment
-        .create(req.body)
-        .then(dbModel => res.json(dbModel))
-        .catch(err => res.status(422).json(err));
-      },
-      update: function(req, res) {
-        db.Payment
-        .findOneAndUpdate({ _id: req.params.id }, req.body)
-        .then(dbModel => res.json(dbModel))
-        .catch(err => res.status(422).json(err));
-      },
-      remove: function(req, res) {
-        db.Payment
-        .findById({ _id: req.params.id })
-        .then(dbModel => dbModel.remove())
-        .then(dbModel => res.json(dbModel))
-        .catch(err => res.status(422).json(err))
-      }
+  create: function (req, res) {
+    db.Payment.create(req.body)
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+  update: function (req, res) {
+    db.Payment.findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+  remove: function (req, res) {
+    db.Payment.findById({ _id: req.params.id })
+      .then((dbModel) => dbModel.remove())
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
 };

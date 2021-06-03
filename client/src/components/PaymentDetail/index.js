@@ -4,8 +4,8 @@ import "./style.css";
 function PaymentDetail({ balance, date }) {
   return (
     <div>
-      <h2>{date}</h2>
-      <h3>Balance: ${balance}</h3>
+      <h3>This Payment: ${balance}</h3>
+      <h4>Made on: {date}</h4>
     </div>
   );
 }

@@ -9,6 +9,7 @@ const loanSchema = new Schema({
   date: {
     type: Date,
     default: Date.now,
+    required: true
   },
   amount: {
     type: Number,
@@ -17,6 +18,7 @@ const loanSchema = new Schema({
   user_id: {
     ref: "User",
     type: Schema.Types.ObjectId,
+    required: true
   },
 });
 
