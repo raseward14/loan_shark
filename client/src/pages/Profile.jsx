@@ -9,6 +9,8 @@ import { List, ListItem } from "../components/List";
 import { Input, FormBtn } from "../components/Form";
 import DeleteBtn from "../components/DeleteBtn";
 import * as loanAPIFunctions from "../utils/LoanAPI";
+import * as paymentAPIFunctions from "../utils/PaymentAPI";
+
 
 // Commponents Import
 import V_PieChart from "../components/V_PieChart/index";
@@ -18,12 +20,14 @@ import V_ProgressWheel from "../components/V_ProgressWheel";
 
 import logo from "../img/loansharklogo.png";
 
-function Profile() {
+function Profile(props) {
   //----------------------------------------------------------//
   
     const [loans, setLoans] = useState([]);
+    const [payments, setPayments] = useState([]);
+    const [count, setCount] = useState();
     const [loan, setLoan] = useState();
-    const [total, setTotal] = useState();
+    const [totalDebt, setTotalDebt] = useState();
     const [formObject, setFormObject] = useState({});
   
     // Load all loans, and default loan and store them with setLoans
@@ -31,6 +35,7 @@ function Profile() {
       let unmounted = false;
   
       if (!unmounted) {
+        loadPayments();
         loadLoans();
         loadLoan();
       };
@@ -63,7 +68,29 @@ function Profile() {
       const month = months[monthIndex];
       const day = yearMonthDay[2];
       return `${month} ${day}, ${year}`;
-    }
+    };
+
+  // loan all users loans
+  function loadPayments() {
+    paymentAPIFunctions
+      .getPayments()
+      .then((res) => {
+        let count = 0;
+        let paymentTotal = 0;
+        let resultsArray = res.data;
+        // for each payment, push matching loan_id to specific payments, and total their balances
+        resultsArray.forEach((result) => {
+            paymentTotal += result.balance;
+            count++;
+        });
+        // console.log(paymentTotal);
+        // setpayments lists only the matching loan_id payments
+        setPayments(paymentTotal);
+        setCount(count);
+      })
+      .catch((err) => console.log(err));
+  };
+
   
     // loan all users loans
     function loadLoans() {
@@ -79,7 +106,7 @@ function Profile() {
           // lists all loans for the user
           setLoans(resultsArray);
           // setTotal adds the result.amount of each loan for a total debt figure
-          setTotal(loanTotal);
+          setTotalDebt(loanTotal);
           if(!loan) {
             setLoan(loans[0]);
           } 
@@ -203,9 +230,10 @@ function Profile() {
             <Row>
               <Col xs="4">
                 <Card className="text-center p-3">
-                  <p>Payments made{total}</p>
+                  <p>Total Debt: {totalDebt}</p>
+                  <p>Total Payments: {payments}</p>
                   <hr className="hr" />
-                  <h2>13</h2>
+                  <h2>{count}</h2>
                 </Card>
               </Col>
 

@@ -26,6 +26,13 @@ const userSchema = new Schema({
   },
 });
 
+// npm i bcryptjs, bcrypt, jsonwebtoken, jwt-decode, mongoosejs-cli
+// userSchema.pre("save", async function(next) {
+// const hash = await bcrypt.hash(this.password, Number(bcryptSalt));
+// this.password = hash;
+// next();
+// })
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
