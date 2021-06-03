@@ -13,17 +13,16 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   user_name: {
     type: String,
-    allowNull: false,
-    defaultValue: false,
+    required:true
   },
   password: {
     type: String,
-    allowNull: false,
+    required: true
   },
   email: {
     type: String,
-    allowNull: false,
-    unique: true,
+    required: true,
+    unique: true
   },
 });
 
