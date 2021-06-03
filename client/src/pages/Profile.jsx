@@ -10,9 +10,6 @@ import { Input, FormBtn } from "../components/Form";
 import DeleteBtn from "../components/DeleteBtn";
 import * as loanAPIFunctions from "../utils/LoanAPI";
 
-
-
-
 // Commponents Import
 import V_PieChart from "../components/V_PieChart/index";
 import V_BarGraph from "../components/V_BarGraph/index";
