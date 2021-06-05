@@ -1,5 +1,10 @@
 import axios from "axios";
 
+// get a loans payments
+// const getLoanPayments = (query) => {
+//   return axios.get("/api/payments/" + query);
+// };
+
 // get all payments
 const getPayments = () => {
   return axios.get("/api/payments");
@@ -29,4 +34,5 @@ export {
   getPayments,
   savePayment,
   deletePayment,
+  // getLoanPayments
 };

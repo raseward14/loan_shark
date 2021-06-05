@@ -196,8 +196,8 @@ function Payments() {
           <h3>No Results to Display</h3>
         )}
       </div>
-      <p>All Payments Total: ${totalPaid}</p>
       <p>Total {loanName} Loan Amount: ${amountBorrowed}</p>
+      <p>All Payments Total: ${totalPaid}</p>
       <p>Remaining Balance: ${remainingBalance}</p>
       <div>
         <form>

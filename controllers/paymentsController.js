@@ -14,13 +14,14 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
 
-  // db.Payment.create(req.body)
-
-  // db.Payment.create({
-  //   balance: req.body.balance,
-  //   date: Date.now(),
-  //   loan_id: req.body.loan_id
-  // })
+  // find: function (req, res) {
+  //   db.Payment.find({
+  //     "loan_id": req.body
+  //   })
+  //     .sort({ date: -1 })
+  //     .then((dbModel) => res.json(dbModel))
+  //     .catch((err) => res.status(422).json(err));
+  // },
 
   create: function (req, res) {
     db.Payment.create(req.body)
