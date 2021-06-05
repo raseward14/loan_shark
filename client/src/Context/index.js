@@ -33,7 +33,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("userInfo");
     localStorage.removeItem("expiresAt");
     setAuthState({});
-    history.push("/signin");
+    history.push("/login");
   };
 
   const isAuthenticated = () => {

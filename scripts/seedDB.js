@@ -14,9 +14,14 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/loanShark", {
 
 const seedAll = async () => {
   await db.User.deleteMany()
-    .then(() => db.User.collection.insertMany(userSeed))
+    .then(() => {
+      userSeed.map(async user => {
+        await db.User.create (user)
+      })
+    })
+    // db.User.collection.insertMany(userSeed))
     .then((data) => {
-      console.log(data.result.n + " user records inserted!");
+      console.log(" user records inserted!");
     })
     .catch((err) => {
       console.error(err);

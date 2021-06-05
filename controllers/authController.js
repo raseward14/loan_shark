@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const jwtDecode = require("jwt-decode");
-const { models } = require("../models");
+const { User } = require("../models");
 
 const createToken = (user) => {
   // Sign the JWT
@@ -25,8 +25,9 @@ const verifyPassword = (passwordAttempt, hashedPassword) => {
 const authPerson = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const person = await models.User.find({ email }).exec();
-
+    console.log(req.body);
+    const person = await User.find({ email }).exec();
+     console.log(typeof User);
     if (!person) {
       console.log("authPerson");
       return res.status(403).json({ message: "Wrong email or password." });

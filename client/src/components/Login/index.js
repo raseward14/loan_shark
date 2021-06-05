@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Form } from "reactstrap";
+import { Form, FormGroup, Label, Input } from "reactstrap";
 
 // Trying to import from local file
 import { FormBtn } from "../Form";
 
-import { Redirect }
-from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 
 import { SharkContext } from "../../Context";
 
@@ -36,6 +35,7 @@ const Login = () => {
           body: JSON.stringify(credentials), // body data type must match "Content-Type" header
         });
         const data = await fetchResponse.json();
+        console.log(data);
         authContext.setAuthState(data);
         setSignInSuccess(data.message);
         setSignInError(null);
@@ -58,23 +58,23 @@ const Login = () => {
   return (
     <div className="Login">
       <Form onSubmit={handleSubmit}>
-        <Form.Group size="lg" controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
+        <FormGroup size="lg">
+          <Label>Email</Label>
+          <Input
             autoFocus
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-        </Form.Group>
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
+        </FormGroup>
+        <FormGroup size="lg">
+          <Label>Password</Label>
+          <Input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </Form.Group>
+        </FormGroup>
         <FormBtn block size="lg" type="submit" disabled={!validateForm()}>
           Login
         </FormBtn>

@@ -1,4 +1,4 @@
-import React, { Suspense, useContect, useContext } from "react";
+import React, { Suspense, useContext } from "react";
 import "./App.css";
 
 // Imports Authentication context
@@ -8,7 +8,6 @@ import { AuthProvider, SharkContext } from "./Context";
 // Imports Pages
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
-// import LoginPage from "./pages/Login";
 import Register from "./pages/Register";
 import Four from "./pages/Four";
 import Payments from "./pages/Payments";
@@ -40,19 +39,6 @@ const UnauthRoute = () => (
   </>
 );
 
-const SharkRoutes = () => {
-  return (
-    <>
-    <Suspense fallback={<h1>Swimming with the fishes...</h1>}>
-      <Switch>
-        <AuthRoute path="/profile">
-        </AuthRoute>
-        <UnauthRoute />
-      </Switch>
-    </Suspense>
-    </>
-  );
-};
 
 
 
@@ -68,13 +54,13 @@ function App() {
           <Route exact path="/">
             <Homepage />
           </Route>
-          <Route exact path="/profile">
+         
+          <AuthRoute path="/profile">
             <Profile />
-          </Route>
-
-          <Route exact path="/payments/:id">
+          </AuthRoute>
+          <AuthRoute exact path="/payments/:id">
             <Payments />
-          </Route>
+          </AuthRoute>
 
           <Route exact path="/login">
             <Login />
