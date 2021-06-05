@@ -28,7 +28,7 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  const signout = () => {
+  const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userInfo");
     localStorage.removeItem("expiresAt");
