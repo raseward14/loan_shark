@@ -4,30 +4,41 @@ import { List, ListItem } from "../components/List";
 import DeleteBtn from "../components/DeleteBtn";
 import { Link, useParams } from "react-router-dom";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
+import * as loanAPIFunctions from "../utils/LoanAPI";
 import { Input, FormBtn } from "../components/Form";
+// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-function Payments(props) {
+function Payments() {
+  const [amountBorrowed, setAmountBorrowed] = useState(0);
+  const [loanName, setLoanName] = useState();
   const [payments, setPayments] = useState([]);
   const [payment, setPayment] = useState({});
-  const [total, setTotal] = useState();
+  const [totalPaid, setTotalPaid] = useState(0);
+  const [remainingBalance, setRemainingBalance] = useState(0);
   const [formObject, setFormObject] = useState({});
+
+  // const { buttonLabel, className } = props;
+
+  // const [modal, setModal] = useState(false);
 
   const { id } = useParams();
   const query = { id }; // {id: "lasdjfa;slkfj"}
   const loanId = Object.values(query).toString(); // "lkajsdf;oijf"
 
   useEffect(() => {
-    let unmounted = false;
+    // let unmounted = false;
 
-    if (!unmounted) {
-      loadPayments();
-      loadPayment();
-    }
+    // if (!unmounted) {
+    loadLoan(loanId);
+    loadPayments();
+    loadPayment();
 
-    return () => {
-      unmounted = true;
-    };
-  });
+    // }
+
+    // return () => {
+    //   unmounted = true;
+    // };
+  }, [amountBorrowed]);
 
   // format date
   function formatDate(dateString) {
@@ -53,13 +64,30 @@ function Payments(props) {
     const month = months[monthIndex];
     const day = yearMonthDay[2];
     return `${month} ${day}, ${year}`;
-  };
+  }
+
+  // pop up modal
+  // const toggle = () => setModal(!modal);
+
+  // expand clicked loan
+  function loadLoan(id) {
+    // console.log(id);
+    loanAPIFunctions
+      .getLoanById(id)
+      .then((res) => {
+        setAmountBorrowed(res.data.amount);
+        setLoanName(res.data.name)
+      })
+      .catch((err) => console.log(err));
+  }
 
   // loan all users loans
-  function loadPayments() {
+  async function loadPayments() {
     paymentAPIFunctions
       .getPayments()
       .then((res) => {
+        console.log(res);
+
         let paymentTotal = 0;
         let specificPayments = [];
         let resultsArray = res.data;
@@ -71,27 +99,31 @@ function Payments(props) {
             // push the matching payments to the array
             specificPayments.push(result);
             paymentTotal += result.balance;
-          } else {
-            return;
+            console.log("For Each");
           }
         });
         // setpayments lists only the matching loan_id payments
         setPayments(specificPayments);
         // setTotal adds the result.balance for each maching loan_id payment
-        setTotal(paymentTotal);
-        // console.log(payment);
-        if(!payment || payment === {}) {
+        setTotalPaid(paymentTotal);
+        console.log(paymentTotal);
+        // console.log(payments[0]);
+        // loadRemaining();
+        var result = amountBorrowed - paymentTotal;
+        console.log(amountBorrowed, paymentTotal, result);
+        setRemainingBalance(result);
+        if (!payment) {
           setPayment(payments[0]);
         }
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   function loadPayment() {
     if (!payment) {
       setPayment(payments[0]);
     }
-  };
+  }
 
   // delete payment
   function deletePayment(id) {
@@ -99,7 +131,7 @@ function Payments(props) {
       .deletePayment(id)
       .then(() => loadPayments())
       .catch((err) => console.log(err));
-  };
+  }
 
   // expand clicked loan
   function handleClick(id) {
@@ -114,13 +146,13 @@ function Payments(props) {
         // setFormObject();
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   // updates component state when the user types in input field
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-  };
+  }
 
   // when form is submitted, use APIFunctions saveLoan method to save loan data, then reload loans from db
   function handleFormSubmit(event) {
@@ -133,10 +165,12 @@ function Payments(props) {
           balance: formObject.balance,
           loan_id: loanId,
         })
-        .then((res) => loadPayments())
+        .then((res) => {
+          loadPayments();
+        })
         .catch((err) => console.log(err));
     }
-  };
+  }
 
   return (
     <div>
@@ -157,13 +191,14 @@ function Payments(props) {
         {payment ? (
           <PaymentDetail balance={payment.balance} date={payment.date}>
             {payment.balance}
-            
           </PaymentDetail>
         ) : (
           <h3>No Results to Display</h3>
         )}
       </div>
-      <p>All Payments Total: {total}</p>
+      <p>All Payments Total: ${totalPaid}</p>
+      <p>Total {loanName} Loan Amount: ${amountBorrowed}</p>
+      <p>Remaining Balance: ${remainingBalance}</p>
       <div>
         <form>
           <Input
@@ -171,16 +206,26 @@ function Payments(props) {
             name="balance"
             placeholder="Payment Amount (required)"
           />
-          <FormBtn
-            disabled={!(formObject.balance)}
-            onClick={handleFormSubmit}
-          >
+          <FormBtn disabled={!formObject.balance} onClick={handleFormSubmit}>
             Submit Payment
           </FormBtn>
         </form>
       </div>
 
       <Link to="/profile">← Back to Profile</Link>
+      {/* <div> */}
+      {/* <Button color="danger"></Button> */}
+      {/* <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalBody>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
+          <Button color="secondary" onClick={toggle}>Cancel</Button>
+        </ModalFooter>
+      </Modal> */}
+      {/* </div> */}
     </div>
   );
 }
