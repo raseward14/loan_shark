@@ -32,17 +32,17 @@ function Profile(props) {
   
     // Load all loans, and default loan and store them with setLoans
     useEffect(() => {
-      let unmounted = false;
+      // let unmounted = false;
   
-      if (!unmounted) {
+      // if (!unmounted) {
         loadPayments();
         loadLoans();
         loadLoan();
-      };
+      // };
   
-      return () => {
-        unmounted = true;
-      };
+      // return () => {
+      //   unmounted = true;
+      // };
     });
   
     function formatDate(dateString) {
