@@ -43,7 +43,7 @@ function Profile(props) {
       // return () => {
       //   unmounted = true;
       // };
-    });
+    }, [loans]);
   
     function formatDate(dateString) {
       const months = [

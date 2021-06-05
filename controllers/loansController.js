@@ -26,10 +26,13 @@ module.exports = {
   remove: function (req, res, next) {
     db.Loan.findById({ _id: req.params.id }, function(err, loan) {
       db.Payment.remove({
-        "loan_id": loan._id
+        "loan_id": {
+          $in: loan._id
+        }
       }, function(err) {
         if(err) return next(err);
-      })
+      });
+      if(err) return next(err);
     })
       .then((dbModel) => dbModel.remove())
       .then((dbModel) => res.json(dbModel))
