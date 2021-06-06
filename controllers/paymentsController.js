@@ -9,6 +9,7 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
+  // find returns queried payments
   find: function (req, res) {
     const query = req.query;
     db.Payment.find(query)

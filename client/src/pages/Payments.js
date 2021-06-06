@@ -22,7 +22,7 @@ function Payments() {
 
   const { id } = useParams();
   const loanid = Object.values({ id }).toString(); // "lkajsdf;oijf"
-
+  // var result;
 
   useEffect(() => {
     loadLoan(loanid);
@@ -65,15 +65,50 @@ function Payments() {
       .getLoanById(loanid)
       .then((res) => {
         setAmountBorrowed(res.data.amount);
-        setLoanName(res.data.name)
+        setLoanName(res.data.name);
       })
       .catch((err) => console.log(err));
+  }
+
+  // checks to see if a loans remaining balance is less than or equal to zero
+  function checkIfPaid(difference) {
+    console.log(difference);
+    if(difference <= 0) {
+    loanAPIFunctions
+    .deleteLoan(loanid)
+    .then(() => {
+          window.alert("Success! Loan fully paid.")
+          // redirect to profile page
+    })
+    .catch((err) => console.log(err));
+  }
   };
+
+  // async function loadPayments(loanid) {
+  //     try {
+  //           let paymentTotal = 0;
+  //           const res = await paymentAPIFunctions.getPaymentsByLoanId(loanid);
+  //           var paymentResultsArray = await res.data;
+  //           var formattedDateArray = await paymentResultsArray.map((result) => (result.date = formatDate(result.date)));
+  //           await formattedDateArray.forEach((result) => { paymentTotal += result.balance });
+  //           let result = await (amountBorrowed - paymentTotal);
+  //           setPayments(paymentResultsArray);
+  //           setTotalPaid(paymentTotal);
+  //           setRemainingBalance(result);
+  //           console.log(paymentTotal);
+  //           checkIfPaid(result)
+  //           if (!payment) {
+  //             setPayment(payments[0]);
+  //           }
+  //     } catch (err) {
+  //           console.log(err);
+  //     }
+  // }
 
   // query payments by loanid
   function loadPayments(loanid) {
     paymentAPIFunctions
-      .getPaymentss(loanid)
+      .getPaymentsByLoanId(loanid)
       .then((res) => {
         // data array will only have the payments for this loan
         console.log(res);
@@ -81,13 +116,16 @@ function Payments() {
         let paymentTotal = 0;
         let paymentResultsArray = res.data;
         // format date of every payment, and sum all payments
-        paymentResultsArray.map((result) => (result.date = formatDate(result.date)));
+        paymentResultsArray.map(
+          (result) => (result.date = formatDate(result.date))
+        );
         paymentResultsArray.forEach((result) => {
-            paymentTotal += result.balance;
+          paymentTotal += result.balance;
         });
         // calculate difference between payment sum, and amount borrowed
         var result = amountBorrowed - paymentTotal;
         console.log(amountBorrowed, paymentTotal, result);
+        // checkIfPaid(result);
         // setPayments lists payments from array, setTotalPaid is sum of all payments, setRemainingBalance with the difference btw amountBorrowed and sum of all payments
         setPayments(paymentResultsArray);
         setTotalPaid(paymentTotal);
@@ -96,14 +134,15 @@ function Payments() {
           setPayment(payments[0]);
         }
       })
+      // .then(() => checkIfPaid())
       .catch((err) => console.log(err));
-  };
+  }
 
   function loadPayment() {
     if (!payment) {
       setPayment(payments[0]);
     }
-  };
+  }
 
   // delete payment
   function deletePayment(id) {
@@ -134,7 +173,7 @@ function Payments() {
     setFormObject({ ...formObject, [name]: value });
   }
 
-  // when form is submitted, use APIFunctions saveLoan method to save loan data, then reload loans from db
+  // each time submit payment is clicked, save payment, then check to see if the loan is paid
   function handleFormSubmit(event) {
     event.preventDefault();
     console.log(formObject.balance);
@@ -176,7 +215,9 @@ function Payments() {
           <h3>No Results to Display</h3>
         )}
       </div>
-      <p>Total {loanName} Loan Amount: ${amountBorrowed}</p>
+      <p>
+        Total {loanName} Loan Amount: ${amountBorrowed}
+      </p>
       <p>All Payments Total: ${totalPaid}</p>
       <p>Remaining Balance: ${remainingBalance}</p>
       <div>

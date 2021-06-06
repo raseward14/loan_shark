@@ -1,18 +1,13 @@
 import axios from "axios";
 
 // get all payments can be queried
-const getPayments = () => {
+const getAllPayments = () => {
   return axios.get("/api/payments");
 };
-
-
 // get paymentss can be queried
-const getPaymentss = (query) => {
+const getPaymentsByLoanId = (query) => {
   return axios.get("/api/payments?loan_id=" + query);
 };
-
-
-
 // get a payment
 const getPaymentById = (id) => {
   return axios.get("/api/payments/" + id);
@@ -31,4 +26,4 @@ const deletePayment = (id) => {
 //     return axios.put("/api/payments/" + id)
 // },
 
-export { getPaymentById, getPayments, savePayment, deletePayment, getPaymentss };
+export { getPaymentById, getAllPayments, savePayment, deletePayment, getPaymentsByLoanId };

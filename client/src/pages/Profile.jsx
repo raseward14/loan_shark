@@ -65,7 +65,7 @@ function Profile() {
   function loadPayments() {
     // get all payments from db
     paymentAPIFunctions
-      .getPayments()
+      .getAllPayments()
       .then((res) => {
         // initialize a payment count, total, and array
         let count = 0;
