@@ -14,6 +14,8 @@ flaviocopes Connect React to Server https://flaviocopes.com/how-to-serve-react-f
 CSS Tricks https://css-tricks.com/everything-you-need-to-know-about-date-in-javascript/
 JS String Tutorial https://www.javascripttutorial.net/javascript-string-split/#:~:text=JavaScript%20String%20split%20%28%29%201%20Introduction%20to%20the,JavaScript%20split%20%28%29%20examples.%20...%205%20Summary.%20
 Owen Conti Unmounted Component Tutorial https://www.youtube.com/watch?v=a7uPQ10UyM0
+express.js documentation https://expressjs.com/en/guide/routing.html
+MongoDB full tutorial freeCodeCamp.org https://www.youtube.com/watch?v=4yqu8YF29cU
 
 ## Available Scripts
 
