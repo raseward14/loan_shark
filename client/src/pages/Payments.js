@@ -6,11 +6,9 @@ import { Link, useParams } from "react-router-dom";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
 import * as loanAPIFunctions from "../utils/LoanAPI";
 import { Input, FormBtn } from "../components/Form";
-// import Profile from "./Profile";
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 function Payments() {
-  // console.log(Profile.loan)
   const [amountBorrowed, setAmountBorrowed] = useState(0);
   const [loanName, setLoanName] = useState();
   const [payments, setPayments] = useState([]);
@@ -20,28 +18,16 @@ function Payments() {
   const [formObject, setFormObject] = useState({});
 
   // const { buttonLabel, className } = props;
-
   // const [modal, setModal] = useState(false);
 
   const { id } = useParams();
-  const query = { id }; // {id: "lasdjfa;slkfj"}
-  const paymentQuery = {loan_id: id}
-  console.log(paymentQuery);
-  const loanid = Object.values(query).toString(); // "lkajsdf;oijf"
+  const loanid = Object.values({ id }).toString(); // "lkajsdf;oijf"
+
 
   useEffect(() => {
-    // let unmounted = false;
-
-    // if (!unmounted) {
     loadLoan(loanid);
-    loadPayments(paymentQuery);
+    loadPayments(loanid);
     loadPayment();
-
-    // }
-
-    // return () => {
-    //   unmounted = true;
-    // };
   }, [amountBorrowed]);
 
   // format date
@@ -73,11 +59,10 @@ function Payments() {
   // pop up modal
   // const toggle = () => setModal(!modal);
 
-  // expand clicked loan
-  function loadLoan(id) {
-    // console.log(id);
+  // get loan by id, setAmountBorrowed, and setLoanName
+  function loadLoan(loanid) {
     loanAPIFunctions
-      .getLoanById(id)
+      .getLoanById(loanid)
       .then((res) => {
         setAmountBorrowed(res.data.amount);
         setLoanName(res.data.name)
@@ -85,104 +70,46 @@ function Payments() {
       .catch((err) => console.log(err));
   };
 
-
-  // async function loadPayments(id) {
-  //   const query = {loan_id: id}
-  //   console.log(query);
-  //   paymentAPIFunctions
-  //     .getLoanPayments(query)
-  //     .then((res) => {
-  //       console.log(res);
-
-  //       let paymentTotal = 0;
-  //       // let specificPayments = [];
-  //       let resultsArray = res.data;
-  //       // format date of every payment
-  //       resultsArray.map((result) => (result.date = formatDate(result.date)));
-  //       // for each payment, push matching loan_id to specific payments, and total their balances
-  //       // resultsArray.forEach((result) => {
-  //       //   if (result.loan_id === loanId) {
-  //       //     // push the matching payments to the array
-  //       //     specificPayments.push(result);
-  //       //     paymentTotal += result.balance;
-  //       //     console.log("For Each");
-  //       //   }
-  //       // });
-  //       // setpayments lists only the matching loan_id payments
-  //       setPayments(resultsArray);
-  //       // setTotal adds the result.balance for each maching loan_id payment
-  //       setTotalPaid(paymentTotal);
-  //       console.log(paymentTotal);
-  //       // console.log(payments[0]);
-  //       // loadRemaining();
-  //       var result = amountBorrowed - paymentTotal;
-  //       console.log(amountBorrowed, paymentTotal, result);
-  //       setRemainingBalance(result);
-  //       if (!payment) {
-  //         setPayment(payments[0]);
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
-
-
-
-
-
-
-
-
-  // load all users loans
-  async function loadPayments(thisquery) {
-    // const query = {loan_id: id}
-    console.log(thisquery);
+  // query payments by loanid
+  function loadPayments(loanid) {
     paymentAPIFunctions
-      .getPayments(thisquery)
+      .getPaymentss(loanid)
       .then((res) => {
+        // data array will only have the payments for this loan
         console.log(res);
-
+        // initialize a paymentTotal, and resultsArray
         let paymentTotal = 0;
-        let specificPayments = [];
-        let resultsArray = res.data;
-        // format date of every payment
-        resultsArray.map((result) => (result.date = formatDate(result.date)));
-        // for each payment, push matching loan_id to specific payments, and total their balances
-        resultsArray.forEach((result) => {
-          if (result.loan_id === loanid) {
-            // push the matching payments to the array
-            specificPayments.push(result);
+        let paymentResultsArray = res.data;
+        // format date of every payment, and sum all payments
+        paymentResultsArray.map((result) => (result.date = formatDate(result.date)));
+        paymentResultsArray.forEach((result) => {
             paymentTotal += result.balance;
-            console.log("For Each");
-          }
         });
-        // setpayments lists only the matching loan_id payments
-        setPayments(specificPayments);
-        // setTotal adds the result.balance for each maching loan_id payment
-        setTotalPaid(paymentTotal);
-        console.log(paymentTotal);
-        // console.log(payments[0]);
-        // loadRemaining();
+        // calculate difference between payment sum, and amount borrowed
         var result = amountBorrowed - paymentTotal;
         console.log(amountBorrowed, paymentTotal, result);
+        // setPayments lists payments from array, setTotalPaid is sum of all payments, setRemainingBalance with the difference btw amountBorrowed and sum of all payments
+        setPayments(paymentResultsArray);
+        setTotalPaid(paymentTotal);
         setRemainingBalance(result);
         if (!payment) {
           setPayment(payments[0]);
         }
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   function loadPayment() {
     if (!payment) {
       setPayment(payments[0]);
     }
-  }
+  };
 
   // delete payment
   function deletePayment(id) {
     paymentAPIFunctions
       .deletePayment(id)
-      .then(() => loadPayments())
+      .then(() => loadPayments(loanid))
       .catch((err) => console.log(err));
   }
 
@@ -218,8 +145,8 @@ function Payments() {
           balance: formObject.balance,
           loan_id: loanid,
         })
-        .then((res) => {
-          loadPayments();
+        .then(() => {
+          loadPayments(loanid);
         })
         .catch((err) => console.log(err));
     }

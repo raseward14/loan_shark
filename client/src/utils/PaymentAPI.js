@@ -1,38 +1,34 @@
 import axios from "axios";
 
-// get a loans payments
-// const getLoanPayments = (query) => {
-//   return axios.get("/api/payments/" + query);
-// };
-
-// get all payments
+// get all payments can be queried
 const getPayments = () => {
   return axios.get("/api/payments");
 };
+
+
+// get paymentss can be queried
+const getPaymentss = (query) => {
+  return axios.get("/api/payments?loan_id=" + query);
+};
+
+
 
 // get a payment
 const getPaymentById = (id) => {
   return axios.get("/api/payments/" + id);
 };
 // save a payment
-// payment data is balance number
-// date and loan_id are set
+// date and loan_id are created for us
 const savePayment = (paymentData) => {
-    return axios.post("/api/payments", paymentData);
-  };
+  return axios.post("/api/payments", paymentData);
+};
 // delete a payment
 const deletePayment = (id) => {
-    return axios.delete("/api/payments/" + id);
-  };
+  return axios.delete("/api/payments/" + id);
+};
 // update a payment
 // updatePayment: function(id) {
 //     return axios.put("/api/payments/" + id)
 // },
 
-export {
-  getPaymentById,
-  getPayments,
-  savePayment,
-  deletePayment,
-  // getLoanPayments
-};
+export { getPaymentById, getPayments, savePayment, deletePayment, getPaymentss };

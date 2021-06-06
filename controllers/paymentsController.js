@@ -2,40 +2,25 @@ const db = require("../models");
 
 // Defining methods for the LoansController
 module.exports = {
-  // findAll: function (req, res) {
-  //   db.Payment.find(req.query)
-  //     .sort({ date: -1 })
-  //     .then((dbModel) => res.json(dbModel))
-  //     .catch((err) => res.status(422).json(err));
-  // },
-
-
+  // findAll returns all payments
   findAll: function (req, res) {
+    db.Payment.find(req.query)
+      .sort({ date: -1 })
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+  find: function (req, res) {
     const query = req.query;
     db.Payment.find(query)
       .sort({ date: -1 })
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
-
-  // find: function (req, res) {
-  //   const query = req.query
-  //   db.Payment.find(query)
-  //     .sort({ date: -1 })
-  //     .then((dbModel) => res.json(dbModel))
-  //     .catch((err) => res.status(422).json(err));
-  // },
-
   findById: function (req, res) {
     db.Payment.findById(req.params.id)
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
-
-
-
-
-
   create: function (req, res) {
     db.Payment.create(req.body)
       .then((dbModel) => res.json(dbModel))

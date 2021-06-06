@@ -67,20 +67,17 @@ function Profile() {
     paymentAPIFunctions
       .getPayments()
       .then((res) => {
-        // initialize a count to total the number of all payments made
+        // initialize a payment count, total, and array
         let count = 0;
-        // initialize a paymentTotal to sum all payments made
         let paymentTotal = 0;
-        // all payments in resultsArray
-        let resultsArray = res.data;
+        let paymentResultsArray = res.data;
         // for each payment, increase count by 1, and add the payment to the total
-        resultsArray.forEach((result) => {
+        paymentResultsArray.forEach((result) => {
             paymentTotal += result.balance;
             count++;
         });
-        // setPayments with total of all payments
+        // setPayments with total of all payments, setCount with a count of every payment
         setPayments(paymentTotal);
-        // setCount with a count of every payment made
         setCount(count);
       })
       .catch((err) => console.log(err));
@@ -93,19 +90,16 @@ function Profile() {
       loanAPIFunctions
         .getLoans()
         .then((res) => {
-          // initialize a loan total to sum all loans
+          // initialize a loan total, and array
           let loanTotal = 0;
-          // all loans in resultsArray
-          let resultsArray = res.data;
-          // format each result.date in resultsArray
-          resultsArray.map((result) => (result.date = formatDate(result.date)));
-          // for each loan, add to total sum borrowed
-          resultsArray.forEach((result) => {
+          let loanResultsArray = res.data;
+          // format each results date, and sum all loans
+          loanResultsArray.map((result) => (result.date = formatDate(result.date)));
+          loanResultsArray.forEach((result) => {
             loanTotal += result.amount;
           })
-          // setLoans lists all loans for the user
-          setLoans(resultsArray);
-          // setTotalDebt with the sum of all loans
+          // setLoans lists all loans from the array, setTotalDebt with the sum of all loans
+          setLoans(loanResultsArray);
           setTotalDebt(loanTotal);
           if(!loan) {
             setLoan(loans[0]);
@@ -128,9 +122,8 @@ function Profile() {
         .catch((err) => console.log(err));
     }
   
-    // expand clicked loan
+    // get loan by id, format the date
     function handleClick(id) {
-      // get loan by id, format the date
       loanAPIFunctions
         .getLoanById(id)
         .then((res) => {
@@ -148,7 +141,7 @@ function Profile() {
       setFormObject({ ...formObject, [name]: value });
     }
   
-    // when form is submitted, use APIFunctions saveLoan method to save loan data, then reload all loans from db
+    // when form is submitted, save loan amount and name
     function handleFormSubmit(event) {
       event.preventDefault();
       if (formObject.name && formObject.amount) {
