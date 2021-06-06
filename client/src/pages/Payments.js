@@ -6,9 +6,11 @@ import { Link, useParams } from "react-router-dom";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
 import * as loanAPIFunctions from "../utils/LoanAPI";
 import { Input, FormBtn } from "../components/Form";
+// import Profile from "./Profile";
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 function Payments() {
+  // console.log(Profile.loan)
   const [amountBorrowed, setAmountBorrowed] = useState(0);
   const [loanName, setLoanName] = useState();
   const [payments, setPayments] = useState([]);
@@ -23,14 +25,16 @@ function Payments() {
 
   const { id } = useParams();
   const query = { id }; // {id: "lasdjfa;slkfj"}
-  const loanId = Object.values(query).toString(); // "lkajsdf;oijf"
+  const paymentQuery = {loan_id: id}
+  console.log(paymentQuery);
+  const loanid = Object.values(query).toString(); // "lkajsdf;oijf"
 
   useEffect(() => {
     // let unmounted = false;
 
     // if (!unmounted) {
-    loadLoan(loanId);
-    loadPayments();
+    loadLoan(loanid);
+    loadPayments(paymentQuery);
     loadPayment();
 
     // }
@@ -79,12 +83,61 @@ function Payments() {
         setLoanName(res.data.name)
       })
       .catch((err) => console.log(err));
-  }
+  };
 
-  // loan all users loans
-  async function loadPayments() {
+
+  // async function loadPayments(id) {
+  //   const query = {loan_id: id}
+  //   console.log(query);
+  //   paymentAPIFunctions
+  //     .getLoanPayments(query)
+  //     .then((res) => {
+  //       console.log(res);
+
+  //       let paymentTotal = 0;
+  //       // let specificPayments = [];
+  //       let resultsArray = res.data;
+  //       // format date of every payment
+  //       resultsArray.map((result) => (result.date = formatDate(result.date)));
+  //       // for each payment, push matching loan_id to specific payments, and total their balances
+  //       // resultsArray.forEach((result) => {
+  //       //   if (result.loan_id === loanId) {
+  //       //     // push the matching payments to the array
+  //       //     specificPayments.push(result);
+  //       //     paymentTotal += result.balance;
+  //       //     console.log("For Each");
+  //       //   }
+  //       // });
+  //       // setpayments lists only the matching loan_id payments
+  //       setPayments(resultsArray);
+  //       // setTotal adds the result.balance for each maching loan_id payment
+  //       setTotalPaid(paymentTotal);
+  //       console.log(paymentTotal);
+  //       // console.log(payments[0]);
+  //       // loadRemaining();
+  //       var result = amountBorrowed - paymentTotal;
+  //       console.log(amountBorrowed, paymentTotal, result);
+  //       setRemainingBalance(result);
+  //       if (!payment) {
+  //         setPayment(payments[0]);
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
+
+
+
+
+
+
+
+
+  // load all users loans
+  async function loadPayments(thisquery) {
+    // const query = {loan_id: id}
+    console.log(thisquery);
     paymentAPIFunctions
-      .getPayments()
+      .getPayments(thisquery)
       .then((res) => {
         console.log(res);
 
@@ -95,7 +148,7 @@ function Payments() {
         resultsArray.map((result) => (result.date = formatDate(result.date)));
         // for each payment, push matching loan_id to specific payments, and total their balances
         resultsArray.forEach((result) => {
-          if (result.loan_id === loanId) {
+          if (result.loan_id === loanid) {
             // push the matching payments to the array
             specificPayments.push(result);
             paymentTotal += result.balance;
@@ -158,12 +211,12 @@ function Payments() {
   function handleFormSubmit(event) {
     event.preventDefault();
     console.log(formObject.balance);
-    console.log(loanId);
+    console.log(loanid);
     if (formObject.balance) {
       paymentAPIFunctions
         .savePayment({
           balance: formObject.balance,
-          loan_id: loanId,
+          loan_id: loanid,
         })
         .then((res) => {
           loadPayments();
