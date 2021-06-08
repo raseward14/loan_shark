@@ -1,14 +1,11 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-// const bcrypt = require('bcrypt');
+// const Schema = mongoose.Schema;
 
-// class User extends Model {
-//   checkPassword(loginPw) {
-//     const result = bcrypt.compareSync(loginPw, this.password);
-//     console.log(result);
-//     return result;
-//   }
-// }
+const { Schema } = mongoose;
+mongoose.Promise = global.Promise;
+
+const bcrypt = require('bcrypt');
+
 
 const userSchema = new Schema({
   user_name: {
@@ -26,13 +23,18 @@ const userSchema = new Schema({
   },
 });
 
-// npm i bcryptjs, bcrypt, jsonwebtoken, jwt-decode, mongoosejs-cli
-// userSchema.pre("save", async function(next) {
-// const hash = await bcrypt.hash(this.password, Number(bcryptSalt));
-// this.password = hash;
-// next();
-// })
+userSchema.pre("save", function(next) {
+  const bcryptSalt= 10;
+  const hash = bcrypt.hash(this.password, Number(bcryptSalt));
+  this.password = hash;
+  next();
+});
 
-const User = mongoose.model("User", userSchema);
+
+// module.exports=mongoose.models.User || mongoose.model('User', userSchema);
+
+
+const User = mongoose.model("user", userSchema);
+
 
 module.exports = User;

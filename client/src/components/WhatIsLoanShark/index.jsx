@@ -1,4 +1,4 @@
-import { Container, Row, Col, CardHeader, Card, CardText } from "reactstrap";
+// import { Container, Row, Col, CardHeader, Card, CardText } from "reactstrap";
 import "./style.css";
 
 function WhatIsLoanShark() {
@@ -62,7 +62,7 @@ function WhatIsLoanShark() {
         </div>
       </section>
 
-      {/* A foe footer */}
+      {/* A faux footer */}
       <section className="footer">
         <h1>Want to Join?</h1>
         <article>

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { Suspense, useContext } from "react";
 import "./App.css";
-// ---------------------------------------------------- COMMENTED OUT
-// import { SharkContext } from "./Context";
-// ---------------------------------------------------- COMMENTED OUT
+
+// Imports Authentication context
+import { AuthProvider, SharkContext } from "./Context";
+
 
 // Imports Pages
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
-import LoginPage from "./pages/Login";
 import Register from "./pages/Register";
 import Four from "./pages/Four";
 import Payments from "./pages/Payments";
@@ -15,19 +15,37 @@ import Payments from "./pages/Payments";
 
 // Imports Components
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+// import Footer from "./components/Footer";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import Login from "./components/Login";
+
+const AuthRoute = ({ children, ...rest}) => {
+  const auth = useContext(SharkContext);
+  return (
+    <Route {...rest} render={() => (auth.isAuthenticated() ? <div>{children}</div> : <Redirect to="/" />)}></Route>
+  );
+};
+
+const UnauthRoute = () => (
+  <>
+  <Switch>
+    <Route path="/">
+      <Login />
+    </Route>
+    <Route path="/login">
+      <Login />
+    </Route>
+  </Switch>
+  </>
+);
+
+
+
+
 
 function App() {
-  // ---------------------------------------------------- COMMENTED OUT
-  // const [token, setToken] = useState();
-  // if(!token) {
-  //   return <Login setToken={setToken} />
-  // }
-  // const [isAuthenticated, userHasAuthenticated] = useState(false);
-  //  // ---------------------------------------------------- COMMENTED OUT
   return (
-    // <SharkContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+  <AuthProvider>
     <Router>
       <div className="App">
         <Navbar />
@@ -36,17 +54,17 @@ function App() {
           <Route exact path="/">
             <Homepage />
           </Route>
-          <Route exact path="/profile">
+         
+          <AuthRoute path="/profile">
             <Profile />
-          </Route>
-
-          <Route exact path="/payments/:id">
+          </AuthRoute>
+          <AuthRoute exact path="/payments/:id">
             <Payments />
-          </Route>
+          </AuthRoute>
 
-          {/* <Route exact path="/login">
+          <Route exact path="/login">
             <Login />
-          </Route> */}
+          </Route>
           
           <Route exact path="/register">
             <Register />
@@ -58,9 +76,7 @@ function App() {
         </Switch>
       </div>
     </Router>
-    // ---------------------------------------------------- COMMENTED OUT
-    // </SharkContext.Provider>
-    // ---------------------------------------------------- COMMENTED OUT
+  </AuthProvider>
   );
 }
 
