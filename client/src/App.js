@@ -1,21 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 // ---------------------------------------------------- COMMENTED OUT
 // import { SharkContext } from "./Context";
 // ---------------------------------------------------- COMMENTED OUT
 
 // Imports Pages
+
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
-import LoginPage from "./pages/Login";
+// import LoginPage from "./pages/Login";
 import Register from "./pages/Register";
 import Four from "./pages/Four";
 import Payments from "./pages/Payments";
 
-
 // Imports Components
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -47,13 +46,12 @@ function App() {
           {/* <Route exact path="/login">
             <Login />
           </Route> */}
-          
+
           <Route exact path="/register">
             <Register />
           </Route>
           <Route path="*">
             <Four />
-
           </Route>
         </Switch>
       </div>

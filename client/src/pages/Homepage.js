@@ -1,6 +1,5 @@
 // import React, { useState, useEffect } from "react";
 import Jumbo from "../components/Jumbotron/index";
-import Introduction from "../components/Introduction/index";
 import WhatIsLoanShark from "../components/WhatIsLoanShark/index";
 
 // import API from "../utils/API";
