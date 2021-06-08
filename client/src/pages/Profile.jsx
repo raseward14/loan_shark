@@ -24,14 +24,24 @@ function Profile() {
     const [loan, setLoan] = useState();
     const [totalDebt, setTotalDebt] = useState();
     const [formObject, setFormObject] = useState({});
+    const [percentage, setPercentage] = useState('');
   
     // loadPayments sets the count of all payments made, and the total from those payments
-    // loadLoans sets
+    // loadLoans sets loads all loans, and the loadLoan updates every time a user clicks a different loan
     useEffect(() => {
         loadPayments();
         loadLoans();
         loadLoan();
     }, [loans]);
+
+    // if loan & payment, calculate wheel. recalculates on loan delete and create
+    useEffect(() => {
+      if(payments && totalDebt) {
+        setPercentage(Math.floor((payments / totalDebt)*100))
+      } else {
+        setPercentage(0);
+      }
+    });
 
   function formatDate(dateString) {
     const months = [
@@ -98,18 +108,15 @@ function Profile() {
           // setLoans lists all loans from the array, setTotalDebt with the sum of all loans
           setLoans(loanResultsArray);
           setTotalDebt(loanTotal);
-          if(!loan) {
-            setLoan(loans[0]);
-          } 
         })
         .catch((err) => console.log(err));
-    }
+    };
   
     function loadLoan() {
       if (!loan) {
         setLoan(loans[0]);
-      }
-    }
+      } 
+    };
   
     // delete loan
     function deleteLoan(id) {
@@ -117,7 +124,7 @@ function Profile() {
         .deleteLoan(id)
         .then(() => loadLoans())
         .catch((err) => console.log(err));
-    }
+    };
   
     // get loan by id, format the date
     function handleClick(id) {
@@ -129,17 +136,16 @@ function Profile() {
           setLoan(res.data);
           // setFormObject();
         })
-        .then((res) => loadLoans())
         .catch((err) => console.log(err));
-    }
+    };
   
     // updates component state when the user types in input field
     function handleInputChange(event) {
       const { name, value } = event.target;
       setFormObject({ ...formObject, [name]: value });
-    }
+    };
   
-    // when form is submitted, save loan amount and name
+    // when form is submitted, save loan amount and name, then reload loan list
     function handleFormSubmit(event) {
       event.preventDefault();
       if (formObject.name && formObject.amount) {
@@ -149,10 +155,10 @@ function Profile() {
             amount: formObject.amount,
             user_id: "60adb73bc60ad5599803dbfd"
           })
-          .then((res) => loadLoans())
+          .then(() => loadLoans())
           .catch((err) => console.log(err));
       }
-    }
+    };
 
   return (
     <>
@@ -213,9 +219,8 @@ function Profile() {
                 <V_BarGraph />
               </div> */}
               <div className="graph-size">
-                // eslint-disable-next-line react/jsx-pascal-case
                 <V_ProgressWheel
-                  percent={Math.floor((payments / totalDebt) * 100)}
+                  percent={percentage}
                 />
               </div>
             </div>

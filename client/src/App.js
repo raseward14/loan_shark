@@ -62,12 +62,20 @@ function App() {
               <Homepage />
             </Route>
 
-            <AuthRoute path="/profile">
+            {/* <AuthRoute path="/profile"> */}
+            <Route path="/profile">
+
               <Profile />
-            </AuthRoute>
-            <AuthRoute exact path="/payments/:id">
+              </Route>
+
+            {/* </AuthRoute> */}
+
+            {/* <AuthRoute exact path="/payments/:id"> */}
+            <Route exact path="/payments/:id">
               <Payments />
-            </AuthRoute>
+            </Route>
+            {/* </AuthRoute> */}
+
 
             <Route exact path="/login">
               <Login />
