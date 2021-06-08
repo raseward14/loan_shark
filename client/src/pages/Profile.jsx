@@ -11,13 +11,10 @@ import DeleteBtn from "../components/DeleteBtn";
 import * as loanAPIFunctions from "../utils/LoanAPI";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
 
-
 // Commponents Import
-import V_PieChart from "../components/V_PieChart/index";
-import V_BarGraph from "../components/V_BarGraph/index";
+// import V_PieChart from "../components/V_PieChart/index";
+// import V_BarGraph from "../components/V_BarGraph/index";
 import V_ProgressWheel from "../components/V_ProgressWheel";
-// import V_ProgressWheel from "../components/V_ProgressWheel/index";
-
 import logo from "../img/loansharklogo.png";
 
 function Profile() {
@@ -35,31 +32,31 @@ function Profile() {
         loadLoans();
         loadLoan();
     }, [loans]);
-  
-    function formatDate(dateString) {
-      const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-  
-      const date = dateString.substring(0, 10);
-      const yearMonthDay = date.split("-");
-      const year = yearMonthDay[0];
-      const monthIndex = parseFloat(yearMonthDay[1]) - 1;
-      const month = months[monthIndex];
-      const day = yearMonthDay[2];
-      return `${month} ${day}, ${year}`;
-    };
+
+  function formatDate(dateString) {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const date = dateString.substring(0, 10);
+    const yearMonthDay = date.split("-");
+    const year = yearMonthDay[0];
+    const monthIndex = parseFloat(yearMonthDay[1]) - 1;
+    const month = months[monthIndex];
+    const day = yearMonthDay[2];
+    return `${month} ${day}, ${year}`;
+  }
 
   // load all users loans
   function loadPayments() {
@@ -81,7 +78,7 @@ function Profile() {
         setCount(count);
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   
     // loan all users loans
@@ -132,6 +129,7 @@ function Profile() {
           setLoan(res.data);
           // setFormObject();
         })
+        .then((res) => loadLoans())
         .catch((err) => console.log(err));
     }
   
@@ -164,49 +162,49 @@ function Profile() {
             <img className="logo-size" src={logo} alt="Logo" />
             <h5>Current Loans</h5>
             <List>
-        {loans.map((loan) => (
-          <ListItem key={loan._id}>
-            <strong onClick={() => handleClick(loan._id)}>
-              {loan.name} for {loan.amount}
-            </strong>
-            <DeleteBtn onClick={() => deleteLoan(loan._id)} />
-          </ListItem>
-        ))}
-      </List>
+              {loans.map((loan) => (
+                <ListItem key={loan._id}>
+                  <strong onClick={() => handleClick(loan._id)}>
+                    {loan.name} for {loan.amount}
+                  </strong>
+                  <DeleteBtn onClick={() => deleteLoan(loan._id)} />
+                </ListItem>
+              ))}
+            </List>
           </Col>
 
           <Col className="content" xs="9">
-          {loan ? (
-            <div>
-            <h1>{loan.name}</h1>
-            <h3>Loan total = ${loan.amount}</h3>
-            <h4>{loan.date}</h4>
-            <Link to={"/payments/" + loan._id} >
-            <strong>{loan.name} payments</strong>
-            </Link>
-            </div>
-      ) : (
-        <h3>No Results to Display</h3>
-      )}
-      <form>
-        <Input
-          onChange={handleInputChange}
-          name="name"
-          placeholder="Name of Loan (required)"
-        />
-        <Input
-          onChange={handleInputChange}
-          name="amount"
-          placeholder="Amount (required)"
-        />
-        <FormBtn
-          disabled={!(formObject.name && formObject.amount)}
-          onClick={handleFormSubmit}
-        >
-          Save Loan
-        </FormBtn>
-      </form>
-            
+            {loan ? (
+              <div>
+                <h1>{loan.name}</h1>
+                <h3>Loan total = ${loan.amount}</h3>
+                <h4>{loan.date}</h4>
+                <Link to={"/payments/" + loan._id}>
+                  <strong>{loan.name} payments</strong>
+                </Link>
+              </div>
+            ) : (
+              <h3>No Results to Display</h3>
+            )}
+            <form>
+              <Input
+                onChange={handleInputChange}
+                name="name"
+                placeholder="Name of Loan (required)"
+              />
+              <Input
+                onChange={handleInputChange}
+                name="amount"
+                placeholder="Amount (required)"
+              />
+              <FormBtn
+                disabled={!(formObject.name && formObject.amount)}
+                onClick={handleFormSubmit}
+              >
+                Save Loan
+              </FormBtn>
+            </form>
+
             <div className="profile-flex-box">
               {/* <div className="graph-size">
                 <V_PieChart />
@@ -215,7 +213,10 @@ function Profile() {
                 <V_BarGraph />
               </div> */}
               <div className="graph-size">
-                <V_ProgressWheel />
+                // eslint-disable-next-line react/jsx-pascal-case
+                <V_ProgressWheel
+                  percent={Math.floor((payments / totalDebt) * 100)}
+                />
               </div>
             </div>
 
