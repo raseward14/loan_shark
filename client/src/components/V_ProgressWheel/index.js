@@ -1,31 +1,31 @@
+import React from "react";
 import "./style.css";
 
 // VICTORY STUFF
-import React from "react";
-import * as V from "victory";
 
 import { VictoryPie, VictoryAnimation, VictoryLabel } from "victory";
-import { render } from "react-dom";
 
 class V_ProgressWheel extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      percent: 25,
+      percent: 0,
       data: this.getData(0),
     };
   }
 
-  componentDidMount() {
-    let percent = 25;
-    this.setStateInterval = window.setInterval(() => {
-      percent += Math.random() * 25;
-      percent = percent > 100 ? 0 : percent;
-      this.setState({
-        percent,
-        data: this.getData(percent),
-      });
-    }, 2000);
+  componentWillReceiveProps(props) {
+    let percent = props.percent;
+    console.log(percent);
+
+    // this.setStateInterval = window.setInterval(() => {
+    // percent += Math.random() * 25;
+    percent = percent > 100 ? 0 : percent;
+    this.setState({
+      percent,
+      data: this.getData(percent),
+    });
+    // }, 2000);
   }
 
   componentWillUnmount() {
@@ -56,7 +56,7 @@ class V_ProgressWheel extends React.Component {
             style={{
               data: {
                 fill: ({ datum }) => {
-                  const color = datum.y > 30 ? "green" : "red";
+                  const color = datum.y > 25 ? "#1a5260" : "#698498";
                   return datum.x === 1 ? color : "transparent";
                 },
               },

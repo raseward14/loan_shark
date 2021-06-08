@@ -1,4 +1,3 @@
-// import { Container, Row, Col, CardHeader, Card, CardText } from "reactstrap";
 import "./style.css";
 
 function WhatIsLoanShark() {
