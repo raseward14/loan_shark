@@ -71,18 +71,16 @@ function Payments() {
   }
 
   // checks to see if a loans remaining balance is less than or equal to zero
-  function checkIfPaid(difference) {
-    console.log(difference);
-    if(difference <= 0) {
-    loanAPIFunctions
-    .deleteLoan(loanid)
-    .then(() => {
-          window.alert("Success! Loan fully paid.")
-          // redirect to profile page
-    })
-    .catch((err) => console.log(err));
-  }
-  };
+  // setTimeout(function checkIfPaid(){ 
+  //   if(remainingBalance === 0) {
+  //       loanAPIFunctions
+  //       .deleteLoan(loanid)
+  //       .then(() => {
+  //         window.alert("Success! Loan fully paid.")
+  //         // redirect to profile page
+  //       })
+  //       .catch((err) => console.log(err));
+  // }}, 5000);
 
   // async function loadPayments(loanid) {
   //     try {
@@ -91,10 +89,10 @@ function Payments() {
   //           var paymentResultsArray = await res.data;
   //           var formattedDateArray = await paymentResultsArray.map((result) => (result.date = formatDate(result.date)));
   //           await formattedDateArray.forEach((result) => { paymentTotal += result.balance });
+  //           await setPayments(formattedDateArray);
+  //           await setTotalPaid(paymentTotal);
+  //           await setRemainingBalance(result);
   //           let result = await (amountBorrowed - paymentTotal);
-  //           setPayments(paymentResultsArray);
-  //           setTotalPaid(paymentTotal);
-  //           setRemainingBalance(result);
   //           console.log(paymentTotal);
   //           checkIfPaid(result)
   //           if (!payment) {
@@ -134,7 +132,13 @@ function Payments() {
           setPayment(payments[0]);
         }
       })
-      // .then(() => checkIfPaid())
+      // .then(() => {
+      //   if (amountBorrowed === 0) {
+      //     return;
+      // } else {
+        // checkIfPaid();
+      // }
+      // })
       .catch((err) => console.log(err));
   }
 

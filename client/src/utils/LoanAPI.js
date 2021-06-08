@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // get all loans
-const getLoans = () => {
-  return axios.get("/api/loans");
+const getLoans = (query) => {
+  return axios.get("/api/loans?=user_id=" + query);
 };
 // get one loan
 const getLoanById = (id) => {
