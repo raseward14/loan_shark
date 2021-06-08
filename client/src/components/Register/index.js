@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, FormGroup, Label, Input } from "reactstrap";
 
 // Trying to import from local file
@@ -10,7 +10,6 @@ import savePerson from  "../../utils/RegisterAPI";
 
 function Register(){
 
-  const [user, setPerson] = useState();
   const [formObject, setFormObject] = useState({});
 
  function handleInputChange(event) {
@@ -18,21 +17,18 @@ function Register(){
   setFormObject({ ...formObject, [name]: value });
  };
 
- // when form is submitted, use APIFunctions saveLoan method to save loan data, then reload loans from db
  function handleFormSubmit(event) {
   event.preventDefault();
-  if (formObject.name && formObject.email) {
-
-    // Need to have routes for register
+  if (formObject.name && formObject.email && formObject.password) {
       savePerson({
-        name: formObject.name,
+        user_name: formObject.name,
         email: formObject.email,
         password: formObject.password,
         user_id: "60adb73bc60ad5599803dbfd"
       })
-      // .then needs to load the new Profile for the created user
-      // .then((res) => loadProfile())
-      // .catch((err) => console.log(err));
+      // .then needs to load the new Profile for the created user OR a <Redirect>?
+      // .then(location.href="localhost:3000/:id/profile") 
+      // .catch((err) => console.log(err))
   }
  }
 
@@ -42,7 +38,7 @@ function Register(){
 
  return (
   <div className="Login">
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleFormSubmit}>
       <h3>Want to Join Loan Shark?</h3>
       <FormGroup size="lg">
         <Label>Full Name</Label>
@@ -69,8 +65,8 @@ function Register(){
         />
       </FormGroup>
       <FormBtn
-          disabled={!(formObject.name && formObject.email)}
-          onClick={handleFormSubmit}
+          disabled={!(formObject.name && formObject.email && formObject.password)}
+          type= "submit"
         >
           Register
         </FormBtn>

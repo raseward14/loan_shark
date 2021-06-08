@@ -1,7 +1,8 @@
 import axios from "axios";
 
-const savePerson = (personData) => {
-    return axios.post("/api/register", personData);
+const savePerson = (data) => {
+    console.log(data)
+    return axios.post("/api/register", data);
 };
 
 export default savePerson;
