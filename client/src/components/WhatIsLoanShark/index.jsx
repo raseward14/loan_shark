@@ -61,7 +61,7 @@ function WhatIsLoanShark() {
         </div>
       </section>
 
-      {/* A foe footer */}
+      {/* A faux footer */}
       <section className="footer">
         <h1>Want to Join?</h1>
         <article>

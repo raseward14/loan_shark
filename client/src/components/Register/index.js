@@ -1,64 +1,81 @@
-import React from "react";
+import React, { useState } from 'react';
+import { Form, FormGroup, Label, Input } from "reactstrap";
+
+// Trying to import from local file
+import { FormBtn } from "../Form";
+
 import "./style.css";
-import { Container, Row, Col } from "reactstrap";
 
-const Example = (props) => {
-  return (
-    <div>
-      <Container>
-        <Row className="row">
-          <Col className=".col-sm-12 .col-md-6 .offset-md-3">
-            <form>
-              <h3>Want to Join Loan Shark?</h3>
+import savePerson from  "../../utils/RegisterAPI";
 
-              <div className="form-group">
-                <label>First name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="First name"
-                />
-              </div>
+function Register(){
 
-              <div className="form-group">
-                <label>Last name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Last name"
-                />
-              </div>
+  const [formObject, setFormObject] = useState({});
 
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="Enter email"
-                />
-              </div>
+ function handleInputChange(event) {
+  const { name, value } = event.target;
+  setFormObject({ ...formObject, [name]: value });
+ };
 
-              <div className="form-group">
-                <label>Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="Enter password"
-                />
-              </div>
+ function handleFormSubmit(event) {
+  event.preventDefault();
+  if (formObject.name && formObject.email && formObject.password) {
+      savePerson({
+        user_name: formObject.name,
+        email: formObject.email,
+        password: formObject.password,
+        user_id: "60adb73bc60ad5599803dbfd"
+      })
+      // .then needs to load the new Profile for the created user OR a <Redirect>?
+      // .then(location.href="localhost:3000/:id/profile") 
+      // .catch((err) => console.log(err))
+  }
+ }
 
-              <button type="submit" className="btn btn-dark btn-lg btn-block">
-                Register
-              </button>
-              <p className="forgot-password text-right">
-                Already registered <a href="/login">log in?</a>
-              </p>
-            </form>
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
+ const handleSubmit= (event) => {
+  event.preventDefault();
+ };
+
+ return (
+  <div className="Login">
+    <Form onSubmit={handleFormSubmit}>
+      <h3>Want to Join Loan Shark?</h3>
+      <FormGroup size="lg">
+        <Label>Full Name</Label>
+        <Input
+          onChange={handleInputChange}
+          name="name"
+          placeholder="First and Last Name"
+        />
+      </FormGroup>
+      <FormGroup size="lg">
+        <Label>Email</Label>
+        <Input
+          onChange={handleInputChange}
+          name="email"
+          placeholder="Email"
+        />
+      </FormGroup>
+      <FormGroup size="lg">
+        <Label>Password</Label>
+        <Input
+          onChange={handleInputChange}
+          name="password"
+          placeholder="Password"
+        />
+      </FormGroup>
+      <FormBtn
+          disabled={!(formObject.name && formObject.email && formObject.password)}
+          type= "submit"
+        >
+          Register
+        </FormBtn>
+    </Form>
+  </div>
+ );
 };
 
-export default Example;
+
+
+
+export default Register;
