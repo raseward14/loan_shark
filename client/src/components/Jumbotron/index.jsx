@@ -1,5 +1,4 @@
 import { Jumbotron } from "reactstrap";
-import { Button } from "reactstrap";
 import "./style.css";
 import logo from "../../img/loansharklogo.png";
 
@@ -16,9 +15,6 @@ function Jumbo() {
             />
           </div>
           <p className="tagline">Take a bite out of Student Debt!</p>
-          {/* <a className="button" href="/register">
-            Sign Up Now
-          </a> */}
         </Jumbotron>
       </div>
       <div className="padding-top-of-button">
