@@ -30,6 +30,23 @@ function Payments() {
     loadPayment();
   }, [amountBorrowed]);
 
+  // useEffect(() => {
+      // if ((amountBorrowed !== 0) && (remainingBalance <= 0)) {
+
+  // setTimeout(function checkIfPaid(){ 
+  //   if((amountBorrowed !== 0) && (remainingBalance <= 0)) {
+  //       loanAPIFunctions
+  //       .deleteLoan(loanid)
+  //       .then(() => {
+  //         window.alert("Success! Loan fully paid.")
+  //         // redirect to profile page
+  //       })
+  //       .catch((err) => console.log(err));
+  // }}, 3000);
+
+      // }
+  // }, [remainingBalance])
+
   // format date
   function formatDate(dateString) {
     const months = [

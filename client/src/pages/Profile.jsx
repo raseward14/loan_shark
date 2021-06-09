@@ -18,30 +18,33 @@ import V_ProgressWheel from "../components/V_ProgressWheel";
 import logo from "../img/loansharklogo.png";
 
 function Profile() {
-    const [loans, setLoans] = useState([]);
-    const [payments, setPayments] = useState([]);
-    const [count, setCount] = useState();
-    const [loan, setLoan] = useState();
-    const [totalDebt, setTotalDebt] = useState();
-    const [formObject, setFormObject] = useState({});
-    const [percentage, setPercentage] = useState('');
-  
-    // loadPayments sets the count of all payments made, and the total from those payments
-    // loadLoans sets loads all loans, and the loadLoan updates every time a user clicks a different loan
-    useEffect(() => {
-        loadPayments();
-        loadLoans();
-        loadLoan();
-    }, [loans]);
+  const [loans, setLoans] = useState([]);
+  const [payments, setPayments] = useState([]);
+  const [count, setCount] = useState();
+  const [loan, setLoan] = useState();
+  const [totalDebt, setTotalDebt] = useState();
+  const [formObject, setFormObject] = useState({});
+  const [percentage, setPercentage] = useState("");
 
-    // if loan & payment, calculate wheel. recalculates on loan delete and create
-    useEffect(() => {
-      if(payments && totalDebt) {
-        setPercentage(Math.floor((payments / totalDebt)*100))
-      } else {
-        setPercentage(0);
-      }
-    });
+// only setPayments and setTotalDebt on page load for progress wheel, empty array keeps if quiet otherwise
+  useEffect(() => {
+    loadPayments();
+    loadLoans();
+  }, []);
+
+  // if loan & payment, calculate wheel- recalculates on loan delete and create- only on load
+  useEffect(() => {
+    if (payments && totalDebt) {
+      setPercentage(Math.floor((payments / totalDebt) * 100));
+    } else {
+      setPercentage(0);
+    }
+  });
+
+  // loadLoan every time the loans change
+  useEffect(() => {
+    loadLoan();
+  }, [loans])
 
   function formatDate(dateString) {
     const months = [
@@ -80,8 +83,8 @@ function Profile() {
         let paymentResultsArray = res.data;
         // for each payment, increase count by 1, and add the payment to the total
         paymentResultsArray.forEach((result) => {
-            paymentTotal += result.balance;
-            count++;
+          paymentTotal += result.balance;
+          count++;
         });
         // setPayments with total of all payments, setCount with a count of every payment
         setPayments(paymentTotal);
@@ -90,75 +93,76 @@ function Profile() {
       .catch((err) => console.log(err));
   }
 
-  
-    // loan all users loans
-    function loadLoans() {
-      // gets all loans from db
+  // loan all users loans
+  function loadLoans() {
+    // gets all loans from db
+    loanAPIFunctions
+      .getLoans()
+      .then((res) => {
+        // initialize a loan total, and array
+        let loanTotal = 0;
+        let loanResultsArray = res.data;
+        // format each results date, and sum all loans
+        loanResultsArray.map(
+          (result) => (result.date = formatDate(result.date))
+        );
+        loanResultsArray.forEach((result) => {
+          loanTotal += result.amount;
+        });
+        // setLoans lists all loans from the array, setTotalDebt with the sum of all loans
+        setLoans(loanResultsArray);
+        setTotalDebt(loanTotal);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function loadLoan() {
+    if (loans) {
+      setLoan(loans[0]);
+    }
+  }
+
+  // delete loan
+  function deleteLoan(id) {
+    loanAPIFunctions
+      .deleteLoan(id)
+      .then(() => loadLoans())
+      .catch((err) => console.log(err));
+  }
+
+  // get loan by id, format the date
+  function handleClick(id) {
+    loanAPIFunctions
+      .getLoanById(id)
+      .then((res) => {
+        var result = formatDate(res.data.date);
+        res.data.date = result;
+        setLoan(res.data);
+        // setFormObject();
+      })
+      .catch((err) => console.log(err));
+  }
+
+  // updates component state when the user types in input field
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+    setFormObject({ ...formObject, [name]: value });
+  }
+
+  // when form is submitted, save loan amount and name, then reload loan list
+  function handleFormSubmit(event) {
+    event.preventDefault();
+    if (formObject.name && formObject.amount) {
       loanAPIFunctions
-        .getLoans()
-        .then((res) => {
-          // initialize a loan total, and array
-          let loanTotal = 0;
-          let loanResultsArray = res.data;
-          // format each results date, and sum all loans
-          loanResultsArray.map((result) => (result.date = formatDate(result.date)));
-          loanResultsArray.forEach((result) => {
-            loanTotal += result.amount;
-          })
-          // setLoans lists all loans from the array, setTotalDebt with the sum of all loans
-          setLoans(loanResultsArray);
-          setTotalDebt(loanTotal);
+        .saveLoan({
+          name: formObject.name,
+          amount: formObject.amount,
+          user_id: "60adb73bc60ad5599803dbfd",
         })
-        .catch((err) => console.log(err));
-    };
-  
-    function loadLoan() {
-      if (!loan) {
-        setLoan(loans[0]);
-      } 
-    };
-  
-    // delete loan
-    function deleteLoan(id) {
-      loanAPIFunctions
-        .deleteLoan(id)
         .then(() => loadLoans())
         .catch((err) => console.log(err));
-    };
-  
-    // get loan by id, format the date
-    function handleClick(id) {
-      loanAPIFunctions
-        .getLoanById(id)
-        .then((res) => {
-          var result = formatDate(res.data.date);
-          res.data.date = result;
-          setLoan(res.data);
-          // setFormObject();
-        })
-        .catch((err) => console.log(err));
-    };
-  
-    // updates component state when the user types in input field
-    function handleInputChange(event) {
-      const { name, value } = event.target;
-      setFormObject({ ...formObject, [name]: value });
-    };
-  
-    // when form is submitted, save loan amount and name, then reload loan list
-    function handleFormSubmit(event) {
-      event.preventDefault();
-      if (formObject.name && formObject.amount) {
-        loanAPIFunctions
-          .saveLoan({
-            name: formObject.name,
-            amount: formObject.amount,
-            user_id: "60adb73bc60ad5599803dbfd"
-          })
-          .then(() => loadLoans())
-          .catch((err) => console.log(err));
-      }
-    };
+    }
+  }
 
   return (
     <>
@@ -219,9 +223,7 @@ function Profile() {
                 <V_BarGraph />
               </div> */}
               <div className="graph-size">
-                <V_ProgressWheel
-                  percent={percentage}
-                />
+                <V_ProgressWheel percent={percentage} />
               </div>
             </div>
 
