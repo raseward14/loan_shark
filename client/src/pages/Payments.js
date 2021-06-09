@@ -30,22 +30,11 @@ function Payments() {
     loadPayment();
   }, [amountBorrowed]);
 
-  // useEffect(() => {
-      // if ((amountBorrowed !== 0) && (remainingBalance <= 0)) {
-
-  // setTimeout(function checkIfPaid(){ 
-  //   if((amountBorrowed !== 0) && (remainingBalance <= 0)) {
-  //       loanAPIFunctions
-  //       .deleteLoan(loanid)
-  //       .then(() => {
-  //         window.alert("Success! Loan fully paid.")
-  //         // redirect to profile page
-  //       })
-  //       .catch((err) => console.log(err));
-  // }}, 3000);
-
-      // }
-  // }, [remainingBalance])
+  useEffect(() => {
+    if (amountBorrowed <= totalPaid) {
+      checkIfPaid();
+    }
+  }, [remainingBalance]);
 
   // format date
   function formatDate(dateString) {
@@ -87,8 +76,20 @@ function Payments() {
       .catch((err) => console.log(err));
   }
 
+  function checkIfPaid() {
+    if (amountBorrowed !== 0 && remainingBalance <= 0) {
+      loanAPIFunctions
+        .deleteLoan(loanid)
+        .then(() => {
+          window.alert("Success! Loan fully paid.");
+          // redirect to profile page
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
   // checks to see if a loans remaining balance is less than or equal to zero
-  // setTimeout(function checkIfPaid(){ 
+  // setTimeout(function checkIfPaid(){
   //   if(remainingBalance === 0) {
   //       loanAPIFunctions
   //       .deleteLoan(loanid)
@@ -153,7 +154,7 @@ function Payments() {
       //   if (amountBorrowed === 0) {
       //     return;
       // } else {
-        // checkIfPaid();
+      // checkIfPaid();
       // }
       // })
       .catch((err) => console.log(err));
