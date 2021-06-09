@@ -19,7 +19,7 @@ import logo from "../img/loansharklogo.png";
 
 function Profile() {
   const [loans, setLoans] = useState([]);
-  const [payments, setPayments] = useState([]);
+  const [totalPayments, setTotalPayments] = useState([]);
   const [count, setCount] = useState();
   const [loan, setLoan] = useState();
   const [totalDebt, setTotalDebt] = useState();
@@ -34,17 +34,17 @@ function Profile() {
 
   // if loan & payment, calculate wheel- recalculates on loan delete and create- only on load
   useEffect(() => {
-    if (payments && totalDebt) {
-      setPercentage(Math.floor((payments / totalDebt) * 100));
+    if (totalPayments && totalDebt) {
+      setPercentage(Math.floor((totalPayments / totalDebt) * 100));
     } else {
       setPercentage(0);
-    }
-  });
+    };
+  }, [totalPayments, totalDebt]);
 
   // loadLoan every time the loans change
   useEffect(() => {
     loadLoan();
-  }, [loans])
+  }, [loans]);
 
   function formatDate(dateString) {
     const months = [
@@ -69,7 +69,7 @@ function Profile() {
     const month = months[monthIndex];
     const day = yearMonthDay[2];
     return `${month} ${day}, ${year}`;
-  }
+  };
 
   // load all users loans
   function loadPayments() {
@@ -87,11 +87,11 @@ function Profile() {
           count++;
         });
         // setPayments with total of all payments, setCount with a count of every payment
-        setPayments(paymentTotal);
+        setTotalPayments(paymentTotal);
         setCount(count);
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   // loan all users loans
   function loadLoans() {
@@ -114,21 +114,24 @@ function Profile() {
         setTotalDebt(loanTotal);
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   function loadLoan() {
     if (loans) {
       setLoan(loans[0]);
-    }
-  }
+    };
+  };
 
   // delete loan
   function deleteLoan(id) {
     loanAPIFunctions
       .deleteLoan(id)
-      .then(() => loadLoans())
+      .then(() => {
+        loadLoans();
+        loadPayments();
+      })
       .catch((err) => console.log(err));
-  }
+  };
 
   // get loan by id, format the date
   function handleClick(id) {
@@ -141,13 +144,13 @@ function Profile() {
         // setFormObject();
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   // updates component state when the user types in input field
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-  }
+  };
 
   // when form is submitted, save loan amount and name, then reload loan list
   function handleFormSubmit(event) {
@@ -161,8 +164,8 @@ function Profile() {
         })
         .then(() => loadLoans())
         .catch((err) => console.log(err));
-    }
-  }
+    };
+  };
 
   return (
     <>
@@ -231,7 +234,7 @@ function Profile() {
               <Col xs="4">
                 <Card className="text-center p-3">
                   <p>Total Debt: {totalDebt}</p>
-                  <p>Total Payments: {payments}</p>
+                  <p>Total Payments: {totalPayments}</p>
                   <hr className="hr" />
                   <h2>{count}</h2>
                 </Card>

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 // get all payments can be queried
+// on profile page, this gets ALL PAYMENTS, MAY NEED TO QUERY BY USERID
 const getAllPayments = () => {
   return axios.get("/api/payments");
 };

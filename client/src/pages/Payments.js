@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PaymentDetail from "../components/PaymentDetail";
 import { List, ListItem } from "../components/List";
 import DeleteBtn from "../components/DeleteBtn";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Redirect } from "react-router-dom";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
 import * as loanAPIFunctions from "../utils/LoanAPI";
 import { Input, FormBtn } from "../components/Form";
@@ -60,7 +60,7 @@ function Payments() {
     const month = months[monthIndex];
     const day = yearMonthDay[2];
     return `${month} ${day}, ${year}`;
-  }
+  };
 
   // pop up modal
   // const toggle = () => setModal(!modal);
@@ -74,7 +74,7 @@ function Payments() {
         setLoanName(res.data.name);
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   function checkIfPaid() {
     if (amountBorrowed !== 0 && remainingBalance <= 0) {
@@ -86,40 +86,7 @@ function Payments() {
         })
         .catch((err) => console.log(err));
     }
-  }
-
-  // checks to see if a loans remaining balance is less than or equal to zero
-  // setTimeout(function checkIfPaid(){
-  //   if(remainingBalance === 0) {
-  //       loanAPIFunctions
-  //       .deleteLoan(loanid)
-  //       .then(() => {
-  //         window.alert("Success! Loan fully paid.")
-  //         // redirect to profile page
-  //       })
-  //       .catch((err) => console.log(err));
-  // }}, 5000);
-
-  // async function loadPayments(loanid) {
-  //     try {
-  //           let paymentTotal = 0;
-  //           const res = await paymentAPIFunctions.getPaymentsByLoanId(loanid);
-  //           var paymentResultsArray = await res.data;
-  //           var formattedDateArray = await paymentResultsArray.map((result) => (result.date = formatDate(result.date)));
-  //           await formattedDateArray.forEach((result) => { paymentTotal += result.balance });
-  //           await setPayments(formattedDateArray);
-  //           await setTotalPaid(paymentTotal);
-  //           await setRemainingBalance(result);
-  //           let result = await (amountBorrowed - paymentTotal);
-  //           console.log(paymentTotal);
-  //           checkIfPaid(result)
-  //           if (!payment) {
-  //             setPayment(payments[0]);
-  //           }
-  //     } catch (err) {
-  //           console.log(err);
-  //     }
-  // }
+  };
 
   // query payments by loanid
   function loadPayments(loanid) {
@@ -150,21 +117,14 @@ function Payments() {
           setPayment(payments[0]);
         }
       })
-      // .then(() => {
-      //   if (amountBorrowed === 0) {
-      //     return;
-      // } else {
-      // checkIfPaid();
-      // }
-      // })
       .catch((err) => console.log(err));
-  }
+  };
 
   function loadPayment() {
     if (!payment) {
       setPayment(payments[0]);
     }
-  }
+  };
 
   // delete payment
   function deletePayment(id) {
@@ -172,7 +132,7 @@ function Payments() {
       .deletePayment(id)
       .then(() => loadPayments(loanid))
       .catch((err) => console.log(err));
-  }
+  };
 
   // expand clicked loan
   function handleClick(id) {
@@ -187,13 +147,13 @@ function Payments() {
         // setFormObject();
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   // updates component state when the user types in input field
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-  }
+  };
 
   // each time submit payment is clicked, save payment, then check to see if the loan is paid
   function handleFormSubmit(event) {
@@ -210,8 +170,8 @@ function Payments() {
           loadPayments(loanid);
         })
         .catch((err) => console.log(err));
-    }
-  }
+    };
+  };
 
   return (
     <div>
