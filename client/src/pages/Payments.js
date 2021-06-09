@@ -83,6 +83,7 @@ function Payments() {
         .then(() => {
           window.alert("Success! Loan fully paid.");
           // redirect to profile page
+          return <Redirect from="/payments/:id" to="/profile" />
         })
         .catch((err) => console.log(err));
     }
