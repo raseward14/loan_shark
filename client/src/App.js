@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import React, { Suspense, useContext } from "react";
 import "./App.css";
 
@@ -15,7 +15,7 @@ import Payments from "./pages/Payments";
 
 // Imports Components
 import Navbar from "./components/Navbar";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+// import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // import Footer from "./components/Footer";
 import {
   BrowserRouter as Router,
@@ -62,12 +62,20 @@ function App() {
               <Homepage />
             </Route>
 
-            <AuthRoute path="/profile">
+            {/* <AuthRoute path="/profile"> */}
+            <Route path="/profile">
+
               <Profile />
-            </AuthRoute>
-            <AuthRoute exact path="/payments/:id">
+              </Route>
+
+            {/* </AuthRoute> */}
+
+            {/* <AuthRoute exact path="/payments/:id"> */}
+            <Route exact path="/payments/:id">
               <Payments />
-            </AuthRoute>
+            </Route>
+            {/* </AuthRoute> */}
+
 
             <Route exact path="/login">
               <Login />

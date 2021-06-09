@@ -2,32 +2,39 @@ import React, { useEffect, useState } from "react";
 import PaymentDetail from "../components/PaymentDetail";
 import { List, ListItem } from "../components/List";
 import DeleteBtn from "../components/DeleteBtn";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Redirect } from "react-router-dom";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
+import * as loanAPIFunctions from "../utils/LoanAPI";
 import { Input, FormBtn } from "../components/Form";
+// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-function Payments(props) {
+function Payments() {
+  const [amountBorrowed, setAmountBorrowed] = useState(0);
+  const [loanName, setLoanName] = useState();
   const [payments, setPayments] = useState([]);
   const [payment, setPayment] = useState({});
-  const [total, setTotal] = useState();
+  const [totalPaid, setTotalPaid] = useState(0);
+  const [remainingBalance, setRemainingBalance] = useState(0);
   const [formObject, setFormObject] = useState({});
 
+  // const { buttonLabel, className } = props;
+  // const [modal, setModal] = useState(false);
+
   const { id } = useParams();
-  const query = { id }; // {id: "lasdjfa;slkfj"}
-  const loanId = Object.values(query).toString(); // "lkajsdf;oijf"
+  const loanid = Object.values({ id }).toString(); // "lkajsdf;oijf"
+  // var result;
 
   useEffect(() => {
-    let unmounted = false;
+    loadLoan(loanid);
+    loadPayments(loanid);
+    loadPayment();
+  }, [amountBorrowed]);
 
-    if (!unmounted) {
-      loadPayments();
-      loadPayment();
+  useEffect(() => {
+    if (amountBorrowed <= totalPaid) {
+      checkIfPaid();
     }
-
-    return () => {
-      unmounted = true;
-    };
-  });
+  }, [remainingBalance]);
 
   // format date
   function formatDate(dateString) {
@@ -55,32 +62,59 @@ function Payments(props) {
     return `${month} ${day}, ${year}`;
   };
 
-  // loan all users loans
-  function loadPayments() {
-    paymentAPIFunctions
-      .getPayments()
+  // pop up modal
+  // const toggle = () => setModal(!modal);
+
+  // get loan by id, setAmountBorrowed, and setLoanName
+  function loadLoan(loanid) {
+    loanAPIFunctions
+      .getLoanById(loanid)
       .then((res) => {
+        setAmountBorrowed(res.data.amount);
+        setLoanName(res.data.name);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  function checkIfPaid() {
+    if (amountBorrowed !== 0 && remainingBalance <= 0) {
+      loanAPIFunctions
+        .deleteLoan(loanid)
+        .then(() => {
+          window.alert("Success! Loan fully paid.");
+          // redirect to profile page
+          return <Redirect from="/payments/:id" to="/profile" />
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  // query payments by loanid
+  function loadPayments(loanid) {
+    paymentAPIFunctions
+      .getPaymentsByLoanId(loanid)
+      .then((res) => {
+        // data array will only have the payments for this loan
+        console.log(res);
+        // initialize a paymentTotal, and resultsArray
         let paymentTotal = 0;
-        let specificPayments = [];
-        let resultsArray = res.data;
-        // format date of every payment
-        resultsArray.map((result) => (result.date = formatDate(result.date)));
-        // for each payment, push matching loan_id to specific payments, and total their balances
-        resultsArray.forEach((result) => {
-          if (result.loan_id === loanId) {
-            // push the matching payments to the array
-            specificPayments.push(result);
-            paymentTotal += result.balance;
-          } else {
-            return;
-          }
+        let paymentResultsArray = res.data;
+        // format date of every payment, and sum all payments
+        paymentResultsArray.map(
+          (result) => (result.date = formatDate(result.date))
+        );
+        paymentResultsArray.forEach((result) => {
+          paymentTotal += result.balance;
         });
-        // setpayments lists only the matching loan_id payments
-        setPayments(specificPayments);
-        // setTotal adds the result.balance for each maching loan_id payment
-        setTotal(paymentTotal);
-        // console.log(payment);
-        if(!payment || payment === {}) {
+        // calculate difference between payment sum, and amount borrowed
+        var result = amountBorrowed - paymentTotal;
+        console.log(amountBorrowed, paymentTotal, result);
+        // checkIfPaid(result);
+        // setPayments lists payments from array, setTotalPaid is sum of all payments, setRemainingBalance with the difference btw amountBorrowed and sum of all payments
+        setPayments(paymentResultsArray);
+        setTotalPaid(paymentTotal);
+        setRemainingBalance(result);
+        if (!payment) {
           setPayment(payments[0]);
         }
       })
@@ -97,7 +131,7 @@ function Payments(props) {
   function deletePayment(id) {
     paymentAPIFunctions
       .deletePayment(id)
-      .then(() => loadPayments())
+      .then(() => loadPayments(loanid))
       .catch((err) => console.log(err));
   };
 
@@ -122,20 +156,22 @@ function Payments(props) {
     setFormObject({ ...formObject, [name]: value });
   };
 
-  // when form is submitted, use APIFunctions saveLoan method to save loan data, then reload loans from db
+  // each time submit payment is clicked, save payment, then check to see if the loan is paid
   function handleFormSubmit(event) {
     event.preventDefault();
     console.log(formObject.balance);
-    console.log(loanId);
+    console.log(loanid);
     if (formObject.balance) {
       paymentAPIFunctions
         .savePayment({
           balance: formObject.balance,
-          loan_id: loanId,
+          loan_id: loanid,
         })
-        .then((res) => loadPayments())
+        .then(() => {
+          loadPayments(loanid);
+        })
         .catch((err) => console.log(err));
-    }
+    };
   };
 
   return (
@@ -157,13 +193,16 @@ function Payments(props) {
         {payment ? (
           <PaymentDetail balance={payment.balance} date={payment.date}>
             {payment.balance}
-            
           </PaymentDetail>
         ) : (
           <h3>No Results to Display</h3>
         )}
       </div>
-      <p>All Payments Total: {total}</p>
+      <p>
+        Total {loanName} Loan Amount: ${amountBorrowed}
+      </p>
+      <p>All Payments Total: ${totalPaid}</p>
+      <p>Remaining Balance: ${remainingBalance}</p>
       <div>
         <form>
           <Input
@@ -171,16 +210,26 @@ function Payments(props) {
             name="balance"
             placeholder="Payment Amount (required)"
           />
-          <FormBtn
-            disabled={!(formObject.balance)}
-            onClick={handleFormSubmit}
-          >
+          <FormBtn disabled={!formObject.balance} onClick={handleFormSubmit}>
             Submit Payment
           </FormBtn>
         </form>
       </div>
 
       <Link to="/profile">← Back to Profile</Link>
+      {/* <div> */}
+      {/* <Button color="danger"></Button> */}
+      {/* <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalBody>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
+          <Button color="secondary" onClick={toggle}>Cancel</Button>
+        </ModalFooter>
+      </Modal> */}
+      {/* </div> */}
     </div>
   );
 }
