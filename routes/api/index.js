@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { authPerson } = require("../../controllers/authController");
 
 // const homeRoute = require("/");
 
@@ -18,12 +17,11 @@ const { authPerson } = require("../../controllers/authController");
 
 const loanRoutes = require("./loans");
 const paymentRoutes = require("./payments");
+const profileRoutes = require("./profile");
 
 
 const registerRoute = require("./register");
-// Checking Auth status on Profile route
 
-router.post("/profile", authPerson);
 
 router.get("/", function (req, res, next) {
     res.render("index", { title: "Express" });
@@ -32,7 +30,7 @@ router.get("/", function (req, res, next) {
 // Loan routes
 router.use("/loans", loanRoutes);
 router.use("/payments", paymentRoutes);
-
+router.use("/profile", profileRoutes);
 router.use("/register",registerRoute);
 
 module.exports = router;

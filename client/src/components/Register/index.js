@@ -26,19 +26,16 @@ function Register(){
         password: formObject.password,
         user_id: "60adb73bc60ad5599803dbfd"
       })
-      // .then needs to load the new Profile for the created user OR a <Redirect>?
-      // .then(location.href="localhost:3000/:id/profile") 
-      // .catch((err) => console.log(err))
+      // Update to /profile when finished
+      .then(window.location.href="http://localhost:3000/:id/profile") 
+      .catch((err) => console.log(err))
   }
  }
 
- const handleSubmit= (event) => {
-  event.preventDefault();
- };
 
  return (
   <div className="Login">
-    <Form onSubmit={handleFormSubmit}>
+    <Form>
       <h3>Want to Join Loan Shark?</h3>
       <FormGroup size="lg">
         <Label>Full Name</Label>
@@ -60,6 +57,7 @@ function Register(){
         <Label>Password</Label>
         <Input
           onChange={handleInputChange}
+          type="password"
           name="password"
           placeholder="Password"
         />
@@ -67,6 +65,7 @@ function Register(){
       <FormBtn
           disabled={!(formObject.name && formObject.email && formObject.password)}
           type= "submit"
+          onClick={handleFormSubmit}
         >
           Register
         </FormBtn>
