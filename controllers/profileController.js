@@ -1,6 +1,6 @@
 const db = require("../models");
 
-// Defining methods for the LoansController
+// Defining methods for the ProfileController
 module.exports = {
   findById: function (req, res) {
     //   Add another param of email?
