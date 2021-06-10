@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Form, FormGroup, Label, Input } from "reactstrap";
 
-// Trying to import from local file
 import { FormBtn } from "../Form";
 
 import "./style.css";
@@ -23,22 +22,18 @@ function Register(){
       savePerson({
         user_name: formObject.name,
         email: formObject.email,
-        password: formObject.password,
-        user_id: "60adb73bc60ad5599803dbfd"
+        password: formObject.password
       })
-      // .then needs to load the new Profile for the created user OR a <Redirect>?
-      // .then(location.href="localhost:3000/:id/profile") 
-      // .catch((err) => console.log(err))
+      // Update to /profile when finished-will it automatically recognize "profile" as an Auth route or will I need some additonal functionality here?
+      .then(window.location.href="http://localhost:3000") 
+      .catch((err) => console.log(err))
   }
  }
 
- const handleSubmit= (event) => {
-  event.preventDefault();
- };
 
  return (
   <div className="Login">
-    <Form onSubmit={handleFormSubmit}>
+    <Form>
       <h3>Want to Join Loan Shark?</h3>
       <FormGroup size="lg">
         <Label>Full Name</Label>
@@ -60,6 +55,7 @@ function Register(){
         <Label>Password</Label>
         <Input
           onChange={handleInputChange}
+          type="password"
           name="password"
           placeholder="Password"
         />
@@ -67,6 +63,7 @@ function Register(){
       <FormBtn
           disabled={!(formObject.name && formObject.email && formObject.password)}
           type= "submit"
+          onClick={handleFormSubmit}
         >
           Register
         </FormBtn>

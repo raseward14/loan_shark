@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from "react";
 import { Form, FormGroup, Label, Input } from "reactstrap";
 
 // Trying to import from local file
@@ -10,8 +10,8 @@ import { SharkContext } from "../../Context";
 
 const Login = () => {
   const authContext = useContext(SharkContext);
-  const [signInSuccess, setSignInSuccess] = useState();
-  const [signInError, setSignInError] = useState();
+  const [signInSuccess, setSignInSuccess] = useState("");
+  const [signInError, setSignInError] = useState("");
   const [redirectOnSignIn, setRedirectOnSignIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +20,7 @@ const Login = () => {
 
   const validateForm = async (credentials) => {
     try {
-        const url = "http://localhost:3001/auth";
+        const url = "/auth";
         const fetchResponse = await fetch(url, {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           mode: "cors", // no-cors, *cors, same-origin
@@ -35,10 +35,16 @@ const Login = () => {
           body: JSON.stringify(credentials), // body data type must match "Content-Type" header
         });
         const data = await fetchResponse.json();
-        console.log(data);
+        console.log(data)
+        const { userInfo, message } = data
+        console.log(userInfo[0]);
+        if (userInfo){
         authContext.setAuthState(data);
-        setSignInSuccess(data.message);
-        setSignInError(null);
+        setSignInSuccess(message);
+        setSignInError(null)}
+        else{
+          setSignInError(message)
+        }
   
         setTimeout(() => {
           setRedirectOnSignIn(true);
@@ -49,11 +55,20 @@ const Login = () => {
       }
     };
 
-  const handleSubmit= (event) => {
+      setTimeout(() => {
+        setRedirectOnSignIn(true);
+      }, 700);
+    } catch (error) {
+      setSignInError(error.message);
+      setSignInSuccess(null);
+    }
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     validateForm({ email, password });
-   };
+  };
 
   return (
     <div className="Login">
@@ -64,6 +79,8 @@ const Login = () => {
             autoFocus
             type="email"
             value={email}
+            name="email"
+            id="email"
             onChange={(e) => setEmail(e.target.value)}
           />
         </FormGroup>
@@ -72,16 +89,21 @@ const Login = () => {
           <Input
             type="password"
             value={password}
+            name="password"
+            id="password"
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
-        <FormBtn block size="lg" type="submit" disabled={!validateForm()}>
+        <FormBtn block size="lg" type="submit">
           Login
         </FormBtn>
       </Form>
+      {signInError && <p> {signInError}</p>}
+      {signInSuccess && <p> {signInSuccess}</p>}
+
+
     </div>
   );
 };
 
 export default Login;
-

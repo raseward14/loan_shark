@@ -4,6 +4,7 @@ import "./style.css";
 // VICTORY STUFF
 
 import { VictoryPie, VictoryAnimation, VictoryLabel } from "victory";
+import { withRouter } from "react-router-dom";
 
 class V_ProgressWheel extends React.Component {
   constructor(props) {
@@ -41,12 +42,12 @@ class V_ProgressWheel extends React.Component {
 
   render() {
     return (
-      <div>
-        <h5>Total Debt Paid Off</h5>
+      <div className="pie-size">
+        <h5>Total Percent of Loans Paid Off</h5>
         <svg viewBox="0 0 400 400" width="100%" height="100%">
           <VictoryPie
             standalone={false}
-            animate={{ duration: 1000 }}
+            animate={{ duration: 2000 }}
             width={400}
             height={400}
             data={this.state.data}
@@ -56,7 +57,7 @@ class V_ProgressWheel extends React.Component {
             style={{
               data: {
                 fill: ({ datum }) => {
-                  const color = datum.y > 25 ? "#1a5260" : "#698498";
+                  const color = datum.y > 25 ? "#34847e" : "#698498";
                   return datum.x === 1 ? color : "transparent";
                 },
               },
@@ -71,7 +72,7 @@ class V_ProgressWheel extends React.Component {
                   x={200}
                   y={200}
                   text={`${Math.round(newProps.percent)}%`}
-                  style={{ fontSize: 45 }}
+                  style={{ fontSize: 45, fill: "#A9BCC3" }}
                 />
               );
             }}

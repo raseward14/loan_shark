@@ -23,10 +23,14 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.pre("save", function(next) {
-  const bcryptSalt= 10;
-  const hash = bcrypt.hash(this.password, Number(bcryptSalt));
-  this.password = hash;
+
+
+userSchema.pre("save", async function(next) {
+  // const bcryptSalt= 10;
+  console.log("Come back to life")
+  let user = this;
+  const hash = await bcrypt.hash(user.password, 10);
+  user.password = hash;
   next();
 });
 
@@ -34,7 +38,6 @@ userSchema.pre("save", function(next) {
 // module.exports=mongoose.models.User || mongoose.model('User', userSchema);
 
 
-const User = mongoose.model("user", userSchema);
-
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
