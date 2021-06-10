@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Form, FormGroup, Label, Input } from "reactstrap";
 
-// Trying to import from local file
 import { FormBtn } from "../Form";
 
 import "./style.css";
@@ -23,11 +22,10 @@ function Register(){
       savePerson({
         user_name: formObject.name,
         email: formObject.email,
-        password: formObject.password,
-        user_id: "60adb73bc60ad5599803dbfd"
+        password: formObject.password
       })
-      // Update to /profile when finished
-      .then(window.location.href="http://localhost:3000/:id/profile") 
+      // Update to /profile when finished-will it automatically recognize "profile" as an Auth route or will I need some additonal functionality here?
+      .then(window.location.href="http://localhost:3000") 
       .catch((err) => console.log(err))
   }
  }

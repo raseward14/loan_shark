@@ -1,4 +1,3 @@
-// import React from "react";
 import React, { Suspense, useContext } from "react";
 import "./App.css";
 
@@ -15,7 +14,6 @@ import Payments from "./pages/Payments";
 
 // Imports Components
 import Navbar from "./components/Navbar";
-// import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // import Footer from "./components/Footer";
 import {
   BrowserRouter as Router,
@@ -31,24 +29,12 @@ const AuthRoute = ({ children, ...rest }) => {
     <Route
       {...rest}
       render={() =>
-        auth.isAuthenticated() ? <div>{children}</div> : <Redirect to="/" />
+        auth.isAuthenticated() ? <div>{children}</div> : <Redirect to="/profile" />
       }
     ></Route>
   );
 };
 
-const UnauthRoute = () => (
-  <>
-    <Switch>
-      <Route path="/">
-        <Login />
-      </Route>
-      <Route path="/login">
-        <Login />
-      </Route>
-    </Switch>
-  </>
-);
 
 function App() {
   return (

@@ -25,20 +25,23 @@ const verifyPassword = (passwordAttempt, hashedPassword) => {
 const authPerson = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     const person = await User.find({ email }).exec();
-     console.log(typeof User);
-    if (!person) {
+    // console.log("person", person.length)
+    if (person.length === 0) {
+      console.log("made it")
       console.log("authPerson");
       return res.status(403).json({ message: "Wrong email or password." });
     }
-    console.log(`email: ${email}, password: ${password}`);
-    console.log("person pwd", person);
+    // console.log(`email: ${email}, password: ${password}`);
+    // console.log("person pwd", person);
 
     const passwordValid = await verifyPassword(password, person[0].password);
+    console.log(password)
+    console.log(person[0].password)
+    console.log(passwordValid);
     console.log("21");
-    if (passwordValid) {
-      console.log("23");
+    if (!passwordValid) {
       const { password, name, ...rest } = person;
       const userInfo = Object.assign({}, { ...rest });
       const token = createToken(person);
