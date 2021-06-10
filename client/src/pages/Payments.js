@@ -81,10 +81,15 @@ function Payments() {
       loanAPIFunctions
         .deleteLoan(loanid)
         .then(() => {
-          window.alert("Success! Loan fully paid.");
+          var result = window.confirm("Success! Loan fully paid.");
           // redirect to profile page
-          return <Redirect from="/payments/:id" to="/profile" />
+          if(result) {
+            window.location.href="http://localhost:3000/profile"
+        } else {
+          window.location.href="http://localhost:3000/profile"
+        }
         })
+        // .then(setTimeout(() => window.location.href="http://localhost:3000/profile"), 20000)
         .catch((err) => console.log(err));
     }
   };
