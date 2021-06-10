@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from "react";
 import { Form, FormGroup, Label, Input } from "reactstrap";
 
 // Trying to import from local file
@@ -55,11 +55,20 @@ const Login = () => {
       }
     };
 
-  const handleSubmit= (event) => {
+      setTimeout(() => {
+        setRedirectOnSignIn(true);
+      }, 700);
+    } catch (error) {
+      setSignInError(error.message);
+      setSignInSuccess(null);
+    }
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     validateForm({ email, password });
-   };
+  };
 
   return (
     <div className="Login">
@@ -98,4 +107,3 @@ const Login = () => {
 };
 
 export default Login;
-
