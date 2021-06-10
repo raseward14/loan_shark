@@ -55,15 +55,6 @@ const Login = () => {
       }
     };
 
-      setTimeout(() => {
-        setRedirectOnSignIn(true);
-      }, 700);
-    } catch (error) {
-      setSignInError(error.message);
-      setSignInSuccess(null);
-    }
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
