@@ -10,7 +10,7 @@ var amount = 0;
 // JS functions 
 
 function simpleInterest() {  
-  event.preventDefault();
+  // event.preventDefault();
   var principal = parseFloat(document.getElementById("principalSimple").value);
   var interestRate = parseFloat(document.getElementById("interestSimple").value);
   interestRate = interestRate / 100;
@@ -23,7 +23,7 @@ function simpleInterest() {
 };
 
 function compoundInterest() {
-  event.preventDefault();
+  // event.preventDefault();
   var principal = parseFloat(document.getElementById("principalCompound").value);
   var interestRate = parseFloat(document.getElementById("interestCompound").value);
   interestRate = interestRate / 100;
@@ -110,5 +110,5 @@ compoundInterest();
 </div>
 </div>
 
-export default Calculator;
+// export default Calculator;
 

@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const loanSchema = new Schema({
   name: {
     type: String,
+    trim: true,
     required: "Choose an name",
   },
   date: {

@@ -42,7 +42,7 @@ class V_ProgressWheel extends React.Component {
   render() {
     return (
       <div>
-        <h5>Total Loan Paid Off</h5>
+        <h5>Total Debt Paid Off</h5>
         <svg viewBox="0 0 400 400" width="100%" height="100%">
           <VictoryPie
             standalone={false}

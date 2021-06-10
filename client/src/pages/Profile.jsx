@@ -18,31 +18,33 @@ import V_ProgressWheel from "../components/V_ProgressWheel";
 import logo from "../img/loansharklogo.png";
 
 function Profile() {
-  //----------------------------------------------------------//
-
   const [loans, setLoans] = useState([]);
-  const [payments, setPayments] = useState([]);
+  const [totalPayments, setTotalPayments] = useState([]);
   const [count, setCount] = useState();
   const [loan, setLoan] = useState();
   const [totalDebt, setTotalDebt] = useState();
   const [formObject, setFormObject] = useState({});
+  const [percentage, setPercentage] = useState("");
 
-  console.log(payments);
-
-  // Load all loans, and default loan and store them with setLoans
+// only setPayments and setTotalDebt on page load for progress wheel, empty array keeps if quiet otherwise
   useEffect(() => {
-    let unmounted = false;
-
-    if (!unmounted) {
-      loadPayments();
-      loadLoans();
-      loadLoan();
-    }
-
-    return () => {
-      unmounted = true;
-    };
+    loadPayments();
+    loadLoans();
   }, []);
+
+  // if loan & payment, calculate wheel- recalculates on loan delete and create- only on load
+  useEffect(() => {
+    if (totalPayments && totalDebt) {
+      setPercentage(Math.floor((totalPayments / totalDebt) * 100));
+    } else {
+      setPercentage(0);
+    };
+  }, [totalPayments, totalDebt]);
+
+  // loadLoan every time the loans change
+  useEffect(() => {
+    loadLoan();
+  }, [loans]);
 
   function formatDate(dateString) {
     const months = [
@@ -67,88 +69,90 @@ function Profile() {
     const month = months[monthIndex];
     const day = yearMonthDay[2];
     return `${month} ${day}, ${year}`;
-  }
+  };
 
-  // loan all users loans
+  // load all users loans
   function loadPayments() {
-    console.log("happens");
+    // get all payments from db
     paymentAPIFunctions
-      .getPayments()
+      .getAllPayments()
       .then((res) => {
+        // initialize a payment count, total, and array
         let count = 0;
         let paymentTotal = 0;
-        let resultsArray = res.data;
-        // for each payment, push matching loan_id to specific payments, and total their balances
-        resultsArray.forEach((result) => {
+        let paymentResultsArray = res.data;
+        // for each payment, increase count by 1, and add the payment to the total
+        paymentResultsArray.forEach((result) => {
           paymentTotal += result.balance;
           count++;
         });
-        // console.log(paymentTotal);
-        // setpayments lists only the matching loan_id payments
-        setPayments(paymentTotal);
+        // setPayments with total of all payments, setCount with a count of every payment
+        setTotalPayments(paymentTotal);
         setCount(count);
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   // loan all users loans
   function loadLoans() {
+    // gets all loans from db
     loanAPIFunctions
       .getLoans()
       .then((res) => {
+        // initialize a loan total, and array
         let loanTotal = 0;
-        let resultsArray = res.data;
-        resultsArray.map((result) => (result.date = formatDate(result.date)));
-        resultsArray.forEach((result) => {
+        let loanResultsArray = res.data;
+        // format each results date, and sum all loans
+        loanResultsArray.map(
+          (result) => (result.date = formatDate(result.date))
+        );
+        loanResultsArray.forEach((result) => {
           loanTotal += result.amount;
         });
-        // lists all loans for the user
-        setLoans(resultsArray);
-        // setTotal adds the result.amount of each loan for a total debt figure
+        // setLoans lists all loans from the array, setTotalDebt with the sum of all loans
+        setLoans(loanResultsArray);
         setTotalDebt(loanTotal);
-        if (!loan) {
-          setLoan(loans[0]);
-        }
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   function loadLoan() {
-    if (!loan) {
+    if (loans) {
       setLoan(loans[0]);
-    }
-  }
+    };
+  };
 
   // delete loan
   function deleteLoan(id) {
     loanAPIFunctions
       .deleteLoan(id)
-      .then(() => loadLoans())
+      .then(() => {
+        loadLoans();
+        loadPayments();
+      })
       .catch((err) => console.log(err));
-  }
+  };
 
-  // expand clicked loan
+  // get loan by id, format the date
   function handleClick(id) {
-    console.log(id);
     loanAPIFunctions
       .getLoanById(id)
       .then((res) => {
-        // variable, assign, set
         var result = formatDate(res.data.date);
         res.data.date = result;
         setLoan(res.data);
         // setFormObject();
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   // updates component state when the user types in input field
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-  }
+  };
 
-  // when form is submitted, use APIFunctions saveLoan method to save loan data, then reload loans from db
+  // when form is submitted, save loan amount and name, then reload loan list
   function handleFormSubmit(event) {
     event.preventDefault();
     if (formObject.name && formObject.amount) {
@@ -158,10 +162,10 @@ function Profile() {
           amount: formObject.amount,
           user_id: "60adb73bc60ad5599803dbfd",
         })
-        .then((res) => loadLoans())
+        .then(() => loadLoans())
         .catch((err) => console.log(err));
-    }
-  }
+    };
+  };
 
   return (
     <>
@@ -222,9 +226,7 @@ function Profile() {
                 <V_BarGraph />
               </div> */}
               <div className="graph-size">
-                <V_ProgressWheel
-                  percent={Math.floor((payments / totalDebt) * 100)}
-                />
+                <V_ProgressWheel percent={percentage} />
               </div>
             </div>
 
@@ -232,7 +234,7 @@ function Profile() {
               <Col xs="4">
                 <Card className="text-center p-3">
                   <p>Total Debt: {totalDebt}</p>
-                  <p>Total Payments: {payments}</p>
+                  <p>Total Payments: {totalPayments}</p>
                   <hr className="hr" />
                   <h2>{count}</h2>
                 </Card>
