@@ -1,8 +1,19 @@
+import "./video.css";
+import video from "../video/ocean.mp4";
+
 function init() {
   return (
     <div>
-      <h1>Head for clearer waters!</h1>
-      <h1>Page not found</h1>
+      <video id="myVideo" autoPlay loop muted>
+        <source src={video} type="video/mp4" />
+      </video>
+
+      <div className="text-over-video">
+        <h1>404 Page Not Found</h1>
+        <a className="bigger-text" href="/">
+          Head for Clearer Waters!
+        </a>
+      </div>
     </div>
   );
 }

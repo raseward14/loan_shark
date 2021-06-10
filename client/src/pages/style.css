@@ -8,6 +8,9 @@ h3 {
 h5 {
   padding: 25px 0px;
 }
+.removeh5padding {
+  padding: 10px;
+}
 .hr {
   border: 5px solid #34847e;
   border-radius: 10px;
@@ -29,8 +32,9 @@ a:hover {
   background-color: #f9fafd;
 }
 .sidebar {
+  min-height: -webkit-fill-available;
   background-color: #363840;
-  height: 100vh;
+  height: 100%;
   color: #98999e;
 }
 .graph-size {
@@ -45,4 +49,44 @@ a:hover {
   padding-top: 30px;
 }
 
+.loan-stats-spacing {
+  margin-top: 60px !important;
+}
+
+.payment-button {
+  margin-top: 50px;
+  padding: 30px;
+  border-radius: 15px;
+  border: none;
+  background-color: #34847e;
+  color: #f9fafd;
+}
+.payment-button:hover {
+  background-color: #407688;
+  color: #a9bcc3;
+  transition: all 0.3s;
+}
+
 /* ----------------------------------- END OF PROFILE CSS ---- */
+
+/* ----------------------------------- START OF LOGIN and REGISTER CSS ---- */
+/* .btn-success {
+  text-align: center;
+  background-color: violet !;
+  float: none !important;
+} */
+
+.form-control {
+  /* justify-content: center;
+  align-items: center;
+  justify-content: center !important; */
+  width: 75% !important;
+}
+form {
+  margin: 0 auto !important;
+  text-align: -webkit-center;
+}
+
+.form-group {
+  justify-content: center;
+}
