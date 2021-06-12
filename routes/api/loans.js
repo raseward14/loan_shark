@@ -5,7 +5,8 @@ const loansController = require("../../controllers/loansController");
 // Matches with "/api/loans"
 router.route("/")
   .get(loansController.findAll)
-  .post(loansController.create);
+  .post(loansController.create)
+  // .get(loansController.find);
 
 // Matches with "/api/loans/:id"
 router.route("/:id")
@@ -13,6 +14,7 @@ router.route("/:id")
   .put(loansController.update)
   .delete(loansController.remove);
 
+// Matches with "/api/loans/:user_id"
 router.route("/:user_id").get(loansController.find);
 
 module.exports = router;

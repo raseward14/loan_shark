@@ -2,11 +2,12 @@ import axios from "axios";
 
 // get all payments can be queried
 // on profile page, this gets ALL PAYMENTS, MAY NEED TO QUERY BY USERID
-const getAllPayments = () => {
-  return axios.get("/api/payments");
+const getAllPayments = (query) => {
+  return axios.get("/api/payments?user_id=" + query);
 };
 // get paymentsByLoanId can be queried
 const getPaymentsByLoanId = (query) => {
+  console.log(query);
   return axios.get("/api/payments?loan_id=" + query);
 };
 // get a payment

@@ -19,6 +19,6 @@ router
 router.route("/:loan_id").get(paymentsController.find);
 
 // Matches with "/api/payments/:user_id"
-// router.route("/:user_id").get(paymentsController.find);
+router.route("/:user_id").get(paymentsController.find);
 
 module.exports = router;

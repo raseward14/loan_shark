@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, FormGroup, Label, Input } from "reactstrap";
+import { useHistory } from "react-router-dom";
 
 import { FormBtn } from "../Form";
 
@@ -8,7 +9,7 @@ import "./style.css";
 import savePerson from  "../../utils/RegisterAPI";
 
 function Register(){
-
+  const history = useHistory();
   const [formObject, setFormObject] = useState({});
 
  function handleInputChange(event) {
@@ -24,7 +25,8 @@ function Register(){
         email: formObject.email,
         password: formObject.password
       })
-      .then(window.location.href="https://loaning-sharks.herokuapp.com/login")
+      .then(history.push("/login", { from: "Register" }))
+      // .then(window.location.href="https://loaning-sharks.herokuapp.com/login")
       // .then(window.location.href="http://localhost:3000") 
       .catch((err) => console.log(err))
   }

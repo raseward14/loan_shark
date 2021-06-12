@@ -1,21 +1,19 @@
 import axios from "axios";
 
 // get all loans
-// const getLoans = (query) => {
-//   return axios.get("/api/loans?=user_id=" + query);
-// };
-// get LoanByUserId can be queried
-const getLoansByUserId = () => {
-  return axios.get("/api/loans")
+const getLoans = (query) => {
+  console.log("LoanAPI getLoans received: ", query)
+  return axios.get("/api/loans?user_id=" + query);
 };
+// get LoanByUserId can be queried
+// const getLoansByUserId = (query) => {
+//   console.log("API query: ", query);
+//   return axios.get("/api/loans?user_id=", query);
+// };
 // get one loan
 const getLoanById = (id) => {
   return axios.get("/api/loans/" + id);
 };
-// get all loans for user
-// const getTheseLoans = () => {
-//   return axios.get("/api/loans");
-// };
 // save a new loan
 // loan is name, amount
 // date and user_id are already set
@@ -34,8 +32,8 @@ const deleteLoan = (id) => {
 };
 
 export {
-  // getLoans,
-  getLoansByUserId,
+  getLoans,
+  // getLoansByUserId,
   getLoanById,
   saveLoan,
   deleteLoan,
