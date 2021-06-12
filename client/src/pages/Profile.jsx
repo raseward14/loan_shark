@@ -34,14 +34,16 @@ function Profile() {
     userInfo = JSON.parse(userInfo);
     setDisplayName(userInfo["0"].user_name);
     setuserId(userInfo["0"]._id);
-  });
+  }, []);
 
   // only setPayments and setTotalDebt on page load for progress wheel, empty array keeps if quiet otherwise
   useEffect(() => {
-    console.log("Here: useEffect ran loadPayments(userId) and loadLoans()");
-    console.log("useEffect userId is: ", userId);
-    loadPayments();
-    loadLoans(userId);
+    if (userId) {
+      console.log("Here: useEffect ran loadPayments(userId) and loadLoans()");
+      console.log("useEffect userId is: ", userId);
+      loadPayments();
+      loadLoans(userId);
+    }
   }, [userId]);
 
   // if loan & payment, calculate wheel- recalculates on loan delete and create- only on load
