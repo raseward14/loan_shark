@@ -4,6 +4,10 @@ import axios from "axios";
 const getLoans = (query) => {
   return axios.get("/api/loans?=user_id=" + query);
 };
+// get LoanByUserId can be queried
+const getLoansByUserId = (query) => {
+  return axios.get("/api/loans?user_id=" + query)
+};
 // get one loan
 const getLoanById = (id) => {
   return axios.get("/api/loans/" + id);
@@ -31,6 +35,7 @@ const deleteLoan = (id) => {
 
 export {
   getLoans,
+  getLoansByUserId,
   getLoanById,
   saveLoan,
   deleteLoan,

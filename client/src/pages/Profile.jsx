@@ -16,6 +16,7 @@ import * as paymentAPIFunctions from "../utils/PaymentAPI";
 // import V_BarGraph from "../components/V_BarGraph/index";
 import V_ProgressWheel from "../components/V_ProgressWheel";
 import logo from "../img/loansharklogo.png";
+import { AuthProvider, SharkContext } from "../Context";
 
 function Profile() {
   const [loans, setLoans] = useState([]);
@@ -25,12 +26,14 @@ function Profile() {
   const [totalDebt, setTotalDebt] = useState();
   const [formObject, setFormObject] = useState({});
   const [percentage, setPercentage] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [userId, setuserId] = useState("");
 
   // only setPayments and setTotalDebt on page load for progress wheel, empty array keeps if quiet otherwise
   useEffect(() => {
     loadPayments();
-    loadLoans();
-  }, []);
+    loadLoans(userId);
+  }, [userId]);
 
   // if loan & payment, calculate wheel- recalculates on loan delete and create- only on load
   useEffect(() => {
@@ -45,6 +48,14 @@ function Profile() {
   useEffect(() => {
     loadLoan();
   }, [loans]);
+
+  useEffect(() => {
+    let userInfo = localStorage.getItem("userInfo");
+    userInfo = JSON.parse(userInfo);
+    console.log(typeof userInfo);
+    setDisplayName(userInfo["0"].user_name);
+    setuserId(userInfo["0"]._id);
+  })
 
   function formatDate(dateString) {
     const months = [
@@ -94,10 +105,12 @@ function Profile() {
   }
 
   // loan all users loans
-  function loadLoans() {
+  function loadLoans(userId) {
+    console.log(userId);
     // gets all loans from db
     loanAPIFunctions
-      .getLoans()
+      // getLoansByUserId
+      .getLoansByUserId(userId)
       .then((res) => {
         // initialize a loan total, and array
         let loanTotal = 0;
@@ -127,7 +140,7 @@ function Profile() {
     loanAPIFunctions
       .deleteLoan(id)
       .then(() => {
-        loadLoans();
+        loadLoans(userId);
         loadPayments();
       })
       .catch((err) => console.log(err));
@@ -174,7 +187,7 @@ function Profile() {
           <Col md="4" xs="12" className="sidebar">
             <div>
               <img className="logo-size" src={logo} alt="Logo" />
-              <h5>Current Loans</h5>
+              <h5>{displayName}'s Current Loans</h5>
               <List>
                 {loans.map((loan) => (
                   <ListItem key={loan._id}>

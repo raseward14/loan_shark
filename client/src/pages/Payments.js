@@ -171,6 +171,7 @@ function Payments() {
         .savePayment({
           balance: formObject.balance,
           loan_id: loanid,
+          //user_id: userid
         })
         .then(() => {
           loadPayments(loanid);

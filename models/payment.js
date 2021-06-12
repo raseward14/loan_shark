@@ -16,6 +16,11 @@ const paymentSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true
   },
+  user_id: {
+    ref: "User",
+    type: Schema.Types.ObjectId,
+    required: true
+  },
 });
 
 const Payment = mongoose.model("Payment", paymentSchema);
