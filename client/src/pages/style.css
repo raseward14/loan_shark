@@ -69,6 +69,31 @@ a:hover {
 
 /* ----------------------------------- END OF PROFILE CSS ---- */
 
+/* ----------------------------------- END OF PAYMENTS PAGE CSS ---- */
+
+.sidebar-payments {
+  background-color: #363840;
+  height: 100vh;
+  padding: 30px 10px 10px 10px;
+}
+.sb-payments-h1 {
+  color: #f9fafd;
+  padding-bottom: 10px;
+}
+.sb-payments-ptag {
+  color: #a9bcc3;
+  font-size: 12px;
+}
+
+@media (max-width: 767px) {
+  .sidebar-payments {
+    height: 100%;
+    padding-bottom: 50px;
+  }
+}
+
+/* ----------------------------------- END OF PAYMENTS PAGE CSS ---- */
+
 /* ----------------------------------- START OF LOGIN and REGISTER CSS ---- */
 /* .btn-success {
   text-align: center;

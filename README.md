@@ -1,4 +1,4 @@
-<h1 align="center">Loan Shark</h1>
+<h1 align="center">🦈 Loan Shark 🦈 </h1>
 <h4 align="center">Caitlin Murphy, Richard Seward, David Bushard </h4> 
 <h5 align="center">University of Denver - Final Project</h5>
 <br>
@@ -9,7 +9,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
-- [Contact Info ](#Contact-Info:)
+- [Contact Info](#Contact-Info:)
   <br>
   <br>
 
@@ -49,14 +49,15 @@ You will also see any lint errors in the console.
 
 ## Links and Images
 
-Repo - https://github.com/DavidBuoy/workout-tracker-
+Repo - https://github.com/raseward14/loan_shark
 <br>
-Heroku App - https://workout-dbtracker.herokuapp.com/?id=6092f00d8783260015784399
+Heroku App - https://loaning-sharks.herokuapp.com/
 <br>
 <br>
 
-![](screenshots/homepage.png)
-![](screenshots/dashboard.png)
+![](screenshots/loansharkhomepage.png)
+![](screenshots/profilepage.png)
+![](screenshots/paymentpage.png)
 <br>
 
 <br>
@@ -79,7 +80,7 @@ RESOURCES
 <hr style="border:1px solid white"> </hr>
 <br>
 
-## Contact Info:
+## Contact Info
 
 Caitlin Murphy
 
