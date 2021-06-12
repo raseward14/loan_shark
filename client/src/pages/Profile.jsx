@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Col, Row, Card } from "reactstrap";
-
-//--------------------------------------------------//
 import { Link } from "react-router-dom";
 import { List, ListItem } from "../components/List";
 import { Input, FormBtn } from "../components/Form";
@@ -12,8 +10,6 @@ import * as loanAPIFunctions from "../utils/LoanAPI";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
 
 // Commponents Import
-// import V_PieChart from "../components/V_PieChart/index";
-// import V_BarGraph from "../components/V_BarGraph/index";
 import V_ProgressWheel from "../components/V_ProgressWheel";
 import logo from "../img/loansharklogo.png";
 import { AuthProvider, SharkContext } from "../Context";
@@ -38,11 +34,8 @@ function Profile() {
 
   // only setPayments and setTotalDebt on page load for progress wheel, empty array keeps if quiet otherwise
   useEffect(() => {
-    // if (userId) {
-      console.log("useEffect userId is: ", userId);
-      loadPayments();
-      loadLoans();
-    // }
+    loadPayments();
+    loadLoans();
   }, [userId]);
 
   // if loan & payment, calculate wheel- recalculates on loan delete and create- only on load
@@ -58,7 +51,6 @@ function Profile() {
   useEffect(() => {
     loadLoan();
   }, [loans]);
-
 
   function formatDate(dateString) {
     const months = [
@@ -87,7 +79,6 @@ function Profile() {
 
   // load all users loans
   function loadPayments() {
-    // console.log(userid);
     // get all payments from db
     paymentAPIFunctions
       .getAllPayments(userId)
@@ -128,7 +119,6 @@ function Profile() {
           loanTotal += result.amount;
         });
         // setLoans lists all loans from the array, setTotalDebt with the sum of all loans
-        // loadPayments(userId);
         setLoans(loanResultsArray);
         setTotalDebt(loanTotal);
       })
@@ -160,7 +150,6 @@ function Profile() {
         var result = formatDate(res.data.date);
         res.data.date = result;
         setLoan(res.data);
-        // setFormObject();
       })
       .catch((err) => console.log(err));
   }
@@ -179,7 +168,7 @@ function Profile() {
         .saveLoan({
           name: formObject.name,
           amount: formObject.amount,
-          user_id: userId
+          user_id: userId,
         })
         .then(() => {
           loadLoans();

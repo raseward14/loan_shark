@@ -10,8 +10,7 @@ module.exports = {
   },
   // find returns queried loans
   find: function (req, res) {
-    const query = req.query;
-    console.log("query in loansController:", query)
+    console.log("query in loansController:", query);
     db.Loan.find(query)
       .sort({ date: -1 })
       .then((dbModel) => res.json(dbModel))

@@ -11,7 +11,6 @@ module.exports = {
   },
   // find returns queried payments
   find: function (req, res) {
-    const query = req.query;
     db.Payment.find(query)
       .sort({ date: -1 })
       .then((dbModel) => res.json(dbModel))

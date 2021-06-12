@@ -23,9 +23,11 @@ const savePayment = (paymentData) => {
 const deletePayment = (id) => {
   return axios.delete("/api/payments/" + id);
 };
-// update a payment
-// updatePayment: function(id) {
-//     return axios.put("/api/payments/" + id)
-// },
 
-export { getPaymentById, getAllPayments, savePayment, deletePayment, getPaymentsByLoanId };
+export {
+  getPaymentById,
+  getAllPayments,
+  savePayment,
+  deletePayment,
+  getPaymentsByLoanId,
+};

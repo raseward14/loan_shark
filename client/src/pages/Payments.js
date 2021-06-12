@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import PaymentDetail from "../components/PaymentDetail";
 import { List, ListItem } from "../components/List";
 import DeleteBtn from "../components/DeleteBtn";
-import { Link, useParams, Redirect } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
 import * as loanAPIFunctions from "../utils/LoanAPI";
 import { Input, FormBtn } from "../components/Form";
-// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useHistory } from "react-router-dom";
 
 function Payments() {
@@ -19,9 +18,6 @@ function Payments() {
   const [remainingBalance, setRemainingBalance] = useState(0);
   const [formObject, setFormObject] = useState({});
   const [userId, setuserId] = useState("");
-
-  // const { buttonLabel, className } = props;
-  // const [modal, setModal] = useState(false);
 
   const { id } = useParams();
   const loanid = Object.values({ id }).toString(); // "lkajsdf;oijf"
@@ -71,10 +67,7 @@ function Payments() {
     const month = months[monthIndex];
     const day = yearMonthDay[2];
     return `${month} ${day}, ${year}`;
-  }
-
-  // pop up modal
-  // const toggle = () => setModal(!modal);
+  };
 
   // get loan by id, setAmountBorrowed, and setLoanName
   function loadLoan(loanid) {
@@ -85,7 +78,7 @@ function Payments() {
         setLoanName(res.data.name);
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   function checkIfPaid() {
     if (amountBorrowed !== 0 && remainingBalance <= 0) {
@@ -98,9 +91,9 @@ function Payments() {
             return history.push("/profile", { from: "Payments" });
           })
           .catch((err) => console.log(err));
-      }
-    }
-  }
+      };
+    };
+  };
 
   // query payments by loanid
   function loadPayments(loanid) {
@@ -129,16 +122,16 @@ function Payments() {
         setRemainingBalance(result);
         if (!payment) {
           setPayment(payments[0]);
-        }
+        };
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   function loadPayment() {
     if (!payment) {
       setPayment(payments[0]);
-    }
-  }
+    };
+  };
 
   // delete payment
   function deletePayment(id) {
@@ -146,7 +139,7 @@ function Payments() {
       .deletePayment(id)
       .then(() => loadPayments(loanid))
       .catch((err) => console.log(err));
-  }
+  };
 
   // expand clicked loan
   function handleClick(id) {
@@ -158,16 +151,15 @@ function Payments() {
         var result = formatDate(res.data.date);
         res.data.date = result;
         setPayment(res.data);
-        // setFormObject();
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   // updates component state when the user types in input field
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-  }
+  };
 
   // each time submit payment is clicked, save payment, then check to see if the loan is paid
   function handleFormSubmit(event) {
@@ -185,8 +177,8 @@ function Payments() {
           loadPayments(loanid);
         })
         .catch((err) => console.log(err));
-    }
-  }
+    };
+  };
 
   return (
     <div>
@@ -231,19 +223,6 @@ function Payments() {
       </div>
 
       <Link to="/profile">← Back to Profile</Link>
-      {/* <div> */}
-      {/* <Button color="danger"></Button> */}
-      {/* <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
-        <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
-          <Button color="secondary" onClick={toggle}>Cancel</Button>
-        </ModalFooter>
-      </Modal> */}
-      {/* </div> */}
     </div>
   );
 }
