@@ -24,8 +24,8 @@ function Register(){
         email: formObject.email,
         password: formObject.password
       })
-      // Update to /profile when finished-will it automatically recognize "profile" as an Auth route or will I need some additonal functionality here?
-      .then(window.location.href="http://localhost:3000") 
+      .then(window.location.href="https://loaning-sharks.herokuapp.com/login")
+      // .then(window.location.href="http://localhost:3000") 
       .catch((err) => console.log(err))
   }
  }
