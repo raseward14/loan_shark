@@ -26,7 +26,7 @@ function Navbar(props) {
         </NavItem>
 
         <NavItem className="float-right">
-          <NavLink href="/logout">Logout</NavLink>
+          <NavLink href="/">Logout</NavLink>
         </NavItem>
       </Nav>
     </div>

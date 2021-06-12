@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Col, Row, Card } from "reactstrap";
-
-//--------------------------------------------------//
 import { Link } from "react-router-dom";
 import { List, ListItem } from "../components/List";
 import { Input, FormBtn } from "../components/Form";
@@ -12,8 +10,6 @@ import * as loanAPIFunctions from "../utils/LoanAPI";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
 
 // Commponents Import
-// import V_PieChart from "../components/V_PieChart/index";
-// import V_BarGraph from "../components/V_BarGraph/index";
 import V_ProgressWheel from "../components/V_ProgressWheel";
 import logo from "../img/loansharklogo.png";
 import { AuthProvider, SharkContext } from "../Context";
@@ -38,12 +34,8 @@ function Profile() {
 
   // only setPayments and setTotalDebt on page load for progress wheel, empty array keeps if quiet otherwise
   useEffect(() => {
-    if (userId) {
-      console.log("Here: useEffect ran loadPayments(userId) and loadLoans()");
-      console.log("useEffect userId is: ", userId);
-      loadPayments();
-      loadLoans(userId);
-    }
+    loadPayments();
+    loadLoans();
   }, [userId]);
 
   // if loan & payment, calculate wheel- recalculates on loan delete and create- only on load
@@ -87,10 +79,9 @@ function Profile() {
 
   // load all users loans
   function loadPayments() {
-    // console.log(userid);
     // get all payments from db
     paymentAPIFunctions
-      .getAllPayments()
+      .getAllPayments(userId)
       .then((res) => {
         console.log(res);
         // initialize a payment count, total, and array
@@ -110,12 +101,12 @@ function Profile() {
   }
 
   // loan all users loans
-  function loadLoans(userId) {
+  function loadLoans() {
     console.log("function loadLoans(userId) received: ", userId);
     // gets all loans from db
     loanAPIFunctions
       // getLoansByUserId
-      .getLoansByUserId(userId)
+      .getLoans(userId)
       .then((res) => {
         // initialize a loan total, and array
         let loanTotal = 0;
@@ -128,7 +119,6 @@ function Profile() {
           loanTotal += result.amount;
         });
         // setLoans lists all loans from the array, setTotalDebt with the sum of all loans
-        loadPayments(userId);
         setLoans(loanResultsArray);
         setTotalDebt(loanTotal);
       })
@@ -146,8 +136,8 @@ function Profile() {
     loanAPIFunctions
       .deleteLoan(id)
       .then(() => {
-        loadLoans(userId);
-        loadPayments(userId);
+        loadLoans();
+        loadPayments();
       })
       .catch((err) => console.log(err));
   }
@@ -160,7 +150,6 @@ function Profile() {
         var result = formatDate(res.data.date);
         res.data.date = result;
         setLoan(res.data);
-        // setFormObject();
       })
       .catch((err) => console.log(err));
   }
@@ -179,9 +168,12 @@ function Profile() {
         .saveLoan({
           name: formObject.name,
           amount: formObject.amount,
-          user_id: "60adb73bc60ad5599803dbfd",
+          user_id: userId,
         })
-        .then(() => loadLoans())
+        .then(() => {
+          loadLoans();
+          loadPayments();
+        })
         .catch((err) => console.log(err));
     }
   }

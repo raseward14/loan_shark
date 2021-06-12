@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import PaymentDetail from "../components/PaymentDetail";
 import { List, ListItem } from "../components/List";
 import DeleteBtn from "../components/DeleteBtn";
-import { Link, useParams, Redirect } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
 import * as loanAPIFunctions from "../utils/LoanAPI";
 import { Input, FormBtn } from "../components/Form";
+import { useHistory } from "react-router-dom";
 import "./style.css";
-
-//
 import { Col, Row } from "reactstrap";
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 function Payments() {
+  const history = useHistory();
   const [amountBorrowed, setAmountBorrowed] = useState(0);
   const [loanName, setLoanName] = useState();
   const [payments, setPayments] = useState([]);
@@ -21,9 +21,6 @@ function Payments() {
   const [remainingBalance, setRemainingBalance] = useState(0);
   const [formObject, setFormObject] = useState({});
   const [userId, setuserId] = useState("");
-
-  // const { buttonLabel, className } = props;
-  // const [modal, setModal] = useState(false);
 
   const { id } = useParams();
   const loanid = Object.values({ id }).toString(); // "lkajsdf;oijf"
@@ -75,9 +72,6 @@ function Payments() {
     return `${month} ${day}, ${year}`;
   }
 
-  // pop up modal
-  // const toggle = () => setModal(!modal);
-
   // get loan by id, setAmountBorrowed, and setLoanName
   function loadLoan(loanid) {
     loanAPIFunctions
@@ -91,22 +85,18 @@ function Payments() {
 
   function checkIfPaid() {
     if (amountBorrowed !== 0 && remainingBalance <= 0) {
-      loanAPIFunctions
-        .deleteLoan(loanid)
-        .then(() => {
-          var result = window.confirm("Success! Loan fully paid.");
-          // redirect to profile page
-          if (result) {
-            window.location.href = "http://localhost:3000/profile";
-            // https://loaning-sharks.herokuapp.com/
-          } else {
-            window.location.href = "http://localhost:3000/profile";
-          }
-        })
-        // .then(setTimeout(() => window.location.href="http://localhost:3000/profile"), 20000)
-        .catch((err) => console.log(err));
-    }
-  }
+      var result = window.confirm("Success! Loan fully paid.");
+      if (result) {
+        loanAPIFunctions
+          .deleteLoan(loanid)
+          .then(() => {
+            // redirect to profile page
+            return history.push("/profile", { from: "Payments" });
+          })
+          .catch((err) => console.log(err));
+      };
+    };
+  };
 
   // query payments by loanid
   function loadPayments(loanid) {
@@ -135,7 +125,7 @@ function Payments() {
         setRemainingBalance(result);
         if (!payment) {
           setPayment(payments[0]);
-        }
+        };
       })
       .catch((err) => console.log(err));
   }
@@ -143,8 +133,8 @@ function Payments() {
   function loadPayment() {
     if (!payment) {
       setPayment(payments[0]);
-    }
-  }
+    };
+  };
 
   // delete payment
   function deletePayment(id) {
@@ -164,7 +154,6 @@ function Payments() {
         var result = formatDate(res.data.date);
         res.data.date = result;
         setPayment(res.data);
-        // setFormObject();
       })
       .catch((err) => console.log(err));
   }
@@ -256,24 +245,3 @@ function Payments() {
 
 export default Payments;
 
-//     {
-//       /* <div> */
-//     }
-//     {
-//       /* <Button color="danger"></Button> */
-//     }
-//     {
-//       /* <Modal isOpen={modal} toggle={toggle}>
-//   <ModalHeader toggle={toggle}>Modal title</ModalHeader>
-//   <ModalBody>
-//     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-//   </ModalBody>
-//   <ModalFooter>
-//     <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
-//     <Button color="secondary" onClick={toggle}>Cancel</Button>
-//   </ModalFooter>
-// </Modal> */
-//     }
-//     {
-//       /* </div> */
-//     }
