@@ -6,6 +6,10 @@ import { Link, useParams, Redirect } from "react-router-dom";
 import * as paymentAPIFunctions from "../utils/PaymentAPI";
 import * as loanAPIFunctions from "../utils/LoanAPI";
 import { Input, FormBtn } from "../components/Form";
+import "./style.css";
+
+//
+import { Col, Row } from "reactstrap";
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 function Payments() {
@@ -69,7 +73,7 @@ function Payments() {
     const month = months[monthIndex];
     const day = yearMonthDay[2];
     return `${month} ${day}, ${year}`;
-  };
+  }
 
   // pop up modal
   // const toggle = () => setModal(!modal);
@@ -83,7 +87,7 @@ function Payments() {
         setLoanName(res.data.name);
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   function checkIfPaid() {
     if (amountBorrowed !== 0 && remainingBalance <= 0) {
@@ -92,16 +96,16 @@ function Payments() {
         .then(() => {
           var result = window.confirm("Success! Loan fully paid.");
           // redirect to profile page
-          if(result) {
-            window.location.href="http://localhost:3000/profile"
-        } else {
-          window.location.href="http://localhost:3000/profile"
-        }
+          if (result) {
+            window.location.href = "http://localhost:3000/profile";
+          } else {
+            window.location.href = "http://localhost:3000/profile";
+          }
         })
         // .then(setTimeout(() => window.location.href="http://localhost:3000/profile"), 20000)
         .catch((err) => console.log(err));
     }
-  };
+  }
 
   // query payments by loanid
   function loadPayments(loanid) {
@@ -133,13 +137,13 @@ function Payments() {
         }
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   function loadPayment() {
     if (!payment) {
       setPayment(payments[0]);
     }
-  };
+  }
 
   // delete payment
   function deletePayment(id) {
@@ -147,7 +151,7 @@ function Payments() {
       .deletePayment(id)
       .then(() => loadPayments(loanid))
       .catch((err) => console.log(err));
-  };
+  }
 
   // expand clicked loan
   function handleClick(id) {
@@ -162,13 +166,13 @@ function Payments() {
         // setFormObject();
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   // updates component state when the user types in input field
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-  };
+  }
 
   // each time submit payment is clicked, save payment, then check to see if the loan is paid
   function handleFormSubmit(event) {
@@ -180,73 +184,95 @@ function Payments() {
         .savePayment({
           balance: formObject.balance,
           loan_id: loanid,
-          user_id: userId
+          user_id: userId,
         })
         .then(() => {
           loadPayments(loanid);
         })
         .catch((err) => console.log(err));
-    };
-  };
+    }
+  }
 
   return (
     <div>
-      <div>
-        <List>
-          {payments.map((payment) => (
-            <ListItem key={payment._id}>
-              <strong onClick={() => handleClick(payment._id)}>
-                {payment.balance} on {payment.date}
-              </strong>
-              <DeleteBtn onClick={() => deletePayment(payment._id)} />
-            </ListItem>
-          ))}
-        </List>
-      </div>
+      <Row>
+        <Col md="3" xs="12">
+          <div className="sidebar-payments">
+            <h1 className="sb-payments-h1">Payments Made</h1>
+            <p className="sb-payments-ptag">
+              click to button below to view previous payments
+            </p>
+            <List>
+              {payments.map((payment) => (
+                <ListItem key={payment._id}>
+                  <strong onClick={() => handleClick(payment._id)}>
+                    {payment.balance} on {payment.date}
+                  </strong>
+                  <DeleteBtn onClick={() => deletePayment(payment._id)} />
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        </Col>
+        <Col md="9" xs="12">
+          <div>
+            {payment ? (
+              <PaymentDetail balance={payment.balance} date={payment.date}>
+                {payment.balance}
+              </PaymentDetail>
+            ) : (
+              <h3>No Results to Display</h3>
+            )}
+          </div>
+          <p>
+            Total {loanName} Loan Amount: ${amountBorrowed}
+          </p>
+          <p>All Payments Total: ${totalPaid}</p>
+          <p>Remaining Balance: ${remainingBalance}</p>
+          <div>
+            <form>
+              <Input
+                onChange={handleInputChange}
+                name="balance"
+                placeholder="Payment Amount (required)"
+              />
+              <FormBtn
+                disabled={!formObject.balance}
+                onClick={handleFormSubmit}
+              >
+                Submit Payment
+              </FormBtn>
+            </form>
+          </div>
 
-      <div>
-        {payment ? (
-          <PaymentDetail balance={payment.balance} date={payment.date}>
-            {payment.balance}
-          </PaymentDetail>
-        ) : (
-          <h3>No Results to Display</h3>
-        )}
-      </div>
-      <p>
-        Total {loanName} Loan Amount: ${amountBorrowed}
-      </p>
-      <p>All Payments Total: ${totalPaid}</p>
-      <p>Remaining Balance: ${remainingBalance}</p>
-      <div>
-        <form>
-          <Input
-            onChange={handleInputChange}
-            name="balance"
-            placeholder="Payment Amount (required)"
-          />
-          <FormBtn disabled={!formObject.balance} onClick={handleFormSubmit}>
-            Submit Payment
-          </FormBtn>
-        </form>
-      </div>
-
-      <Link to="/profile">← Back to Profile</Link>
-      {/* <div> */}
-      {/* <Button color="danger"></Button> */}
-      {/* <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
-        <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
-          <Button color="secondary" onClick={toggle}>Cancel</Button>
-        </ModalFooter>
-      </Modal> */}
-      {/* </div> */}
+          <Link to="/profile">← Back to Profile</Link>
+          {/* commented out code below is what was here. */}
+        </Col>
+      </Row>
     </div>
   );
 }
 
 export default Payments;
+
+//     {
+//       /* <div> */
+//     }
+//     {
+//       /* <Button color="danger"></Button> */
+//     }
+//     {
+//       /* <Modal isOpen={modal} toggle={toggle}>
+//   <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+//   <ModalBody>
+//     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+//   </ModalBody>
+//   <ModalFooter>
+//     <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
+//     <Button color="secondary" onClick={toggle}>Cancel</Button>
+//   </ModalFooter>
+// </Modal> */
+//     }
+//     {
+//       /* </div> */
+//     }
