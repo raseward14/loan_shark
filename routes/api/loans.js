@@ -13,4 +13,6 @@ router.route("/:id")
   .put(loansController.update)
   .delete(loansController.remove);
 
+router.route("/:user_id").get(loansController.find);
+
 module.exports = router;

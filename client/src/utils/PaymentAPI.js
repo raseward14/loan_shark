@@ -5,7 +5,7 @@ import axios from "axios";
 const getAllPayments = () => {
   return axios.get("/api/payments");
 };
-// get paymentss can be queried
+// get paymentsByLoanId can be queried
 const getPaymentsByLoanId = (query) => {
   return axios.get("/api/payments?loan_id=" + query);
 };

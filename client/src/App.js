@@ -1,11 +1,10 @@
-import React, { Suspense, useContext } from "react";
 import "./App.css";
+import React, { Suspense, useContext } from "react";
 
 // Imports Authentication context
 import { AuthProvider, SharkContext } from "./Context";
 
 // Imports Pages
-
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
@@ -14,6 +13,7 @@ import Payments from "./pages/Payments";
 
 // Imports Components
 import Navbar from "./components/Navbar";
+
 // import Footer from "./components/Footer";
 import {
   BrowserRouter as Router,
@@ -29,7 +29,7 @@ const AuthRoute = ({ children, ...rest }) => {
     <Route
       {...rest}
       render={() =>
-        auth.isAuthenticated() ? <div>{children}</div> : <Redirect to="/profile" />
+        auth.isAuthenticated() ? <div>{children}</div> : <Redirect to="/login" />
       }
     ></Route>
   );
@@ -48,20 +48,17 @@ function App() {
               <Homepage />
             </Route>
 
-            {/* <AuthRoute path="/profile"> */}
-            <Route path="/profile">
-
+            <AuthRoute path="/profile">
+            {/* <Route path="/profile"> */}
               <Profile />
-              </Route>
+            {/* </Route> */}
+            </AuthRoute>
 
-            {/* </AuthRoute> */}
-
-            {/* <AuthRoute exact path="/payments/:id"> */}
-            <Route exact path="/payments/:id">
+            <AuthRoute exact path="/payments/:id">
+            {/* <Route exact path="/payments/:id"> */}
               <Payments />
-            </Route>
-            {/* </AuthRoute> */}
-
+            {/* </Route> */}
+            </AuthRoute>
 
             <Route exact path="/login">
               <Login />
@@ -70,6 +67,7 @@ function App() {
             <Route exact path="/register">
               <Register />
             </Route>
+
             <Route path="*">
               <Four />
             </Route>

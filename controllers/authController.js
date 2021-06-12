@@ -41,7 +41,7 @@ const authPerson = async (req, res) => {
     console.log(person[0].password)
     console.log(passwordValid);
     console.log("21");
-    if (!passwordValid) {
+    if (passwordValid) {
       const { password, name, ...rest } = person;
       const userInfo = Object.assign({}, { ...rest });
       const token = createToken(person);
