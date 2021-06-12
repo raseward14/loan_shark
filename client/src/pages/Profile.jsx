@@ -29,6 +29,14 @@ function Profile() {
   const [displayName, setDisplayName] = useState("");
   const [userId, setuserId] = useState("");
 
+  useEffect(() => {
+    let userInfo = localStorage.getItem("userInfo");
+    userInfo = JSON.parse(userInfo);
+    console.log(typeof userInfo);
+    setDisplayName(userInfo["0"].user_name);
+    setuserId(userInfo["0"]._id);
+  });
+
   // only setPayments and setTotalDebt on page load for progress wheel, empty array keeps if quiet otherwise
   useEffect(() => {
     loadPayments();
@@ -48,14 +56,6 @@ function Profile() {
   useEffect(() => {
     loadLoan();
   }, [loans]);
-
-  useEffect(() => {
-    let userInfo = localStorage.getItem("userInfo");
-    userInfo = JSON.parse(userInfo);
-    console.log(typeof userInfo);
-    setDisplayName(userInfo["0"].user_name);
-    setuserId(userInfo["0"]._id);
-  })
 
   function formatDate(dateString) {
     const months = [
@@ -84,10 +84,12 @@ function Profile() {
 
   // load all users loans
   function loadPayments() {
+    // console.log(userid);
     // get all payments from db
     paymentAPIFunctions
       .getAllPayments()
       .then((res) => {
+        console.log(res);
         // initialize a payment count, total, and array
         let count = 0;
         let paymentTotal = 0;
@@ -123,6 +125,7 @@ function Profile() {
           loanTotal += result.amount;
         });
         // setLoans lists all loans from the array, setTotalDebt with the sum of all loans
+        loadPayments(userId);
         setLoans(loanResultsArray);
         setTotalDebt(loanTotal);
       })
@@ -141,7 +144,7 @@ function Profile() {
       .deleteLoan(id)
       .then(() => {
         loadLoans(userId);
-        loadPayments();
+        loadPayments(userId);
       })
       .catch((err) => console.log(err));
   }

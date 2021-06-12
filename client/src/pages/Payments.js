@@ -16,6 +16,7 @@ function Payments() {
   const [totalPaid, setTotalPaid] = useState(0);
   const [remainingBalance, setRemainingBalance] = useState(0);
   const [formObject, setFormObject] = useState({});
+  const [userId, setuserId] = useState("");
 
   // const { buttonLabel, className } = props;
   // const [modal, setModal] = useState(false);
@@ -35,6 +36,14 @@ function Payments() {
       checkIfPaid();
     }
   }, [remainingBalance]);
+
+  useEffect(() => {
+    let userInfo = localStorage.getItem("userInfo");
+    userInfo = JSON.parse(userInfo);
+    console.log(typeof userInfo);
+    console.log(userInfo["0"].user_name);
+    setuserId(userInfo["0"]._id);
+  });
 
   // format date
   function formatDate(dateString) {
@@ -171,7 +180,7 @@ function Payments() {
         .savePayment({
           balance: formObject.balance,
           loan_id: loanid,
-          //user_id: userid
+          user_id: userId
         })
         .then(() => {
           loadPayments(loanid);
