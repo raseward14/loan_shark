@@ -32,13 +32,14 @@ function Profile() {
   useEffect(() => {
     let userInfo = localStorage.getItem("userInfo");
     userInfo = JSON.parse(userInfo);
-    console.log(typeof userInfo);
     setDisplayName(userInfo["0"].user_name);
     setuserId(userInfo["0"]._id);
   });
 
   // only setPayments and setTotalDebt on page load for progress wheel, empty array keeps if quiet otherwise
   useEffect(() => {
+    console.log("Here: useEffect ran loadPayments(userId) and loadLoans()");
+    console.log("useEffect userId is: ", userId);
     loadPayments();
     loadLoans(userId);
   }, [userId]);
@@ -108,7 +109,7 @@ function Profile() {
 
   // loan all users loans
   function loadLoans(userId) {
-    console.log(userId);
+    console.log("function loadLoans(userId) received: ", userId);
     // gets all loans from db
     loanAPIFunctions
       // getLoansByUserId
