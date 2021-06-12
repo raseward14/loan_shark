@@ -7,6 +7,9 @@ import * as paymentAPIFunctions from "../utils/PaymentAPI";
 import * as loanAPIFunctions from "../utils/LoanAPI";
 import { Input, FormBtn } from "../components/Form";
 import { useHistory } from "react-router-dom";
+import "./style.css";
+import { Col, Row } from "reactstrap";
+// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 function Payments() {
   const history = useHistory();
@@ -67,7 +70,7 @@ function Payments() {
     const month = months[monthIndex];
     const day = yearMonthDay[2];
     return `${month} ${day}, ${year}`;
-  };
+  }
 
   // get loan by id, setAmountBorrowed, and setLoanName
   function loadLoan(loanid) {
@@ -78,7 +81,7 @@ function Payments() {
         setLoanName(res.data.name);
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   function checkIfPaid() {
     if (amountBorrowed !== 0 && remainingBalance <= 0) {
@@ -125,7 +128,7 @@ function Payments() {
         };
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   function loadPayment() {
     if (!payment) {
@@ -139,7 +142,7 @@ function Payments() {
       .deletePayment(id)
       .then(() => loadPayments(loanid))
       .catch((err) => console.log(err));
-  };
+  }
 
   // expand clicked loan
   function handleClick(id) {
@@ -153,13 +156,13 @@ function Payments() {
         setPayment(res.data);
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   // updates component state when the user types in input field
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-  };
+  }
 
   // each time submit payment is clicked, save payment, then check to see if the loan is paid
   function handleFormSubmit(event) {
@@ -177,54 +180,68 @@ function Payments() {
           loadPayments(loanid);
         })
         .catch((err) => console.log(err));
-    };
-  };
+    }
+  }
 
   return (
     <div>
-      <div>
-        <List>
-          {payments.map((payment) => (
-            <ListItem key={payment._id}>
-              <strong onClick={() => handleClick(payment._id)}>
-                {payment.balance} on {payment.date}
-              </strong>
-              <DeleteBtn onClick={() => deletePayment(payment._id)} />
-            </ListItem>
-          ))}
-        </List>
-      </div>
+      <Row>
+        <Col md="3" xs="12">
+          <div className="sidebar-payments">
+            <h1 className="sb-payments-h1">Payments Made</h1>
+            <p className="sb-payments-ptag">
+              click to button below to view previous payments
+            </p>
+            <List>
+              {payments.map((payment) => (
+                <ListItem key={payment._id}>
+                  <strong onClick={() => handleClick(payment._id)}>
+                    {payment.balance} on {payment.date}
+                  </strong>
+                  <DeleteBtn onClick={() => deletePayment(payment._id)} />
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        </Col>
+        <Col md="9" xs="12">
+          <div>
+            {payment ? (
+              <PaymentDetail balance={payment.balance} date={payment.date}>
+                {payment.balance}
+              </PaymentDetail>
+            ) : (
+              <h3>No Results to Display</h3>
+            )}
+          </div>
+          <p>
+            Total {loanName} Loan Amount: ${amountBorrowed}
+          </p>
+          <p>All Payments Total: ${totalPaid}</p>
+          <p>Remaining Balance: ${remainingBalance}</p>
+          <div>
+            <form>
+              <Input
+                onChange={handleInputChange}
+                name="balance"
+                placeholder="Payment Amount (required)"
+              />
+              <FormBtn
+                disabled={!formObject.balance}
+                onClick={handleFormSubmit}
+              >
+                Submit Payment
+              </FormBtn>
+            </form>
+          </div>
 
-      <div>
-        {payment ? (
-          <PaymentDetail balance={payment.balance} date={payment.date}>
-            {payment.balance}
-          </PaymentDetail>
-        ) : (
-          <h3>No Results to Display</h3>
-        )}
-      </div>
-      <p>
-        Total {loanName} Loan Amount: ${amountBorrowed}
-      </p>
-      <p>All Payments Total: ${totalPaid}</p>
-      <p>Remaining Balance: ${remainingBalance}</p>
-      <div>
-        <form>
-          <Input
-            onChange={handleInputChange}
-            name="balance"
-            placeholder="Payment Amount (required)"
-          />
-          <FormBtn disabled={!formObject.balance} onClick={handleFormSubmit}>
-            Submit Payment
-          </FormBtn>
-        </form>
-      </div>
-
-      <Link to="/profile">← Back to Profile</Link>
+          <Link to="/profile">← Back to Profile</Link>
+          {/* commented out code below is what was here. */}
+        </Col>
+      </Row>
     </div>
   );
 }
 
 export default Payments;
+

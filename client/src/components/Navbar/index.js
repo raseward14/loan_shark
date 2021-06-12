@@ -24,6 +24,10 @@ function Navbar(props) {
         <NavItem className="float-right">
           <NavLink href="/login">Login</NavLink>
         </NavItem>
+
+        <NavItem className="float-right">
+          <NavLink href="/logout">Logout</NavLink>
+        </NavItem>
       </Nav>
     </div>
   );
