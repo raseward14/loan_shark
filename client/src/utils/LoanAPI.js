@@ -5,8 +5,8 @@ import axios from "axios";
 //   return axios.get("/api/loans?=user_id=" + query);
 // };
 // get LoanByUserId can be queried
-const getLoansByUserId = (query) => {
-  return axios.get("/api/loans?user_id=" + query)
+const getLoansByUserId = () => {
+  return axios.get("/api/loans")
 };
 // get one loan
 const getLoanById = (id) => {

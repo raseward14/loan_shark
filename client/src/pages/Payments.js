@@ -98,6 +98,7 @@ function Payments() {
           // redirect to profile page
           if (result) {
             window.location.href = "http://localhost:3000/profile";
+            // https://loaning-sharks.herokuapp.com/
           } else {
             window.location.href = "http://localhost:3000/profile";
           }
