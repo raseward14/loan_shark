@@ -5,8 +5,6 @@ import { useHistory } from "react-router-dom";
 // Trying to import from local file
 import { FormBtn } from "../Form";
 
-// import { Redirect } from "react-router-dom";
-
 import { SharkContext } from "../../Context";
 
 const Login = () => {

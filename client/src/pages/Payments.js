@@ -7,8 +7,10 @@ import * as paymentAPIFunctions from "../utils/PaymentAPI";
 import * as loanAPIFunctions from "../utils/LoanAPI";
 import { Input, FormBtn } from "../components/Form";
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { useHistory } from "react-router-dom";
 
 function Payments() {
+  const history = useHistory();
   const [amountBorrowed, setAmountBorrowed] = useState(0);
   const [loanName, setLoanName] = useState();
   const [payments, setPayments] = useState([]);
@@ -69,7 +71,7 @@ function Payments() {
     const month = months[monthIndex];
     const day = yearMonthDay[2];
     return `${month} ${day}, ${year}`;
-  };
+  }
 
   // pop up modal
   // const toggle = () => setModal(!modal);
@@ -83,26 +85,22 @@ function Payments() {
         setLoanName(res.data.name);
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   function checkIfPaid() {
     if (amountBorrowed !== 0 && remainingBalance <= 0) {
-      loanAPIFunctions
-        .deleteLoan(loanid)
-        .then(() => {
-          var result = window.confirm("Success! Loan fully paid.");
-          // redirect to profile page
-          if(result) {
-            window.location.href="http://localhost:3000/profile"
-            // https://loaning-sharks.herokuapp.com/
-        } else {
-          window.location.href="http://localhost:3000/profile"
-        }
-        })
-        // .then(setTimeout(() => window.location.href="http://localhost:3000/profile"), 20000)
-        .catch((err) => console.log(err));
+      var result = window.confirm("Success! Loan fully paid.");
+      if (result) {
+        loanAPIFunctions
+          .deleteLoan(loanid)
+          .then(() => {
+            // redirect to profile page
+            return history.push("/profile", { from: "Payments" });
+          })
+          .catch((err) => console.log(err));
+      }
     }
-  };
+  }
 
   // query payments by loanid
   function loadPayments(loanid) {
@@ -134,13 +132,13 @@ function Payments() {
         }
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   function loadPayment() {
     if (!payment) {
       setPayment(payments[0]);
     }
-  };
+  }
 
   // delete payment
   function deletePayment(id) {
@@ -148,7 +146,7 @@ function Payments() {
       .deletePayment(id)
       .then(() => loadPayments(loanid))
       .catch((err) => console.log(err));
-  };
+  }
 
   // expand clicked loan
   function handleClick(id) {
@@ -163,13 +161,13 @@ function Payments() {
         // setFormObject();
       })
       .catch((err) => console.log(err));
-  };
+  }
 
   // updates component state when the user types in input field
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-  };
+  }
 
   // each time submit payment is clicked, save payment, then check to see if the loan is paid
   function handleFormSubmit(event) {
@@ -181,14 +179,14 @@ function Payments() {
         .savePayment({
           balance: formObject.balance,
           loan_id: loanid,
-          user_id: userId
+          user_id: userId,
         })
         .then(() => {
           loadPayments(loanid);
         })
         .catch((err) => console.log(err));
-    };
-  };
+    }
+  }
 
   return (
     <div>
