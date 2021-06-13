@@ -7,9 +7,9 @@ function WhatIsLoanShark() {
         <div className="margin">
           <h1 className="text-header-homepage">What is Loan Shark?</h1>
           <p className="text-homepage">
-            Loan Shark is a loan tracker. Plan and simple. It allows you to
+            Loan Shark is a loan tracker. Plain and simple. It allows you to
             keeps tabs on all of the loan information that you need. With loan
-            shark you can have the abuility to make sure that you can take a
+            shark you can have the ability to make sure that you can take a
             bite out of student loans.
           </p>
         </div>
@@ -50,13 +50,7 @@ function WhatIsLoanShark() {
         <div className="margin">
           <h1>What can Loan Shark do for you?</h1>
           <p className="text-homepage">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam qui
-            libero impedit animi quos quidem pariatur consectetur. Mollitia
-            porro quam reprehenderit sequi in distinctio sapiente libero autem!
-            Nesciunt, cupiditate nihil. Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Vel consequatur adipisci, minus architecto tempore
-            maiores officia dolorem magni ad dicta esse reiciendis ex, voluptate
-            atque velit quibusdam corporis commodi alias.
+          Do you have student debt? auto loans? random debt you want to track? we feel that we have developed a tool that will allow you to track all of that. With Loan Shark, you now have the ability to track all of your loans. Keep track of all your payments, when the payment was made and see your progress. With Loan Shark, take a bite out of student debt.
           </p>
         </div>
       </section>
