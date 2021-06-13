@@ -23,7 +23,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## User Story
 
-Do you have student debt? auto loans? random debt you want to track? we feel that we have developed a tool that will allow you to track all of that. With Loan Shark, you know have the abuility to track all of your loans. Keep track of all your payments, when the payment was made and see your progress. With Loan Shark, take a bite out of student debt.
+Do you have student debt? auto loans? random debt you want to track? we feel that we have developed a tool that will allow you to track all of that. With Loan Shark, you now have the ability to track all of your loans. Keep track of all your payments, when the payment was made and see your progress. With Loan Shark, take a bite out of student debt.
 
 <br>
 <br>
